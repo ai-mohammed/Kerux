@@ -1,0 +1,1137 @@
+{
+  "current_page": 1,
+  "data": [
+    {
+      "id": 82,
+      "restaurant_id": 1,
+      "categorie_id": 130,
+      "nom": "Beng",
+      "prix_vente": "700.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T09:50:33.000000Z",
+      "public_id": "f82f593584a54e878d5086e33d",
+      "description": {
+        "ar": "دجاج ذهبي فائق القرمشة مغطى بطبقات من الجبن الذائب الغني، مع الخس الطازج والطماطم في خبز فاخر.",
+        "en": "Crispy golden chicken topped with layers of melted cheese, fresh lettuce, and ripe tomatoes in a premium bun.",
+        "fr": "Poulet ultra-croustillant surmonte d'une cascade de fromage fondu, salade croquante et tomates fraiches."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/05c84369a3f44c36a454530402.png",
+      "categorie": {
+        "id": 130,
+        "restaurant_id": 1,
+        "nom": "burgers",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "a996c43329a14f41b3080bd1c0",
+        "actif": true
+      }
+    },
+    {
+      "id": 83,
+      "restaurant_id": 1,
+      "categorie_id": 140,
+      "nom": "Bogota",
+      "prix_vente": "750.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T12:42:41.000000Z",
+      "public_id": "1aff2d2c334a4a3e8f26708adc",
+      "description": {
+        "ar": "جبل من البطاطا المقلية المغطاة بالدجاج المقرمش، قطع السجق، صلصة الجبن الغنية والذرة الحلوة.",
+        "en": "A loaded mountain of golden fries topped with crispy chicken, sliced sausage, melted cheese sauce, and sweet corn.",
+        "fr": "Une montagne gourmande de frites nappee de poulet croustillant, rondelles de saucisse, fromage fondu et mais."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/hVu24BSxmG7eRTNgXtf5sUcMT4pTqu3HoagkKl8z.png",
+      "categorie": {
+        "id": 140,
+        "restaurant_id": 1,
+        "nom": "plats",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "f868845ada2b424bb9a762ab11",
+        "actif": true
+      }
+    },
+    {
+      "id": 84,
+      "restaurant_id": 1,
+      "categorie_id": 129,
+      "nom": "Boissons",
+      "prix_vente": "200.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-11T09:43:18.000000Z",
+      "public_id": "0821a8707a0d458a9ad8556779",
+      "description": null,
+      "ingredients": {
+        "ar": "1 لتر",
+        "en": "1 Liter",
+        "fr": "1 Litre"
+      },
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/33133ef5860444088729e929c2.jpg",
+      "categorie": {
+        "id": 129,
+        "restaurant_id": 2,
+        "nom": "boissons",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "0758d0d954fd4f6baff7cf4f7b",
+        "actif": true
+      }
+    },
+    {
+      "id": 85,
+      "restaurant_id": 1,
+      "categorie_id": 129,
+      "nom": "Bouteille D'eau 0.5l",
+      "prix_vente": "50.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-22T10:38:34.000000Z",
+      "public_id": "9a9f35cf64004daca39f25eb2a",
+      "description": {
+        "ar": "مياه معدنية نقية، صافية ومبردة بعناية لانتعاش يدوم طوال اليوم.",
+        "en": "Pure, crisp, and perfectly chilled mineral water for ultimate hydration.",
+        "fr": "Eau minerale pure, legere et idealement fraiche pour une hydratation ultime."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/39c13bedcb8f458f88cf842540.jpg",
+      "categorie": {
+        "id": 129,
+        "restaurant_id": 2,
+        "nom": "boissons",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "0758d0d954fd4f6baff7cf4f7b",
+        "actif": true
+      }
+    },
+    {
+      "id": 86,
+      "restaurant_id": 1,
+      "categorie_id": 134,
+      "nom": "Box Family",
+      "prix_vente": "2650.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T09:50:33.000000Z",
+      "public_id": "58c6f3628dbc4c9080bf3e7793",
+      "description": {
+        "ar": "وليمة عائلية سخية من الدجاج المقلي الذهبي والمقرمش، مثالية لمشاركة أسعد الأوقات.",
+        "en": "A generous feast of ultra-crispy, golden fried chicken, perfect for sharing delicious moments with family.",
+        "fr": "Un festin genereux de poulet frit ultra-croustillant, ideal pour partager des moments gourmands en famille."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/45a6bb850aaf4b7cb611253bf1.jpg",
+      "categorie": {
+        "id": 134,
+        "restaurant_id": 1,
+        "nom": "formules",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "a662b31cb49444f9bb43a7f787",
+        "actif": true
+      }
+    },
+    {
+      "id": 87,
+      "restaurant_id": 1,
+      "categorie_id": 143,
+      "nom": "Boxy",
+      "prix_vente": "750.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T12:49:54.000000Z",
+      "public_id": "cddedc548cf140c69afaa400c4",
+      "description": {
+        "ar": "خبز التورتيلا المشوي المحشو بالدجاج المقرمش، البطاطا الذهبية، الطماطم وانفجار من الجبن الساخن.",
+        "en": "Grilled tortilla packed full with crunchy fried chicken, golden fries, fresh tomato, and an explosion of warm cheese.",
+        "fr": "Une tortilla grillee debordante de poulet croustillant, frites dorees, tomates et une explosion de fromage."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/790ab134fa94432e9e8856a0f3.png",
+      "categorie": {
+        "id": 143,
+        "restaurant_id": 1,
+        "nom": "tortillas",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "0c4606e5dca34bd284a62c44a9",
+        "actif": true
+      }
+    },
+    {
+      "id": 88,
+      "restaurant_id": 1,
+      "categorie_id": 136,
+      "nom": "Burger Enfant",
+      "prix_vente": "500.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T12:53:31.000000Z",
+      "public_id": "83fe6be215b340e48ca3592107",
+      "description": {
+        "ar": "وجبة هنيئة ولذيذة للأطفال، تحتوي على اختيارهم المفضل مع بطاطا مقرمشة وعلبة عصير منعشة.",
+        "en": "A delicious, kid-friendly meal featuring a mini main, crispy golden fries, and a sweet, refreshing juice box.",
+        "fr": "Un delicieux repas adapte aux plus petits, comprenant son plat prefere, des frites dorees et un jus rafraichissant."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/e467fc91b6a14e3488545e8a65.png",
+      "categorie": {
+        "id": 136,
+        "restaurant_id": 1,
+        "nom": "menu enfant",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "310ee8ca250a4cfd8d6ac14c29",
+        "actif": true
+      }
+    },
+    {
+      "id": 93,
+      "restaurant_id": 1,
+      "categorie_id": 129,
+      "nom": "Canettes",
+      "prix_vente": "100.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-11T09:43:18.000000Z",
+      "public_id": "72741c40b7f44fedb9551a0ed4",
+      "description": null,
+      "ingredients": {
+        "ar": "قطعة واحدة",
+        "en": "1 Piece",
+        "fr": "1 Piece"
+      },
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/874fdf850ad74ec6b25869ee6b.png",
+      "categorie": {
+        "id": 129,
+        "restaurant_id": 2,
+        "nom": "boissons",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "0758d0d954fd4f6baff7cf4f7b",
+        "actif": true
+      }
+    },
+    {
+      "id": 95,
+      "restaurant_id": 1,
+      "categorie_id": 138,
+      "nom": "Chessy",
+      "prix_vente": "650.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T12:45:04.000000Z",
+      "public_id": "801c4a1363d34925ba7eb63753",
+      "description": {
+        "ar": "خبز الدار الطازج محشو بشرائح الدجاج العصارية وفيض من الجبن الذائب الشهي.",
+        "en": "Freshly baked homemade bread loaded with juicy chicken strips and an avalanche of melted, gooey cheese.",
+        "fr": "Notre pain maison tout chaud, garni de poulet tendre et d'une avalanche de fromage fondu filant."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/f394f72dbc554a36934e0db264.jpg",
+      "categorie": {
+        "id": 138,
+        "restaurant_id": 1,
+        "nom": "pain maison",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "318e25b9f46b4ea2bbc5a3d688",
+        "actif": true
+      }
+    },
+    {
+      "id": 96,
+      "restaurant_id": 1,
+      "categorie_id": 138,
+      "nom": "Chessy Gratiné",
+      "prix_vente": "700.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-11T09:43:18.000000Z",
+      "public_id": "cb3746b59c824d42b19acc0af8",
+      "description": {
+        "ar": "خبز الدار المميز مغطى بطبقة غنية من الجبن المحمر في الفرن حتى الغليان لقرمشة ونكهة مضاعفة.",
+        "en": "Baked to perfection with a beautifully golden, bubbly gratin cheese crust on top and packed with savory flavor inside.",
+        "fr": "Sublime par une croute de fromage genereusement gratinee au four, doree et fondante a souhait."
+      },
+      "ingredients": {
+        "ar": "دجاج + صلصة الغرويير + شيدر + جبن غراتان",
+        "en": "Chicken + Gruyere Sauce + Cheddar + Gratin Cheese",
+        "fr": "Poulet + Sauce Gruyere + Cheddar + Fromage Gratine"
+      },
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/14d471030cc24d8d96b851f60c.jpg",
+      "categorie": {
+        "id": 138,
+        "restaurant_id": 1,
+        "nom": "pain maison",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "318e25b9f46b4ea2bbc5a3d688",
+        "actif": true
+      }
+    },
+    {
+      "id": 97,
+      "restaurant_id": 1,
+      "categorie_id": 130,
+      "nom": "Chicken",
+      "prix_vente": "600.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T09:45:10.000000Z",
+      "public_id": "6bc1b0a8efc94d26951533ff17",
+      "description": {
+        "ar": "صدر دجاج طري وجوجي بقشرة مقرمشة مثالية، مع خضروات طازجة وصلصتنا الكريمية المميزة.",
+        "en": "Tender, juicy chicken breast with a perfectly crispy crust, fresh greens, and our signature creamy sauce.",
+        "fr": "Un blanc de poulet tendre et juteux, enrobe d'une panure croustillante, sublime par notre sauce cremeuse."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/9f5af7964ca046d1b6666f0103.png",
+      "categorie": {
+        "id": 130,
+        "restaurant_id": 1,
+        "nom": "burgers",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "a996c43329a14f41b3080bd1c0",
+        "actif": true
+      }
+    },
+    {
+      "id": 98,
+      "restaurant_id": 1,
+      "categorie_id": 134,
+      "nom": "Chicken Mix",
+      "prix_vente": "2500.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T09:45:10.000000Z",
+      "public_id": "5dc287f37dba4fc1bf13394b34",
+      "description": {
+        "ar": "التشكيلة المثالية من قطع التندرز الطرية والأجنحة المقرمشة لعشاق التنوع.",
+        "en": "The ultimate combination of crispy tenders and savory wings, perfect for those who want the best of both worlds.",
+        "fr": "Le duo parfait de tenders tendres et d'ailes croustillantes pour les indecis les plus gourmands."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/d2d9e01c99d44dc493a983476d.png",
+      "categorie": {
+        "id": 134,
+        "restaurant_id": 1,
+        "nom": "formules",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "a662b31cb49444f9bb43a7f787",
+        "actif": true
+      }
+    },
+    {
+      "id": 101,
+      "restaurant_id": 1,
+      "categorie_id": 138,
+      "nom": "Crunsh",
+      "prix_vente": "600.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T10:59:14.000000Z",
+      "public_id": "254449c26b1b46259661171c35",
+      "description": {
+        "ar": "خبز طازج محشو بدجاج شديد القرمشة، خضروات طازجة، ولمسة ساحرة من صلصتنا الخاصة.",
+        "en": "Fresh artisan bread packed with high-crunch fried chicken, crisp fresh veggies, and a zesty drizzle of sauce.",
+        "fr": "Un pain artisanal moelleux garni de poulet ultra-crispy, de crudites fraiches et d'une sauce pleine de peps."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/778ffe65c76346f69250e866f9.png",
+      "categorie": {
+        "id": 138,
+        "restaurant_id": 1,
+        "nom": "pain maison",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "318e25b9f46b4ea2bbc5a3d688",
+        "actif": true
+      }
+    },
+    {
+      "id": 102,
+      "restaurant_id": 1,
+      "categorie_id": 132,
+      "nom": "Desserts",
+      "prix_vente": "300.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-11T09:43:18.000000Z",
+      "public_id": "a82ac9ebc6b74b669befe09354",
+      "description": {
+        "fr": "Desserts pour vous"
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/8f07ca033eff4f0f8fe41acf16.png",
+      "categorie": {
+        "id": 132,
+        "restaurant_id": 1,
+        "nom": "dessert",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "87b363dba12544f2bbc6e4d57c",
+        "actif": true
+      }
+    },
+    {
+      "id": 104,
+      "restaurant_id": 1,
+      "categorie_id": 135,
+      "nom": "Frites",
+      "prix_vente": "180.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-08-24T12:08:56.000000Z",
+      "public_id": "56a327383a804b728715c47280",
+      "description": {
+        "ar": "بطاطا مقلية ذهبية، مقرمشة من الخارج وطرية من الداخل، متبلة ومقدمة ساخنة.",
+        "en": "Golden, crispy on the outside, fluffy on the inside, perfectly seasoned and served hot.",
+        "fr": "Des frites dorees a souhait, croustillantes a l'exterieur et fondantes a l'interieur, servies bien chaudes."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/3152c60d96ac46a58eacc928f1.jpg",
+      "categorie": {
+        "id": 135,
+        "restaurant_id": 1,
+        "nom": "frite",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "c19ca543b3a9433f8d16281608",
+        "actif": true
+      }
+    },
+    {
+      "id": 105,
+      "restaurant_id": 1,
+      "categorie_id": 134,
+      "nom": "Grand Wings",
+      "prix_vente": "2550.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-11T09:43:18.000000Z",
+      "public_id": "58211ddd11a34c019a7b58cea2",
+      "description": {
+        "ar": "أجنحة دجاج ممتلئة وجوجي، مغطاة بتتبيلة مقرمشة وغنية بالنكهات اللذيذة.",
+        "en": "Plump, juicy chicken wings tossed in a crispy, seasoned coating for a flavorful bite every time.",
+        "fr": "Des ailes de poulet charnues et juteuses, enrobees d'une panure doree et secretement assaisonnee."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/fb921d906e6e4ed5bb82eedb97.png",
+      "categorie": {
+        "id": 134,
+        "restaurant_id": 1,
+        "nom": "formules",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "a662b31cb49444f9bb43a7f787",
+        "actif": true
+      }
+    },
+    {
+      "id": 119,
+      "restaurant_id": 1,
+      "categorie_id": 130,
+      "nom": "Kerux",
+      "prix_vente": "750.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T12:49:54.000000Z",
+      "public_id": "1a7b6bd6437342448cb0ef9d9d",
+      "description": {
+        "ar": "برجر كيروكس المميز: دجاج فائق القرمشة، جبن ذائب فاخر، وصلصة سرية تجعل كل قضمة لا تُنسى.",
+        "en": "Our ultimate signature masterpiece: extra crispy chicken, melted gourmet cheese, and a secret sauce that makes every bite unforgettable.",
+        "fr": "Le chef-d'oeuvre de la maison : poulet ultra-pane, fromage gourmand fondant et notre sauce secrete irresistible."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/89962fa672454d3ca851a196f0.png",
+      "categorie": {
+        "id": 130,
+        "restaurant_id": 1,
+        "nom": "burgers",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "a996c43329a14f41b3080bd1c0",
+        "actif": true
+      }
+    },
+    {
+      "id": 125,
+      "restaurant_id": 1,
+      "categorie_id": 135,
+      "nom": "Menu : Frites + Canette",
+      "prix_vente": "250.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-18T12:47:32.000000Z",
+      "public_id": "52894786f2ef49e7a395082d06",
+      "description": {
+        "ar": "الوجبة الثنائية الكلاسيكية: بطاطا مقرمشة ساخنة مع مشروب غازي بارد ومنعش.",
+        "en": "The classic combo of hot, crispy fries paired with an ice-cold, refreshing soda.",
+        "fr": "Le duo incontournable : des frites croustillantes et chaudes accompagnees d'un soda ultra-frais."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/00fed933639149d8ad4b8dd8f1.jpg",
+      "categorie": {
+        "id": 135,
+        "restaurant_id": 1,
+        "nom": "frite",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "c19ca543b3a9433f8d16281608",
+        "actif": true
+      }
+    },
+    {
+      "id": 126,
+      "restaurant_id": 1,
+      "categorie_id": 138,
+      "nom": "Mexicain",
+      "prix_vente": "500.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T10:59:14.000000Z",
+      "public_id": "edf78f8dc07d478dab9aaf8d6f",
+      "description": {
+        "ar": "انفجار من النكهات المكسيكية: دجاج متبل، فلفل وبصل مشوي، مع لمسة حرارة مدخنة رائعة.",
+        "en": "A vibrant burst of flavors featuring spiced chicken, grilled bell peppers, onions, and a kick of smoky heat.",
+        "fr": "Une explosion de saveurs ensoleillees : poulet epice, poivrons grilles, oignons et sauce relevee."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/21bc1ad9891b476bb4ae0069f0.png",
+      "categorie": {
+        "id": 138,
+        "restaurant_id": 1,
+        "nom": "pain maison",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "318e25b9f46b4ea2bbc5a3d688",
+        "actif": true
+      }
+    },
+    {
+      "id": 131,
+      "restaurant_id": 1,
+      "categorie_id": 134,
+      "nom": "Mini Box",
+      "prix_vente": "890.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-11T09:43:18.000000Z",
+      "public_id": "59f50b0b2b424b029c666b6e9a",
+      "description": {
+        "ar": "صندوقك الخاص المليء بقطع الدجاج المقرمشة المفضلة لديك لمتعة فردية لا تقاوم.",
+        "en": "A personal treasure chest packed with your favorite crispy chicken bites and golden perfection.",
+        "fr": "Le coffret ideal rempli de vos morceaux de poulet croustillants preferes pour un plaisir en solo."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/5bf2765496294309bfcd0d898b.png",
+      "categorie": {
+        "id": 134,
+        "restaurant_id": 1,
+        "nom": "formules",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "a662b31cb49444f9bb43a7f787",
+        "actif": true
+      }
+    },
+    {
+      "id": 115,
+      "restaurant_id": 1,
+      "categorie_id": 139,
+      "nom": "Pizza K - Arctic",
+      "prix_vente": "1400.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-07-05T23:31:45.000000Z",
+      "public_id": "7627b3c12149436489b7621be7",
+      "description": {
+        "ar": "بيتزا فاخرة بثمار البحر، مغطاة بالسلمون المدخن الفاخر، الحبق الطازج وقاعدة الكريمة الغنية.",
+        "en": "A luxurious seafood pizza topped with premium smoked salmon, aromatic fresh basil, and a velvety white sauce base.",
+        "fr": "Une pizza prestigieuse au saumon fume d'exception, basilic frais et une base de creme onctueuse."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/2805562672ee4aabaaae29a7d1.png",
+      "categorie": {
+        "id": 139,
+        "restaurant_id": 1,
+        "nom": "pizza",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "5979c69885cc4966afcca30c3c",
+        "actif": true
+      }
+    },
+    {
+      "id": 116,
+      "restaurant_id": 1,
+      "categorie_id": 139,
+      "nom": "Pizza K - Cheesy",
+      "prix_vente": "900.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-07-08T00:45:57.000000Z",
+      "public_id": "883c62befd234f55b71ecc16d8",
+      "description": {
+        "ar": "حلم عشاق الأجبان: مزيج غني وذائب من أفضل أنواع الجبن الفاخر فوق عجينة مقرمشة ومحمرة.",
+        "en": "A cheese lover's dream featuring a rich, bubbling blend of premium cheeses over a beautifully charred artisan crust.",
+        "fr": "Le paradis des amateurs de fromage : un melange onctueux et dore de fromages fins sur une pate artisanale."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/1110da82284d46239176bfbf2d.png",
+      "categorie": {
+        "id": 139,
+        "restaurant_id": 1,
+        "nom": "pizza",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "5979c69885cc4966afcca30c3c",
+        "actif": true
+      }
+    },
+    {
+      "id": 117,
+      "restaurant_id": 1,
+      "categorie_id": 139,
+      "nom": "Pizza K - Chicken Cheese",
+      "prix_vente": "850.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-07-07T23:13:24.000000Z",
+      "public_id": "a51ca8185bde468ba46dd0dfd9",
+      "description": {
+        "ar": "قطع طرية من صدر الدجاج المشوي مغمورة في طبقة كثيفة من جبن الموزاريلا الذائب والصلصة الشهية.",
+        "en": "Tender grilled chicken breast pieces embedded in a deep layer of gooey, melted mozzarella and savory sauce.",
+        "fr": "De tendres morceaux de poulet grille niches sous une genereuse couche de mozzarella filante."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/fecb3c21b9cf47a1b3006f123f.png",
+      "categorie": {
+        "id": 139,
+        "restaurant_id": 1,
+        "nom": "pizza",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "5979c69885cc4966afcca30c3c",
+        "actif": true
+      }
+    },
+    {
+      "id": 118,
+      "restaurant_id": 1,
+      "categorie_id": 139,
+      "nom": "Pizza K - Classic",
+      "prix_vente": "490.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-07-08T14:00:57.000000Z",
+      "public_id": "fb27e3f60cb6451eb2a3228df6",
+      "description": {
+        "ar": "الكلاسيكية الإيطالية الخالدة: صلصة طماطم غنية، جبن موزاريلا ذائب، ولمسة من الأعشاب العطرية.",
+        "en": "The timeless Italian classic: rich tomato sauce, melted mozzarella, and a drizzle of aromatic herb oil.",
+        "fr": "L'intemporelle classique : sauce tomate riche, mozzarella fondante et un filet d'huile infusee aux herbes."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/606b39e7165f4129b1d077752f.png",
+      "categorie": {
+        "id": 139,
+        "restaurant_id": 1,
+        "nom": "pizza",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "5979c69885cc4966afcca30c3c",
+        "actif": true
+      }
+    },
+    {
+      "id": 120,
+      "restaurant_id": 1,
+      "categorie_id": 139,
+      "nom": "Pizza K - Green",
+      "prix_vente": "690.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-07-07T20:57:32.000000Z",
+      "public_id": "8f0d5879c00f4f369bca55a6b3",
+      "description": {
+        "ar": "غنية بالمكونات الطازجة، الفطر اللذيذ، أو التوابل المميزة المحضرة خصيصاً لتلبية ذوقك الرفيع.",
+        "en": "Loaded with fresh, vibrant toppings, savory mushrooms, or rich exotic spices tailored to satisfy every gourmet craving.",
+        "fr": "Garnie d'ingredients frais, de champignons savoureux ou d'epices exotiques pour combler toutes vos envies."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/3c926f5378ea4cc3b718fb4e03.png",
+      "categorie": {
+        "id": 139,
+        "restaurant_id": 1,
+        "nom": "pizza",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "5979c69885cc4966afcca30c3c",
+        "actif": true
+      }
+    },
+    {
+      "id": 121,
+      "restaurant_id": 1,
+      "categorie_id": 139,
+      "nom": "Pizza K - Indiana",
+      "prix_vente": "890.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-07-07T23:49:36.000000Z",
+      "public_id": "f64838bde5cf4b8eb3abae9b01",
+      "description": {
+        "ar": "غنية بالمكونات الطازجة، الفطر اللذيذ، أو التوابل المميزة المحضرة خصيصاً لتلبية ذوقك الرفيع.",
+        "en": "Loaded with fresh, vibrant toppings, savory mushrooms, or rich exotic spices tailored to satisfy every gourmet craving.",
+        "fr": "Garnie d'ingredients frais, de champignons savoureux ou d'epices exotiques pour combler toutes vos envies."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/ed14028b6dd340d29726fc1ca9.png",
+      "categorie": {
+        "id": 139,
+        "restaurant_id": 1,
+        "nom": "pizza",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "5979c69885cc4966afcca30c3c",
+        "actif": true
+      }
+    },
+    {
+      "id": 122,
+      "restaurant_id": 1,
+      "categorie_id": 139,
+      "nom": "Pizza K - Mushroom",
+      "prix_vente": "700.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-07-07T23:13:24.000000Z",
+      "public_id": "37455cf960d1473a9a08af71f1",
+      "description": {
+        "ar": "غنية بالمكونات الطازجة، الفطر اللذيذ، أو التوابل المميزة المحضرة خصيصاً لتلبية ذوقك الرفيع.",
+        "en": "Loaded with fresh, vibrant toppings, savory mushrooms, or rich exotic spices tailored to satisfy every gourmet craving.",
+        "fr": "Garnie d'ingredients frais, de champignons savoureux ou d'epices exotiques pour combler toutes vos envies."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/07e91f9602ab41b690a3a4e526.png",
+      "categorie": {
+        "id": 139,
+        "restaurant_id": 1,
+        "nom": "pizza",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "5979c69885cc4966afcca30c3c",
+        "actif": true
+      }
+    },
+    {
+      "id": 123,
+      "restaurant_id": 1,
+      "categorie_id": 139,
+      "nom": "Pizza K - Pepper",
+      "prix_vente": "1000.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-07-07T19:56:25.000000Z",
+      "public_id": "651519ad78a44bd29f7e4ca3e7",
+      "description": {
+        "ar": "شرائح البيبروني المدخنة مع الفلفل الملون فوق طبقة من الجبن المطاطي وعجينة مقرمشة.",
+        "en": "Zesty pepper slices and smoky, savory pepperoni layered over gooey cheese and a crisp crust.",
+        "fr": "Des tranches de pepperoni savoureuses et poivrons croquants sur un lit de fromage fondant."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/eabefa4d9ab5480ca3eceffe9e.png",
+      "categorie": {
+        "id": 139,
+        "restaurant_id": 1,
+        "nom": "pizza",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "5979c69885cc4966afcca30c3c",
+        "actif": true
+      }
+    },
+    {
+      "id": 124,
+      "restaurant_id": 1,
+      "categorie_id": 139,
+      "nom": "Pizza K - Tuna",
+      "prix_vente": "790.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-07-08T14:01:39.000000Z",
+      "public_id": "34e3af558d5c45a89ad586f498",
+      "description": {
+        "ar": "قطع التونة اللذيذة مع الزيتون الأسود والجبن الذائب فوق قاعدة من صلصة الطماطم التقليدية.",
+        "en": "Flaky, savory tuna combined with black olives, melted cheese, and a rich, traditional Italian tomato base.",
+        "fr": "Du thon savoureux, des olives noires et du fromage fondu sur une base de sauce tomate traditionnelle."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/d8802ade318e4c739dd2b4a61c.png",
+      "categorie": {
+        "id": 139,
+        "restaurant_id": 1,
+        "nom": "pizza",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "5979c69885cc4966afcca30c3c",
+        "actif": true
+      }
+    },
+    {
+      "id": 147,
+      "restaurant_id": 1,
+      "categorie_id": 140,
+      "nom": "Poni",
+      "prix_vente": "850.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-11T09:43:18.000000Z",
+      "public_id": "a0a7b8027e524306980a4e2912",
+      "description": {
+        "ar": "باستا فارفالي (الفراشة) الشهية مغمورة في صلصة كريمة غنية مع الدجاج المقرمش، مرتديلا الديك الرومي والذرة.",
+        "en": "Delicious farfalle pasta tossed in a creamy, velvety sauce with crispy chicken, tender turkey ham, and sweet corn.",
+        "fr": "De delicieuses pates farfalle enrobees d'une sauce creme onctueuse, poulet crispy, jambon de dinde et mais."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/c06f33049bff495989ea0d8d1f.png",
+      "categorie": {
+        "id": 140,
+        "restaurant_id": 1,
+        "nom": "plats",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "f868845ada2b424bb9a762ab11",
+        "actif": true
+      }
+    },
+    {
+      "id": 148,
+      "restaurant_id": 1,
+      "categorie_id": 138,
+      "nom": "Ruxy",
+      "prix_vente": "700.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T12:02:45.000000Z",
+      "public_id": "1c635600a439414d85c2453c71",
+      "description": {
+        "ar": "تخصص الدار الفريد: طبقات من الدجاج المتبل، الجبن السائل، ومزيج الصلصات الفاخرة.",
+        "en": "A uniquely delicious house specialty layered with seasoned chicken, melting cheese, and our rich gourmet sauce blend.",
+        "fr": "La specialite de la maison qui combine poulet assaisonne, fromage coulant et un mariage de sauces savoureuses."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/b8826958001a471f8f06ef7b03.png",
+      "categorie": {
+        "id": 138,
+        "restaurant_id": 1,
+        "nom": "pain maison",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "318e25b9f46b4ea2bbc5a3d688",
+        "actif": true
+      }
+    },
+    {
+      "id": 149,
+      "restaurant_id": 1,
+      "categorie_id": 141,
+      "nom": "Salade César",
+      "prix_vente": "550.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-11T09:43:18.000000Z",
+      "public_id": "c59143ca7c85443ebbe319e973",
+      "description": {
+        "ar": "سلطة طازجة ومقرمشة مع قطع الدجاج الذهبية، الخبز المحمص المقرمش، وصلصة القيصر الغنية.",
+        "en": "Crisp romaine lettuce tossed with golden chicken bites, crunchy croutons, and a rich, creamy Caesar dressing.",
+        "fr": "Salade romaine croquante, morceaux de poulet dores, croutons craquants et sa sauce Cesar onctueuse."
+      },
+      "ingredients": {
+        "ar": "سلطة + طماطم + زيتون + ذرة + مخلل + تندرز + جبن",
+        "en": "Salad + Tomato + Olive + Corn + Pickle + Tenders + Cheese",
+        "fr": "Salade + Tomate + Olive + Mais + Cornichon + Tenders + Fromage"
+      },
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/09ca6f32593c48b48acd1c730f.png",
+      "categorie": {
+        "id": 141,
+        "restaurant_id": 1,
+        "nom": "salade",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "a96ebbf3498b48d8879a965f54",
+        "actif": true
+      }
+    },
+    {
+      "id": 150,
+      "restaurant_id": 1,
+      "categorie_id": 130,
+      "nom": "Smap",
+      "prix_vente": "650.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T12:49:54.000000Z",
+      "public_id": "8cea9142384741a58d0a34ae3a",
+      "description": {
+        "ar": "متعة حقيقية تجمع بين الدجاج المقرمش، الجبن الذائب، والبصل المكرمل مع صلصة غنية تذوب في الفم.",
+        "en": "A savory delight featuring crispy golden chicken, melty cheese, caramelized onions, and a rich, smoky gourmet sauce.",
+        "fr": "Un delice savoureux associant poulet croustillant, fromage fondant et oignons caramelises sous une sauce onctueuse."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/3ad3697423af47a08f61c2e700.png",
+      "categorie": {
+        "id": 130,
+        "restaurant_id": 1,
+        "nom": "burgers",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "a996c43329a14f41b3080bd1c0",
+        "actif": true
+      }
+    },
+    {
+      "id": 151,
+      "restaurant_id": 1,
+      "categorie_id": 143,
+      "nom": "Spicy",
+      "prix_vente": "750.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T10:21:16.000000Z",
+      "public_id": "50d580e046db42c19f7464e26d",
+      "description": {
+        "ar": "رول التورتيلا الحار المليء بالدجاج الطري والتوابل القوية مع صلصة حارة ومثيرة لعشاق المذاق الحار.",
+        "en": "A fiery, flavor-packed wrap filled with tender chicken, bold spices, and a kicked-up hot sauce for spice lovers.",
+        "fr": "Un wrap piquant et intense, rempli de poulet tendre, d'epices relevees et d'une sauce piquante irresistible."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/6782204694034103b1b763083c.png",
+      "categorie": {
+        "id": 143,
+        "restaurant_id": 1,
+        "nom": "tortillas",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "0c4606e5dca34bd284a62c44a9",
+        "actif": true
+      }
+    },
+    {
+      "id": 152,
+      "restaurant_id": 1,
+      "categorie_id": 134,
+      "nom": "Tenders - 3",
+      "prix_vente": "500.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-11T09:43:18.000000Z",
+      "public_id": "8034c7276ebf44debcc7bd3739",
+      "description": {
+        "ar": "شرائح فاخرة من صدر الدجاج الطري، متبلة ومقلية لقرمشة ذهبية مثالية.",
+        "en": "Premium strips of tender chicken breast, marinated and fried to a flawless, golden crunch.",
+        "fr": "De savoureux filets de blanc de poulet marines, d'une tendrete absolue sous une croute d'or craquante."
+      },
+      "ingredients": {
+        "ar": "3 قطع",
+        "en": "3 Pieces",
+        "fr": "3 Pieces"
+      },
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/f24acdaf9ee94997aea5b4416f.png",
+      "categorie": {
+        "id": 134,
+        "restaurant_id": 1,
+        "nom": "formules",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "a662b31cb49444f9bb43a7f787",
+        "actif": true
+      }
+    },
+    {
+      "id": 153,
+      "restaurant_id": 1,
+      "categorie_id": 134,
+      "nom": "Tenders - 5",
+      "prix_vente": "700.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-11T09:43:18.000000Z",
+      "public_id": "8ed8b9fc1a074d41b4f119ca23",
+      "description": {
+        "ar": "شرائح فاخرة من صدر الدجاج الطري، متبلة ومقلية لقرمشة ذهبية مثالية.",
+        "en": "Premium strips of tender chicken breast, marinated and fried to a flawless, golden crunch.",
+        "fr": "De savoureux filets de blanc de poulet marines, d'une tendrete absolue sous une croute d'or craquante."
+      },
+      "ingredients": {
+        "ar": "5 قطع",
+        "en": "5 Pieces",
+        "fr": "5 Pieces"
+      },
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/45acad81d5bc4158b4d472939b.png",
+      "categorie": {
+        "id": 134,
+        "restaurant_id": 1,
+        "nom": "formules",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "a662b31cb49444f9bb43a7f787",
+        "actif": true
+      }
+    },
+    {
+      "id": 154,
+      "restaurant_id": 1,
+      "categorie_id": 136,
+      "nom": "Tenders Enfant",
+      "prix_vente": "450.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T11:57:35.000000Z",
+      "public_id": "6f729e14ab43427ea9ff15c2a5",
+      "description": {
+        "ar": "وجبة هنيئة ولذيذة للأطفال، تحتوي على اختيارهم المفضل مع بطاطا مقرمشة وعلبة عصير منعشة.",
+        "en": "A delicious, kid-friendly meal featuring a mini main, crispy golden fries, and a sweet, refreshing juice box.",
+        "fr": "Un delicieux repas adapte aux plus petits, comprenant son plat prefere, des frites dorees et un jus rafraichissant."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/7c5cdab6f9894c7082a2825055.png",
+      "categorie": {
+        "id": 136,
+        "restaurant_id": 1,
+        "nom": "menu enfant",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "310ee8ca250a4cfd8d6ac14c29",
+        "actif": true
+      }
+    },
+    {
+      "id": 156,
+      "restaurant_id": 1,
+      "categorie_id": 134,
+      "nom": "Wings - 03",
+      "prix_vente": "300.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-11T09:43:18.000000Z",
+      "public_id": "f3608081a2d2462585a54bcaec",
+      "description": {
+        "ar": "أجنحة دجاج ممتلئة وجوجي، مغطاة بتتبيلة مقرمشة وغنية بالنكهات اللذيذة.",
+        "en": "Plump, juicy chicken wings tossed in a crispy, seasoned coating for a flavorful bite every time.",
+        "fr": "Des ailes de poulet charnues et juteuses, enrobees d'une panure doree et secretement assaisonnee."
+      },
+      "ingredients": {
+        "ar": "3 قطع",
+        "en": "3 Pieces",
+        "fr": "3 Pieces"
+      },
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/834edf8debea41e8abd9a1388f.png",
+      "categorie": {
+        "id": 134,
+        "restaurant_id": 1,
+        "nom": "formules",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "a662b31cb49444f9bb43a7f787",
+        "actif": true
+      }
+    },
+    {
+      "id": 157,
+      "restaurant_id": 1,
+      "categorie_id": 134,
+      "nom": "Wings - 05",
+      "prix_vente": "450.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-11T09:43:18.000000Z",
+      "public_id": "c0d4f8e84cec42a5a5d9d35fab",
+      "description": {
+        "ar": "أجنحة دجاج ممتلئة وجوجي، مغطاة بتتبيلة مقرمشة وغنية بالنكهات اللذيذة.",
+        "en": "Plump, juicy chicken wings tossed in a crispy, seasoned coating for a flavorful bite every time.",
+        "fr": "Des ailes de poulet charnues et juteuses, enrobees d'une panure doree et secretement assaisonnee."
+      },
+      "ingredients": {
+        "ar": "5 قطع",
+        "en": "5 Pieces",
+        "fr": "5 Pieces"
+      },
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/822b124003a149339fe519e992.png",
+      "categorie": {
+        "id": 134,
+        "restaurant_id": 1,
+        "nom": "formules",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "a662b31cb49444f9bb43a7f787",
+        "actif": true
+      }
+    },
+    {
+      "id": 158,
+      "restaurant_id": 1,
+      "categorie_id": 143,
+      "nom": "Wrap",
+      "prix_vente": "600.00",
+      "actif": true,
+      "created_at": "2026-05-07T09:48:35.000000Z",
+      "updated_at": "2026-06-15T12:49:54.000000Z",
+      "public_id": "ba2aa43982bd46c7a4a3b92a07",
+      "description": {
+        "ar": "خبز تورتيلا محمص خفيف يلف قطع التندرز المقرمشة، الخس الطازج، وصلصة الكريمة الناعمة والمنعشة.",
+        "en": "A sleek, toasted tortilla rolling up crispy chicken tenders, fresh crisp lettuce, and a cool, smooth cream sauce.",
+        "fr": "Une tortilla legere et toastee enroulant des tenders crispy, de la salade fraiche et une sauce creme douce."
+      },
+      "ingredients": null,
+      "photo_url": "https://www.kerux-foods.com:8000/media/produits/9bf4989174b642e2b2c4a1eb00.png",
+      "categorie": {
+        "id": 143,
+        "restaurant_id": 1,
+        "nom": "tortillas",
+        "created_at": "2026-05-07T09:48:35.000000Z",
+        "updated_at": "2026-05-18T08:13:32.000000Z",
+        "public_id": "0c4606e5dca34bd284a62c44a9",
+        "actif": true
+      }
+    }
+  ],
+  "first_page_url": "https://www.kerux-foods.com:8000/api/products?page=1",
+  "from": 1,
+  "last_page": 1,
+  "last_page_url": "https://www.kerux-foods.com:8000/api/products?page=1",
+  "links": [
+    {
+      "url": null,
+      "label": "&laquo; Previous",
+      "page": null,
+      "active": false
+    },
+    {
+      "url": "https://www.kerux-foods.com:8000/api/products?page=1",
+      "label": "1",
+      "page": 1,
+      "active": true
+    },
+    {
+      "url": null,
+      "label": "Next &raquo;",
+      "page": null,
+      "active": false
+    }
+  ],
+  "next_page_url": null,
+  "path": "https://www.kerux-foods.com:8000/api/products",
+  "per_page": 200,
+  "prev_page_url": null,
+  "to": 40,
+  "total": 40
+}

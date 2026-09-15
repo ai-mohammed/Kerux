@@ -1,0 +1,3809 @@
+{
+  "format": "unspaghettit",
+  "version": 1,
+  "feature": {
+    "id": "40e71ffe",
+    "name": "Commande Kerux",
+    "description": "Parcours de commande du site Kerux Foods (menu → checkout → suivi) modélisé sur le contrat réel du backend Laravel : POST /api/ventes/pending, enum de statuts en_attente_validation_caissier → en_cours → validee | annulee, quartiers par restaurant, statut ouvert/fermé live, code promo, points bonus. Aucun paiement en ligne n'existe : il n'est donc pas modélisé.",
+    "tags": [
+      {
+        "type": "domain",
+        "value": "restaurant"
+      },
+      {
+        "type": "kind",
+        "value": "ordering"
+      }
+    ],
+    "surfaces": [
+      {
+        "id": "ebd89b8b",
+        "name": "Menu & panier",
+        "type": "screen",
+        "description": "Catalogue, sélecteur de restaurant, panier persistant.",
+        "stateDefinitions": [
+          {
+            "id": "9138486a",
+            "path": "restaurant.id",
+            "type": "number",
+            "defaultValue": 1,
+            "description": "Restaurant choisi dans le header (1 = Akid Lotfi, 2 = Boulevard des Lions).",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "c815fe7e",
+            "path": "restaurant.ouvert",
+            "type": "boolean",
+            "defaultValue": true,
+            "description": "Statut live du restaurant (GET /api/restaurants/{id}/service-status → is_open).",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "34ec755d",
+            "path": "panier.articles",
+            "type": "number",
+            "defaultValue": 0,
+            "description": "Nombre d'articles dans le panier (somme des quantités).",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "29882700",
+            "path": "panier.sousTotal",
+            "type": "number",
+            "defaultValue": 0,
+            "description": "Sous-total du panier en DA (prix unitaire + suppléments) × quantité.",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "ef67ac0c",
+            "path": "commande.mode",
+            "type": "enum",
+            "defaultValue": "aucun",
+            "description": "type_commande envoyé au backend.",
+            "enumValues": [
+              "aucun",
+              "livraison",
+              "emporter",
+              "sur_place"
+            ],
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "1e0a5c4a",
+            "path": "commande.quartierId",
+            "type": "number",
+            "defaultValue": 0,
+            "description": "delivery_district_id (0 = non choisi).",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "fb1f25b8",
+            "path": "commande.quartierRestaurantId",
+            "type": "number",
+            "defaultValue": 0,
+            "description": "Restaurant auquel appartient le quartier choisi.",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "eace937b",
+            "path": "commande.fraisQuartier",
+            "type": "number",
+            "defaultValue": 0,
+            "description": "delivery_price du quartier choisi (DA).",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "63bebdde",
+            "path": "commande.fraisLivraison",
+            "type": "number",
+            "defaultValue": 0,
+            "description": "delivery_fee réellement facturé : frais du quartier si livraison, sinon 0.",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "02f0612b",
+            "path": "commande.nomRenseigne",
+            "type": "boolean",
+            "defaultValue": false,
+            "description": "customer_name non vide.",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "151ab2d4",
+            "path": "commande.telephoneValide",
+            "type": "boolean",
+            "defaultValue": false,
+            "description": "customer_phone au format 05/06/07 + 8 chiffres.",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "1627578f",
+            "path": "commande.adresseRenseignee",
+            "type": "boolean",
+            "defaultValue": false,
+            "description": "customer_address renseignée (livraison).",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "6ab7eaf3",
+            "path": "promo.pourcentage",
+            "type": "number",
+            "defaultValue": 0,
+            "description": "Réduction du code promo vérifié (GET /api/promos/vrf).",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "e9aa0f6c",
+            "path": "points.disponibles",
+            "type": "number",
+            "defaultValue": 0,
+            "description": "Points bonus du client connecté (0 pour un invité).",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "3f30e636",
+            "path": "points.utilises",
+            "type": "number",
+            "defaultValue": 0,
+            "description": "use_score envoyé au backend.",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "2d6415d5",
+            "path": "ordre.statut",
+            "type": "enum",
+            "defaultValue": "aucune",
+            "description": "Enum réel du backend (statut de la vente).",
+            "enumValues": [
+              "aucune",
+              "en_attente_validation_caissier",
+              "en_cours",
+              "validee",
+              "annulee"
+            ],
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "87a1d404",
+            "path": "ordre.total",
+            "type": "number",
+            "defaultValue": 0,
+            "description": "total_apres_remise de la dernière commande envoyée (DA).",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          },
+          {
+            "id": "ec1d338b",
+            "path": "ordre.articles",
+            "type": "number",
+            "defaultValue": 0,
+            "description": "Articles de la dernière commande envoyée.",
+            "sharedWith": [
+              "a6b5dfde",
+              "ec66dc93"
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "id": "d6ddc51d",
+            "name": "Le restaurant ouvre ou ferme",
+            "intent": "Le statut live (service-status) change ; le site le rafraîchit toutes les 60 s.",
+            "roles": [
+              "async"
+            ],
+            "parameters": [
+              {
+                "id": "ce9d74dc",
+                "name": "ouvert",
+                "type": "boolean",
+                "required": true,
+                "description": "is_open renvoyé par le backend."
+              }
+            ],
+            "requiredStates": [],
+            "rules": [],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "37e6e7fc",
+                "type": "set_state",
+                "path": "restaurant.ouvert",
+                "value": {
+                  "kind": "param",
+                  "name": "ouvert"
+                },
+                "description": "Reflète is_open."
+              },
+              {
+                "id": "22159e09",
+                "type": "emit_event",
+                "event": "restaurant.status.changed"
+              }
+            ],
+            "emittedEvents": [
+              "restaurant.status.changed"
+            ],
+            "transitions": [],
+            "scenarios": []
+          },
+          {
+            "id": "8c7c79a3",
+            "name": "Changer de restaurant",
+            "intent": "Sélecteur du header : le catalogue reste global, mais les quartiers de livraison et la commande suivent le restaurant.",
+            "roles": [
+              "primary"
+            ],
+            "parameters": [
+              {
+                "id": "99c84f7a",
+                "name": "restaurantId",
+                "type": "enum",
+                "required": true,
+                "description": "1 = Akid Lotfi, 2 = Boulevard des Lions.",
+                "enumValues": [
+                  "1",
+                  "2"
+                ]
+              }
+            ],
+            "requiredStates": [],
+            "rules": [],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "2226a457",
+                "type": "set_state",
+                "path": "restaurant.id",
+                "value": {
+                  "kind": "switch",
+                  "cases": [
+                    {
+                      "when": {
+                        "left": {
+                          "kind": "param",
+                          "name": "restaurantId"
+                        },
+                        "operator": "equals",
+                        "right": "2"
+                      },
+                      "then": {
+                        "kind": "literal",
+                        "value": 2
+                      }
+                    }
+                  ],
+                  "default": {
+                    "kind": "literal",
+                    "value": 1
+                  }
+                },
+                "description": "Mémorisé dans le header."
+              },
+              {
+                "id": "e24ac79b",
+                "type": "set_state",
+                "path": "commande.quartierId",
+                "value": 0,
+                "description": "Le quartier choisi n'appartient plus au restaurant : il est réinitialisé."
+              },
+              {
+                "id": "ebc31e97",
+                "type": "set_state",
+                "path": "commande.quartierRestaurantId",
+                "value": 0
+              },
+              {
+                "id": "a51909f5",
+                "type": "set_state",
+                "path": "commande.fraisQuartier",
+                "value": 0
+              },
+              {
+                "id": "ef3de01b",
+                "type": "set_state",
+                "path": "commande.fraisLivraison",
+                "value": 0
+              },
+              {
+                "id": "4c937a2c",
+                "type": "emit_event",
+                "event": "restaurant.selected"
+              }
+            ],
+            "emittedEvents": [
+              "restaurant.selected"
+            ],
+            "transitions": [],
+            "scenarios": []
+          },
+          {
+            "id": "5a206416",
+            "name": "Ajouter au panier",
+            "intent": "Bouton + d'une carte produit ou fiche produit, avec quantité et suppléments déjà inclus dans le prix unitaire.",
+            "roles": [
+              "primary"
+            ],
+            "parameters": [
+              {
+                "id": "3dbd433d",
+                "name": "disponible",
+                "type": "boolean",
+                "required": true,
+                "description": "actif du produit dans le catalogue."
+              },
+              {
+                "id": "4558d9b6",
+                "name": "quantite",
+                "type": "number",
+                "required": true,
+                "description": "Quantité ajoutée (1 à 50 dans le site).",
+                "validations": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "min",
+                    "value": 0
+                  },
+                  {
+                    "type": "max",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "id": "86770cbe",
+                "name": "prix",
+                "type": "number",
+                "required": true,
+                "description": "Prix unitaire DA (suppléments inclus) ; fixé à 700 pour l'exploration.",
+                "validations": [
+                  {
+                    "type": "min",
+                    "value": 700
+                  },
+                  {
+                    "type": "max",
+                    "value": 700
+                  }
+                ],
+                "defaultValue": 700
+              }
+            ],
+            "requiredStates": [],
+            "rules": [
+              {
+                "id": "65745ab9",
+                "category": "validation",
+                "condition": {
+                  "left": {
+                    "kind": "param",
+                    "name": "disponible"
+                  },
+                  "operator": "is_false"
+                },
+                "effect": {
+                  "id": "787f1aa7",
+                  "type": "block_action",
+                  "reason": "Produit épuisé : impossible de l'ajouter."
+                },
+                "description": "Produit épuisé : impossible de l'ajouter."
+              },
+              {
+                "id": "7cd731f1",
+                "category": "validation",
+                "condition": {
+                  "left": {
+                    "kind": "param",
+                    "name": "quantite"
+                  },
+                  "operator": "lower_or_equal",
+                  "right": 0
+                },
+                "effect": {
+                  "id": "e64dae9a",
+                  "type": "block_action",
+                  "reason": "La quantité doit être au moins 1."
+                },
+                "description": "La quantité doit être au moins 1."
+              },
+              {
+                "id": "31dce10a",
+                "category": "validation",
+                "condition": {
+                  "left": "panier.articles",
+                  "operator": "greater_or_equal",
+                  "right": 6
+                },
+                "effect": {
+                  "id": "ec64d912",
+                  "type": "block_action",
+                  "reason": "Quantité maximale atteinte (le site plafonne à 50 par ligne ; 6 ici pour garder l'exploration finie)."
+                },
+                "description": "Quantité maximale atteinte (le site plafonne à 50 par ligne ; 6 ici pour garder l'exploration finie)."
+              }
+            ],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "11f40e4a",
+                "type": "set_state",
+                "path": "panier.articles",
+                "value": {
+                  "kind": "add",
+                  "left": {
+                    "kind": "state",
+                    "path": "panier.articles"
+                  },
+                  "right": {
+                    "kind": "param",
+                    "name": "quantite"
+                  }
+                }
+              },
+              {
+                "id": "3eafe547",
+                "type": "set_state",
+                "path": "panier.sousTotal",
+                "value": {
+                  "kind": "add",
+                  "left": {
+                    "kind": "state",
+                    "path": "panier.sousTotal"
+                  },
+                  "right": {
+                    "kind": "mul",
+                    "left": {
+                      "kind": "param",
+                      "name": "prix"
+                    },
+                    "right": {
+                      "kind": "param",
+                      "name": "quantite"
+                    }
+                  }
+                }
+              },
+              {
+                "id": "3d82e93d",
+                "type": "emit_event",
+                "event": "cart.item.added"
+              }
+            ],
+            "emittedEvents": [
+              "cart.item.added"
+            ],
+            "transitions": [],
+            "scenarios": [
+              {
+                "id": "2ca6d9e1",
+                "name": "Ajout de 2 × 700 DA",
+                "stateOverrides": [],
+                "parameterOverrides": [
+                  {
+                    "parameterName": "disponible",
+                    "value": true
+                  },
+                  {
+                    "parameterName": "quantite",
+                    "value": 2
+                  },
+                  {
+                    "parameterName": "prix",
+                    "value": 700
+                  }
+                ],
+                "expectedStatus": "success",
+                "expectedAssertions": [
+                  {
+                    "path": "panier.articles",
+                    "operator": "equals",
+                    "value": 2
+                  },
+                  {
+                    "path": "panier.sousTotal",
+                    "operator": "equals",
+                    "value": 1400
+                  }
+                ],
+                "steps": []
+              },
+              {
+                "id": "ef4b3076",
+                "name": "Produit épuisé refusé",
+                "stateOverrides": [],
+                "parameterOverrides": [
+                  {
+                    "parameterName": "disponible",
+                    "value": false
+                  },
+                  {
+                    "parameterName": "quantite",
+                    "value": 1
+                  },
+                  {
+                    "parameterName": "prix",
+                    "value": 700
+                  }
+                ],
+                "expectedStatus": "blocked",
+                "expectedAssertions": [
+                  {
+                    "path": "panier.articles",
+                    "operator": "equals",
+                    "value": 0
+                  }
+                ],
+                "steps": []
+              }
+            ]
+          },
+          {
+            "id": "7e227c13",
+            "name": "Vider le panier",
+            "intent": "Lien « Vider le panier » de la page panier.",
+            "roles": [
+              "destructive"
+            ],
+            "parameters": [],
+            "requiredStates": [],
+            "rules": [],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "fe8c03d4",
+                "type": "set_state",
+                "path": "panier.articles",
+                "value": 0
+              },
+              {
+                "id": "d7b187a2",
+                "type": "set_state",
+                "path": "panier.sousTotal",
+                "value": 0
+              },
+              {
+                "id": "fcd1c2fa",
+                "type": "set_state",
+                "path": "promo.pourcentage",
+                "value": 0
+              },
+              {
+                "id": "343a8663",
+                "type": "emit_event",
+                "event": "cart.cleared"
+              }
+            ],
+            "emittedEvents": [
+              "cart.cleared"
+            ],
+            "transitions": [],
+            "scenarios": []
+          },
+          {
+            "id": "92896f52",
+            "name": "Passer commande",
+            "intent": "Bouton Commander (header, barre mobile, panier) : ouvre le checkout si le panier n'est pas vide.",
+            "roles": [
+              "entry"
+            ],
+            "parameters": [],
+            "requiredStates": [],
+            "rules": [
+              {
+                "id": "7964ab3e",
+                "category": "validation",
+                "condition": {
+                  "left": "panier.articles",
+                  "operator": "equals",
+                  "right": 0
+                },
+                "effect": {
+                  "id": "111e8999",
+                  "type": "block_action",
+                  "reason": "Votre panier est vide."
+                },
+                "description": "Votre panier est vide."
+              }
+            ],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "96fd5735",
+                "type": "transition_surface",
+                "target": "a6b5dfde"
+              }
+            ],
+            "emittedEvents": [],
+            "transitions": [
+              {
+                "id": "1026bc6a",
+                "target": "a6b5dfde"
+              }
+            ],
+            "scenarios": [
+              {
+                "id": "036f9b05",
+                "name": "Panier vide : pas de checkout",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "blocked",
+                "expectedAssertions": [],
+                "steps": []
+              },
+              {
+                "id": "cd367211",
+                "name": "Panier rempli : checkout ouvert",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "success",
+                "expectedAssertions": [],
+                "steps": [
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "rules": [],
+        "invariants": [],
+        "transitions": [
+          {
+            "id": "0d8ef8b7",
+            "target": "a6b5dfde",
+            "label": "→ checkout"
+          }
+        ]
+      },
+      {
+        "id": "a6b5dfde",
+        "name": "Checkout",
+        "type": "screen",
+        "description": "Mode, restaurant, coordonnées, récapitulatif, confirmation.",
+        "stateDefinitions": [],
+        "actions": [
+          {
+            "id": "27a5d343",
+            "name": "Choisir le mode",
+            "intent": "Étape 1 : Livraison, À emporter ou Sur place.",
+            "roles": [
+              "primary"
+            ],
+            "parameters": [
+              {
+                "id": "6018c02f",
+                "name": "mode",
+                "type": "enum",
+                "required": true,
+                "description": "mode",
+                "enumValues": [
+                  "livraison",
+                  "emporter",
+                  "sur_place"
+                ]
+              }
+            ],
+            "requiredStates": [],
+            "rules": [],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "7e7c98c7",
+                "type": "set_state",
+                "path": "commande.mode",
+                "value": {
+                  "kind": "param",
+                  "name": "mode"
+                }
+              },
+              {
+                "id": "dfb89d0e",
+                "type": "set_state",
+                "path": "commande.fraisLivraison",
+                "value": {
+                  "kind": "switch",
+                  "cases": [
+                    {
+                      "when": {
+                        "left": {
+                          "kind": "param",
+                          "name": "mode"
+                        },
+                        "operator": "equals",
+                        "right": "livraison"
+                      },
+                      "then": {
+                        "kind": "state",
+                        "path": "commande.fraisQuartier"
+                      }
+                    }
+                  ],
+                  "default": {
+                    "kind": "literal",
+                    "value": 0
+                  }
+                },
+                "description": "Les frais ne s'appliquent qu'en livraison."
+              }
+            ],
+            "emittedEvents": [],
+            "transitions": [],
+            "scenarios": []
+          },
+          {
+            "id": "4dbbdbfe",
+            "name": "Choisir le quartier",
+            "intent": "Étape 3 (livraison) : quartier desservi par le restaurant choisi, avec son tarif.",
+            "roles": [
+              "primary"
+            ],
+            "parameters": [
+              {
+                "id": "f1ef9b8f",
+                "name": "quartier",
+                "type": "enum",
+                "required": true,
+                "description": "1 = Akid Lotfi (restaurant 1), 34 = Boulevard des Lions (restaurant 1).",
+                "enumValues": [
+                  "1",
+                  "34"
+                ]
+              },
+              {
+                "id": "d9e15d10",
+                "name": "frais",
+                "type": "number",
+                "required": true,
+                "description": "delivery_price du quartier (0 DA aujourd'hui).",
+                "validations": [
+                  {
+                    "type": "min",
+                    "value": 0
+                  },
+                  {
+                    "type": "max",
+                    "value": 200
+                  }
+                ],
+                "defaultValue": 0
+              }
+            ],
+            "requiredStates": [],
+            "rules": [
+              {
+                "id": "44c4e042",
+                "category": "validation",
+                "condition": {
+                  "left": "commande.mode",
+                  "operator": "not_equals",
+                  "right": "livraison"
+                },
+                "effect": {
+                  "id": "8888a019",
+                  "type": "block_action",
+                  "reason": "Le quartier n'est demandé qu'en livraison."
+                },
+                "description": "Le quartier n'est demandé qu'en livraison."
+              }
+            ],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "193662c8",
+                "type": "set_state",
+                "path": "commande.quartierId",
+                "value": {
+                  "kind": "switch",
+                  "cases": [
+                    {
+                      "when": {
+                        "left": {
+                          "kind": "param",
+                          "name": "quartier"
+                        },
+                        "operator": "equals",
+                        "right": "34"
+                      },
+                      "then": {
+                        "kind": "literal",
+                        "value": 34
+                      }
+                    }
+                  ],
+                  "default": {
+                    "kind": "literal",
+                    "value": 1
+                  }
+                }
+              },
+              {
+                "id": "27d5101a",
+                "type": "set_state",
+                "path": "commande.quartierRestaurantId",
+                "value": {
+                  "kind": "state",
+                  "path": "restaurant.id"
+                },
+                "description": "La liste proposée est filtrée par restaurant."
+              },
+              {
+                "id": "28f23b0e",
+                "type": "set_state",
+                "path": "commande.fraisQuartier",
+                "value": {
+                  "kind": "param",
+                  "name": "frais"
+                }
+              },
+              {
+                "id": "8cfa3e38",
+                "type": "set_state",
+                "path": "commande.fraisLivraison",
+                "value": {
+                  "kind": "param",
+                  "name": "frais"
+                }
+              }
+            ],
+            "emittedEvents": [],
+            "transitions": [],
+            "scenarios": []
+          },
+          {
+            "id": "54186878",
+            "name": "Renseigner les coordonnées",
+            "intent": "Étape 3 : nom, téléphone (05/06/07 + 8 chiffres), adresse si livraison.",
+            "roles": [
+              "primary"
+            ],
+            "parameters": [
+              {
+                "id": "7c570953",
+                "name": "nomRenseigne",
+                "type": "boolean",
+                "required": true,
+                "description": "nomRenseigne"
+              },
+              {
+                "id": "7b7ec268",
+                "name": "telephoneValide",
+                "type": "boolean",
+                "required": true,
+                "description": "telephoneValide"
+              },
+              {
+                "id": "50b94e7a",
+                "name": "adresseRenseignee",
+                "type": "boolean",
+                "required": true,
+                "description": "adresseRenseignee"
+              }
+            ],
+            "requiredStates": [],
+            "rules": [],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "68564553",
+                "type": "set_state",
+                "path": "commande.nomRenseigne",
+                "value": {
+                  "kind": "param",
+                  "name": "nomRenseigne"
+                }
+              },
+              {
+                "id": "84f665a6",
+                "type": "set_state",
+                "path": "commande.telephoneValide",
+                "value": {
+                  "kind": "param",
+                  "name": "telephoneValide"
+                }
+              },
+              {
+                "id": "b441f784",
+                "type": "set_state",
+                "path": "commande.adresseRenseignee",
+                "value": {
+                  "kind": "param",
+                  "name": "adresseRenseignee"
+                }
+              }
+            ],
+            "emittedEvents": [],
+            "transitions": [],
+            "scenarios": []
+          },
+          {
+            "id": "830eaff4",
+            "name": "Appliquer un code promo",
+            "intent": "Code vérifié par GET /api/promos/vrf ; un seul code par commande, le nouveau remplace l'ancien.",
+            "roles": [
+              "primary"
+            ],
+            "parameters": [
+              {
+                "id": "e5109dce",
+                "name": "pourcentage",
+                "type": "number",
+                "required": true,
+                "description": "pourcentage renvoyé par le backend (0 = code invalide).",
+                "validations": [
+                  {
+                    "type": "min",
+                    "value": 0
+                  },
+                  {
+                    "type": "max",
+                    "value": 100
+                  }
+                ]
+              }
+            ],
+            "requiredStates": [],
+            "rules": [
+              {
+                "id": "7404c618",
+                "category": "validation",
+                "condition": {
+                  "left": {
+                    "kind": "param",
+                    "name": "pourcentage"
+                  },
+                  "operator": "lower_or_equal",
+                  "right": 0
+                },
+                "effect": {
+                  "id": "7679015e",
+                  "type": "block_action",
+                  "reason": "Ce code n'est pas valide."
+                },
+                "description": "Ce code n'est pas valide."
+              }
+            ],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "bcfd2d7e",
+                "type": "set_state",
+                "path": "promo.pourcentage",
+                "value": {
+                  "kind": "param",
+                  "name": "pourcentage"
+                }
+              },
+              {
+                "id": "df1d5337",
+                "type": "emit_event",
+                "event": "promo.applied"
+              }
+            ],
+            "emittedEvents": [
+              "promo.applied"
+            ],
+            "transitions": [],
+            "scenarios": []
+          },
+          {
+            "id": "8f6599a4",
+            "name": "Se connecter",
+            "intent": "Connexion pendant le checkout : le profil pré-remplit les champs et expose les points bonus.",
+            "roles": [
+              "entry"
+            ],
+            "parameters": [
+              {
+                "id": "47342de1",
+                "name": "points",
+                "type": "number",
+                "required": true,
+                "description": "Points bonus du compte.",
+                "validations": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "min",
+                    "value": 0
+                  },
+                  {
+                    "type": "max",
+                    "value": 500
+                  }
+                ]
+              }
+            ],
+            "requiredStates": [],
+            "rules": [],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "07e97a23",
+                "type": "set_state",
+                "path": "points.disponibles",
+                "value": {
+                  "kind": "param",
+                  "name": "points"
+                }
+              },
+              {
+                "id": "855289cc",
+                "type": "set_state",
+                "path": "points.utilises",
+                "value": {
+                  "kind": "min",
+                  "left": {
+                    "kind": "state",
+                    "path": "points.utilises"
+                  },
+                  "right": {
+                    "kind": "param",
+                    "name": "points"
+                  }
+                },
+                "description": "Les points utilisés sont recalculés à partir du compte courant (jamais plus que disponibles)."
+              }
+            ],
+            "emittedEvents": [],
+            "transitions": [],
+            "scenarios": []
+          },
+          {
+            "id": "3bedcd9b",
+            "name": "Utiliser mes points bonus",
+            "intent": "Case à cocher du récapitulatif ; plafonnée aux points disponibles et au montant restant.",
+            "roles": [
+              "primary"
+            ],
+            "parameters": [
+              {
+                "id": "01d8d9b7",
+                "name": "utiliser",
+                "type": "boolean",
+                "required": true,
+                "description": "utiliser"
+              }
+            ],
+            "requiredStates": [],
+            "rules": [
+              {
+                "id": "d5423172",
+                "category": "validation",
+                "condition": {
+                  "kind": "all",
+                  "conditions": [
+                    {
+                      "left": {
+                        "kind": "param",
+                        "name": "utiliser"
+                      },
+                      "operator": "is_true"
+                    },
+                    {
+                      "left": "points.disponibles",
+                      "operator": "equals",
+                      "right": 0
+                    }
+                  ]
+                },
+                "effect": {
+                  "id": "68360217",
+                  "type": "block_action",
+                  "reason": "Aucun point bonus disponible."
+                },
+                "description": "Aucun point bonus disponible."
+              }
+            ],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "fffd0300",
+                "type": "set_state",
+                "path": "points.utilises",
+                "value": {
+                  "kind": "switch",
+                  "cases": [
+                    {
+                      "when": {
+                        "left": {
+                          "kind": "param",
+                          "name": "utiliser"
+                        },
+                        "operator": "is_true"
+                      },
+                      "then": {
+                        "kind": "min",
+                        "left": {
+                          "kind": "state",
+                          "path": "points.disponibles"
+                        },
+                        "right": {
+                          "kind": "add",
+                          "left": {
+                            "kind": "sub",
+                            "left": {
+                              "kind": "state",
+                              "path": "panier.sousTotal"
+                            },
+                            "right": {
+                              "kind": "div",
+                              "left": {
+                                "kind": "mul",
+                                "left": {
+                                  "kind": "state",
+                                  "path": "panier.sousTotal"
+                                },
+                                "right": {
+                                  "kind": "state",
+                                  "path": "promo.pourcentage"
+                                }
+                              },
+                              "right": {
+                                "kind": "literal",
+                                "value": 100
+                              }
+                            }
+                          },
+                          "right": {
+                            "kind": "state",
+                            "path": "commande.fraisLivraison"
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "default": {
+                    "kind": "literal",
+                    "value": 0
+                  }
+                }
+              }
+            ],
+            "emittedEvents": [],
+            "transitions": [],
+            "scenarios": []
+          },
+          {
+            "id": "ee71af5e",
+            "name": "Retour au menu",
+            "intent": "Lien Panier / Retour : on peut toujours revenir compléter le panier.",
+            "roles": [
+              "primary"
+            ],
+            "parameters": [],
+            "requiredStates": [],
+            "rules": [],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "0c67db24",
+                "type": "transition_surface",
+                "target": "ebd89b8b"
+              }
+            ],
+            "emittedEvents": [],
+            "transitions": [
+              {
+                "id": "6863bc5f",
+                "target": "ebd89b8b"
+              }
+            ],
+            "scenarios": []
+          },
+          {
+            "id": "88f0a612",
+            "name": "Confirmer la commande",
+            "intent": "POST /api/ventes/pending avec Idempotency-Key ; paiement à la réception, aucun paiement en ligne.",
+            "roles": [
+              "primary",
+              "persistence"
+            ],
+            "parameters": [],
+            "requiredStates": [],
+            "rules": [
+              {
+                "id": "1010074c",
+                "category": "validation",
+                "condition": {
+                  "left": "panier.articles",
+                  "operator": "equals",
+                  "right": 0
+                },
+                "effect": {
+                  "id": "c9e19c96",
+                  "type": "block_action",
+                  "reason": "Votre panier est vide."
+                },
+                "description": "Votre panier est vide."
+              },
+              {
+                "id": "edb797ac",
+                "category": "business",
+                "condition": {
+                  "left": "restaurant.ouvert",
+                  "operator": "is_false"
+                },
+                "effect": {
+                  "id": "39ee83ae",
+                  "type": "block_action",
+                  "reason": "Le restaurant est fermé pour le moment."
+                },
+                "description": "Le restaurant est fermé pour le moment."
+              },
+              {
+                "id": "98ace7a1",
+                "category": "validation",
+                "condition": {
+                  "left": "commande.mode",
+                  "operator": "equals",
+                  "right": "aucun"
+                },
+                "effect": {
+                  "id": "89ebab2e",
+                  "type": "block_action",
+                  "reason": "Choisissez livraison, à emporter ou sur place."
+                },
+                "description": "Choisissez livraison, à emporter ou sur place."
+              },
+              {
+                "id": "fc208607",
+                "category": "validation",
+                "condition": {
+                  "left": "commande.nomRenseigne",
+                  "operator": "is_false"
+                },
+                "effect": {
+                  "id": "5551d8de",
+                  "type": "block_action",
+                  "reason": "Indiquez votre nom pour la commande."
+                },
+                "description": "Indiquez votre nom pour la commande."
+              },
+              {
+                "id": "deb130d8",
+                "category": "validation",
+                "condition": {
+                  "left": "commande.telephoneValide",
+                  "operator": "is_false"
+                },
+                "effect": {
+                  "id": "573713b1",
+                  "type": "block_action",
+                  "reason": "Numéro attendu : 05, 06 ou 07 suivi de 8 chiffres."
+                },
+                "description": "Numéro attendu : 05, 06 ou 07 suivi de 8 chiffres."
+              },
+              {
+                "id": "043808d1",
+                "category": "validation",
+                "condition": {
+                  "kind": "all",
+                  "conditions": [
+                    {
+                      "left": "commande.mode",
+                      "operator": "equals",
+                      "right": "livraison"
+                    },
+                    {
+                      "left": "commande.quartierId",
+                      "operator": "equals",
+                      "right": 0
+                    }
+                  ]
+                },
+                "effect": {
+                  "id": "e3c37553",
+                  "type": "block_action",
+                  "reason": "Choisissez votre quartier pour la livraison."
+                },
+                "description": "Choisissez votre quartier pour la livraison."
+              },
+              {
+                "id": "9075f400",
+                "category": "validation",
+                "condition": {
+                  "kind": "all",
+                  "conditions": [
+                    {
+                      "left": "commande.mode",
+                      "operator": "equals",
+                      "right": "livraison"
+                    },
+                    {
+                      "left": "commande.adresseRenseignee",
+                      "operator": "is_false"
+                    }
+                  ]
+                },
+                "effect": {
+                  "id": "b9c09f2b",
+                  "type": "block_action",
+                  "reason": "Indiquez une adresse précise."
+                },
+                "description": "Indiquez une adresse précise."
+              },
+              {
+                "id": "19d75b64",
+                "category": "business",
+                "condition": {
+                  "kind": "all",
+                  "conditions": [
+                    {
+                      "left": "commande.mode",
+                      "operator": "equals",
+                      "right": "livraison"
+                    },
+                    {
+                      "left": "commande.quartierRestaurantId",
+                      "operator": "not_equals",
+                      "right": {
+                        "kind": "state",
+                        "path": "restaurant.id"
+                      }
+                    }
+                  ]
+                },
+                "effect": {
+                  "id": "f3cbd6cc",
+                  "type": "block_action",
+                  "reason": "Ce quartier n'est pas livré par le restaurant choisi."
+                },
+                "description": "Ce quartier n'est pas livré par le restaurant choisi."
+              }
+            ],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "5600b31b",
+                "type": "set_state",
+                "path": "ordre.statut",
+                "value": "en_attente_validation_caissier",
+                "description": "Le backend crée la vente en attente de validation caissier."
+              },
+              {
+                "id": "4085f3ea",
+                "type": "set_state",
+                "path": "ordre.total",
+                "value": {
+                  "kind": "max",
+                  "left": {
+                    "kind": "literal",
+                    "value": 0
+                  },
+                  "right": {
+                    "kind": "sub",
+                    "left": {
+                      "kind": "add",
+                      "left": {
+                        "kind": "sub",
+                        "left": {
+                          "kind": "state",
+                          "path": "panier.sousTotal"
+                        },
+                        "right": {
+                          "kind": "div",
+                          "left": {
+                            "kind": "mul",
+                            "left": {
+                              "kind": "state",
+                              "path": "panier.sousTotal"
+                            },
+                            "right": {
+                              "kind": "state",
+                              "path": "promo.pourcentage"
+                            }
+                          },
+                          "right": {
+                            "kind": "literal",
+                            "value": 100
+                          }
+                        }
+                      },
+                      "right": {
+                        "kind": "state",
+                        "path": "commande.fraisLivraison"
+                      }
+                    },
+                    "right": {
+                      "kind": "state",
+                      "path": "points.utilises"
+                    }
+                  }
+                },
+                "description": "sous-total − remise + frais − points, jamais négatif."
+              },
+              {
+                "id": "8bc90860",
+                "type": "set_state",
+                "path": "ordre.articles",
+                "value": {
+                  "kind": "state",
+                  "path": "panier.articles"
+                }
+              },
+              {
+                "id": "5ecc27a5",
+                "type": "set_state",
+                "path": "panier.articles",
+                "value": 0,
+                "description": "Le panier est vidé après envoi."
+              },
+              {
+                "id": "b4cc7e3d",
+                "type": "set_state",
+                "path": "panier.sousTotal",
+                "value": 0
+              },
+              {
+                "id": "db613a03",
+                "type": "set_state",
+                "path": "promo.pourcentage",
+                "value": 0
+              },
+              {
+                "id": "e99ead55",
+                "type": "set_state",
+                "path": "points.utilises",
+                "value": 0
+              },
+              {
+                "id": "9461d184",
+                "type": "emit_event",
+                "event": "order.submitted"
+              },
+              {
+                "id": "5547e2bc",
+                "type": "transition_surface",
+                "target": "ec66dc93"
+              }
+            ],
+            "emittedEvents": [
+              "order.submitted"
+            ],
+            "transitions": [
+              {
+                "id": "6055a846",
+                "target": "ec66dc93"
+              }
+            ],
+            "scenarios": [
+              {
+                "id": "cbcbda87",
+                "name": "Livraison complète : 2 × 700 DA, quartier livré, coordonnées OK",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "success",
+                "expectedAssertions": [
+                  {
+                    "path": "ordre.statut",
+                    "operator": "equals",
+                    "value": "en_attente_validation_caissier"
+                  },
+                  {
+                    "path": "ordre.total",
+                    "operator": "equals",
+                    "value": 1400
+                  },
+                  {
+                    "path": "ordre.articles",
+                    "operator": "equals",
+                    "value": 2
+                  },
+                  {
+                    "path": "panier.articles",
+                    "operator": "equals",
+                    "value": 0
+                  }
+                ],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 2
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "livraison"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "4dbbdbfe",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "quartier",
+                        "value": "34"
+                      },
+                      {
+                        "parameterName": "frais",
+                        "value": 0
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  }
+                ]
+              },
+              {
+                "id": "919e339b",
+                "name": "À emporter : ni quartier ni adresse requis",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "success",
+                "expectedAssertions": [
+                  {
+                    "path": "ordre.statut",
+                    "operator": "equals",
+                    "value": "en_attente_validation_caissier"
+                  },
+                  {
+                    "path": "ordre.total",
+                    "operator": "equals",
+                    "value": 700
+                  },
+                  {
+                    "path": "commande.fraisLivraison",
+                    "operator": "equals",
+                    "value": 0
+                  }
+                ],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "emporter"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": false
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  }
+                ]
+              },
+              {
+                "id": "a4822357",
+                "name": "Restaurant fermé : la commande n'est pas envoyée",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "blocked",
+                "expectedAssertions": [
+                  {
+                    "path": "ordre.statut",
+                    "operator": "equals",
+                    "value": "aucune"
+                  },
+                  {
+                    "path": "panier.articles",
+                    "operator": "equals",
+                    "value": 1
+                  }
+                ],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": false
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "emporter"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  }
+                ]
+              },
+              {
+                "id": "e350be17",
+                "name": "Panier vide : rien à envoyer",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "blocked",
+                "expectedAssertions": [],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "emporter"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  }
+                ]
+              },
+              {
+                "id": "9a500b8e",
+                "name": "Livraison sans quartier",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "blocked",
+                "expectedAssertions": [],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "livraison"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  }
+                ]
+              },
+              {
+                "id": "c889bad2",
+                "name": "Téléphone invalide",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "blocked",
+                "expectedAssertions": [],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "sur_place"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": false
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": false
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  }
+                ]
+              },
+              {
+                "id": "009808d0",
+                "name": "Changer de restaurant après le quartier : le quartier est réinitialisé",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "blocked",
+                "expectedAssertions": [
+                  {
+                    "path": "commande.quartierId",
+                    "operator": "equals",
+                    "value": 0
+                  },
+                  {
+                    "path": "ordre.statut",
+                    "operator": "equals",
+                    "value": "aucune"
+                  }
+                ],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "livraison"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "4dbbdbfe",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "quartier",
+                        "value": "34"
+                      },
+                      {
+                        "parameterName": "frais",
+                        "value": 0
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "ee71af5e",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "8c7c79a3",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "restaurantId",
+                        "value": "2"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  }
+                ]
+              },
+              {
+                "id": "a53747df",
+                "name": "Promo 10 % puis 500 points : 1400 − 140 − 500 = 760 DA",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "success",
+                "expectedAssertions": [
+                  {
+                    "path": "ordre.total",
+                    "operator": "equals",
+                    "value": 760
+                  }
+                ],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 2
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "sur_place"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": false
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "830eaff4",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "pourcentage",
+                        "value": 10
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "8f6599a4",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "points",
+                        "value": 500
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "3bedcd9b",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "utiliser",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  }
+                ]
+              },
+              {
+                "id": "53f0af06",
+                "name": "Livraison avec frais de quartier : 700 + 200 = 900 DA",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "success",
+                "expectedAssertions": [
+                  {
+                    "path": "ordre.total",
+                    "operator": "equals",
+                    "value": 900
+                  },
+                  {
+                    "path": "commande.fraisLivraison",
+                    "operator": "equals",
+                    "value": 200
+                  }
+                ],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "livraison"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "4dbbdbfe",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "quartier",
+                        "value": "1"
+                      },
+                      {
+                        "parameterName": "frais",
+                        "value": 200
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  }
+                ]
+              },
+              {
+                "id": "6b9bd67e",
+                "name": "Frais de quartier annulés si on repasse en emporter",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "success",
+                "expectedAssertions": [
+                  {
+                    "path": "ordre.total",
+                    "operator": "equals",
+                    "value": 700
+                  },
+                  {
+                    "path": "commande.fraisLivraison",
+                    "operator": "equals",
+                    "value": 0
+                  }
+                ],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "livraison"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "4dbbdbfe",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "quartier",
+                        "value": "1"
+                      },
+                      {
+                        "parameterName": "frais",
+                        "value": 200
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "emporter"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": false
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  }
+                ]
+              },
+              {
+                "id": "1bf37669",
+                "name": "Double clic : la seconde confirmation trouve un panier vide et ne renvoie rien",
+                "description": "Le site vide le panier dès que le backend a répondu 201 ; un second envoi de la même tentative n'a plus rien à envoyer. La requête elle-même porte une Idempotency-Key.",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "blocked",
+                "expectedAssertions": [
+                  {
+                    "path": "ordre.statut",
+                    "operator": "equals",
+                    "value": "en_attente_validation_caissier"
+                  },
+                  {
+                    "path": "ordre.articles",
+                    "operator": "equals",
+                    "value": 1
+                  }
+                ],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "emporter"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": false
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "88f0a612",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  }
+                ]
+              },
+              {
+                "id": "60dfeb37",
+                "name": "Une nouvelle commande peut être passée pendant que la première est en attente",
+                "description": "Décision produit : un client peut recommander (nouvelle tentative, nouvelle clé) sans attendre la validation de la première.",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "success",
+                "expectedAssertions": [
+                  {
+                    "path": "ordre.statut",
+                    "operator": "equals",
+                    "value": "en_attente_validation_caissier"
+                  },
+                  {
+                    "path": "ordre.articles",
+                    "operator": "equals",
+                    "value": 2
+                  },
+                  {
+                    "path": "panier.articles",
+                    "operator": "equals",
+                    "value": 0
+                  }
+                ],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "emporter"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": false
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "88f0a612",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "ee71af5e",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 2
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "rules": [],
+        "invariants": [],
+        "transitions": [
+          {
+            "id": "db1b7e06",
+            "target": "ebd89b8b",
+            "label": "→ menu"
+          },
+          {
+            "id": "b13fb8d2",
+            "target": "ec66dc93",
+            "label": "→ suivi"
+          }
+        ]
+      },
+      {
+        "id": "ec66dc93",
+        "name": "Suivi de commande",
+        "type": "screen",
+        "description": "Timeline sur l'enum réel du backend ; actions caissier / cuisine.",
+        "stateDefinitions": [],
+        "actions": [
+          {
+            "id": "ae17e55a",
+            "name": "Le caissier valide",
+            "intent": "POST /api/ventes/{id}/approve : en_attente_validation_caissier → en_cours.",
+            "roles": [
+              "async"
+            ],
+            "parameters": [],
+            "requiredStates": [],
+            "rules": [
+              {
+                "id": "2114fa00",
+                "category": "business",
+                "condition": {
+                  "left": "ordre.statut",
+                  "operator": "not_equals",
+                  "right": "en_attente_validation_caissier"
+                },
+                "effect": {
+                  "id": "e58976ac",
+                  "type": "block_action",
+                  "reason": "Seule une commande en attente peut être validée."
+                },
+                "description": "Seule une commande en attente peut être validée."
+              }
+            ],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "9c33c291",
+                "type": "set_state",
+                "path": "ordre.statut",
+                "value": "en_cours"
+              },
+              {
+                "id": "8c83e239",
+                "type": "emit_event",
+                "event": "order.approved"
+              }
+            ],
+            "emittedEvents": [
+              "order.approved"
+            ],
+            "transitions": [],
+            "scenarios": []
+          },
+          {
+            "id": "343b2e34",
+            "name": "La cuisine termine",
+            "intent": "en_cours → validee (statut terminal).",
+            "roles": [
+              "async"
+            ],
+            "parameters": [],
+            "requiredStates": [],
+            "rules": [
+              {
+                "id": "90a60691",
+                "category": "business",
+                "condition": {
+                  "left": "ordre.statut",
+                  "operator": "not_equals",
+                  "right": "en_cours"
+                },
+                "effect": {
+                  "id": "e4dc6318",
+                  "type": "block_action",
+                  "reason": "Seule une commande en cours peut être terminée."
+                },
+                "description": "Seule une commande en cours peut être terminée."
+              }
+            ],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "c194c313",
+                "type": "set_state",
+                "path": "ordre.statut",
+                "value": "validee"
+              },
+              {
+                "id": "8383a9ea",
+                "type": "emit_event",
+                "event": "order.completed"
+              }
+            ],
+            "emittedEvents": [
+              "order.completed"
+            ],
+            "transitions": [],
+            "scenarios": []
+          },
+          {
+            "id": "eb70ad40",
+            "name": "Annuler la commande",
+            "intent": "Annulation par le restaurant : possible en attente ou en cours, jamais après validee.",
+            "roles": [
+              "destructive"
+            ],
+            "parameters": [],
+            "requiredStates": [],
+            "rules": [
+              {
+                "id": "2722e4d7",
+                "category": "business",
+                "condition": {
+                  "kind": "not",
+                  "condition": {
+                    "kind": "any",
+                    "conditions": [
+                      {
+                        "left": "ordre.statut",
+                        "operator": "equals",
+                        "right": "en_attente_validation_caissier"
+                      },
+                      {
+                        "left": "ordre.statut",
+                        "operator": "equals",
+                        "right": "en_cours"
+                      }
+                    ]
+                  }
+                },
+                "effect": {
+                  "id": "f77f72a3",
+                  "type": "block_action",
+                  "reason": "Une commande terminée ou déjà annulée ne peut pas être annulée."
+                },
+                "description": "Une commande terminée ou déjà annulée ne peut pas être annulée."
+              }
+            ],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "cd05b1dd",
+                "type": "set_state",
+                "path": "ordre.statut",
+                "value": "annulee"
+              },
+              {
+                "id": "489aa639",
+                "type": "emit_event",
+                "event": "order.cancelled"
+              }
+            ],
+            "emittedEvents": [
+              "order.cancelled"
+            ],
+            "transitions": [],
+            "scenarios": [
+              {
+                "id": "310d0803",
+                "name": "Annulation pendant la préparation",
+                "stateOverrides": [
+                  {
+                    "path": "ordre.statut",
+                    "value": "en_cours"
+                  },
+                  {
+                    "path": "ordre.articles",
+                    "value": 1
+                  },
+                  {
+                    "path": "ordre.total",
+                    "value": 700
+                  }
+                ],
+                "parameterOverrides": [],
+                "expectedStatus": "success",
+                "expectedAssertions": [
+                  {
+                    "path": "ordre.statut",
+                    "operator": "equals",
+                    "value": "annulee"
+                  }
+                ],
+                "steps": []
+              },
+              {
+                "id": "3a4dbe7d",
+                "name": "Impossible d'annuler une commande terminée",
+                "stateOverrides": [
+                  {
+                    "path": "ordre.statut",
+                    "value": "validee"
+                  },
+                  {
+                    "path": "ordre.articles",
+                    "value": 1
+                  },
+                  {
+                    "path": "ordre.total",
+                    "value": 700
+                  }
+                ],
+                "parameterOverrides": [],
+                "expectedStatus": "blocked",
+                "expectedAssertions": [
+                  {
+                    "path": "ordre.statut",
+                    "operator": "equals",
+                    "value": "validee"
+                  }
+                ],
+                "steps": []
+              }
+            ]
+          },
+          {
+            "id": "0afe7a93",
+            "name": "Nouvelle commande",
+            "intent": "Une fois la commande terminée ou annulée, le client peut recommander (retour au menu).",
+            "roles": [
+              "entry"
+            ],
+            "parameters": [],
+            "requiredStates": [],
+            "rules": [
+              {
+                "id": "7d5540ac",
+                "category": "business",
+                "condition": {
+                  "kind": "not",
+                  "condition": {
+                    "kind": "any",
+                    "conditions": [
+                      {
+                        "left": "ordre.statut",
+                        "operator": "equals",
+                        "right": "validee"
+                      },
+                      {
+                        "left": "ordre.statut",
+                        "operator": "equals",
+                        "right": "annulee"
+                      }
+                    ]
+                  }
+                },
+                "effect": {
+                  "id": "54f62194",
+                  "type": "block_action",
+                  "reason": "Attendez la fin de la commande en cours."
+                },
+                "description": "Attendez la fin de la commande en cours."
+              }
+            ],
+            "invariants": [],
+            "effects": [
+              {
+                "id": "fd6e7d1e",
+                "type": "set_state",
+                "path": "ordre.statut",
+                "value": "aucune"
+              },
+              {
+                "id": "eeb83b00",
+                "type": "set_state",
+                "path": "ordre.total",
+                "value": 0
+              },
+              {
+                "id": "a435755c",
+                "type": "set_state",
+                "path": "ordre.articles",
+                "value": 0
+              },
+              {
+                "id": "faa034c9",
+                "type": "transition_surface",
+                "target": "ebd89b8b"
+              }
+            ],
+            "emittedEvents": [],
+            "transitions": [
+              {
+                "id": "c4a880dd",
+                "target": "ebd89b8b"
+              }
+            ],
+            "scenarios": [
+              {
+                "id": "adc23317",
+                "name": "Cycle complet : commande → caissier → cuisine → nouvelle commande",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "success",
+                "expectedAssertions": [
+                  {
+                    "path": "ordre.statut",
+                    "operator": "equals",
+                    "value": "aucune"
+                  },
+                  {
+                    "path": "ordre.articles",
+                    "operator": "equals",
+                    "value": 0
+                  },
+                  {
+                    "path": "panier.articles",
+                    "operator": "equals",
+                    "value": 0
+                  }
+                ],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "emporter"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": false
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "88f0a612",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "ae17e55a",
+                    "surfaceId": "ec66dc93",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "343b2e34",
+                    "surfaceId": "ec66dc93",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  }
+                ]
+              },
+              {
+                "id": "a38bf441",
+                "name": "Cycle annulé : commande → annulation → nouvelle commande",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "success",
+                "expectedAssertions": [
+                  {
+                    "path": "ordre.statut",
+                    "operator": "equals",
+                    "value": "aucune"
+                  }
+                ],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "emporter"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": false
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "88f0a612",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "eb70ad40",
+                    "surfaceId": "ec66dc93",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  }
+                ]
+              },
+              {
+                "id": "165930c6",
+                "name": "Chemin signalé par le model checker (livraison + points) : on peut bien recommander ensuite",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "success",
+                "expectedAssertions": [
+                  {
+                    "path": "ordre.statut",
+                    "operator": "equals",
+                    "value": "aucune"
+                  }
+                ],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "livraison"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "4dbbdbfe",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "quartier",
+                        "value": "1"
+                      },
+                      {
+                        "parameterName": "frais",
+                        "value": 200
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "8f6599a4",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "points",
+                        "value": 500
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "3bedcd9b",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "utiliser",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "88f0a612",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "ae17e55a",
+                    "surfaceId": "ec66dc93",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "343b2e34",
+                    "surfaceId": "ec66dc93",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  }
+                ]
+              },
+              {
+                "id": "c39fc905",
+                "name": "Impossible tant que la commande est en attente",
+                "stateOverrides": [],
+                "parameterOverrides": [],
+                "expectedStatus": "blocked",
+                "expectedAssertions": [
+                  {
+                    "path": "ordre.statut",
+                    "operator": "equals",
+                    "value": "en_attente_validation_caissier"
+                  }
+                ],
+                "steps": [
+                  {
+                    "actionId": "d6ddc51d",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "ouvert",
+                        "value": true
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "5a206416",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "disponible",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "quantite",
+                        "value": 1
+                      },
+                      {
+                        "parameterName": "prix",
+                        "value": 700
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "92896f52",
+                    "surfaceId": "ebd89b8b",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "27a5d343",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "mode",
+                        "value": "emporter"
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "54186878",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [
+                      {
+                        "parameterName": "nomRenseigne",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "telephoneValide",
+                        "value": true
+                      },
+                      {
+                        "parameterName": "adresseRenseignee",
+                        "value": false
+                      }
+                    ],
+                    "expectedStatus": "success"
+                  },
+                  {
+                    "actionId": "88f0a612",
+                    "surfaceId": "a6b5dfde",
+                    "parameterOverrides": [],
+                    "expectedStatus": "success"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "rules": [],
+        "invariants": [],
+        "transitions": [
+          {
+            "id": "86ef1995",
+            "target": "ebd89b8b",
+            "label": "→ menu"
+          }
+        ]
+      }
+    ],
+    "personas": [
+      {
+        "id": "b7c2b953",
+        "name": "Client invité",
+        "description": "Commande sans compte : aucun point bonus.",
+        "stateOverrides": [
+          {
+            "path": "points.disponibles",
+            "value": 0
+          }
+        ],
+        "parameterOverrides": []
+      },
+      {
+        "id": "c41b1bfa",
+        "name": "Client fidèle connecté",
+        "description": "Compte avec 500 points bonus.",
+        "stateOverrides": [
+          {
+            "path": "points.disponibles",
+            "value": 500
+          }
+        ],
+        "parameterOverrides": [],
+        "persistAcrossSurfaces": true
+      }
+    ],
+    "resources": [],
+    "entities": [],
+    "dependencies": [
+      {
+        "id": "10aed313",
+        "name": "Backend Laravel Kerux",
+        "kind": "service",
+        "description": "https://www.kerux-foods.com:8000 — catalogue, statut live, création de vente, suivi.",
+        "operations": [
+          {
+            "id": "84aa12d7",
+            "name": "POST /api/ventes/pending",
+            "description": "Crée la vente ; Idempotency-Key obligatoire côté site.",
+            "timeoutMs": 20000,
+            "retries": 0,
+            "idempotent": true,
+            "failureModes": [
+              "timeout",
+              "422 validation",
+              "401 non authentifié",
+              "503 injoignable"
+            ]
+          },
+          {
+            "id": "a0d8429a",
+            "name": "GET /api/restaurants/{id}/service-status",
+            "description": "is_open du restaurant, rafraîchi toutes les 60 s.",
+            "timeoutMs": 6000,
+            "retries": 0,
+            "idempotent": true,
+            "failureModes": [
+              "timeout"
+            ]
+          }
+        ]
+      }
+    ],
+    "events": [
+      {
+        "id": "99a80f45",
+        "name": "restaurant.status.changed",
+        "description": "Le statut live du restaurant a changé."
+      },
+      {
+        "id": "18992461",
+        "name": "restaurant.selected",
+        "description": "Le client a changé de restaurant dans le header."
+      },
+      {
+        "id": "d3a30547",
+        "name": "cart.item.added",
+        "description": "Un produit a été ajouté au panier (stamp sur le bouton panier)."
+      },
+      {
+        "id": "833796a8",
+        "name": "cart.cleared",
+        "description": "Le panier a été vidé."
+      },
+      {
+        "id": "467ace5a",
+        "name": "promo.applied",
+        "description": "Un code promo valide a été appliqué."
+      },
+      {
+        "id": "11bc1a74",
+        "name": "order.submitted",
+        "description": "La commande a été créée côté backend."
+      },
+      {
+        "id": "15c24f26",
+        "name": "order.approved",
+        "description": "Le caissier a validé la commande."
+      },
+      {
+        "id": "f89806b9",
+        "name": "order.completed",
+        "description": "La commande est terminée."
+      },
+      {
+        "id": "f1b9685b",
+        "name": "order.cancelled",
+        "description": "La commande a été annulée."
+      }
+    ],
+    "featureInvariants": [
+      {
+        "id": "cb59916a",
+        "name": "Panier jamais négatif",
+        "condition": {
+          "kind": "all",
+          "conditions": [
+            {
+              "left": "panier.articles",
+              "operator": "greater_or_equal",
+              "right": 0
+            },
+            {
+              "left": "panier.sousTotal",
+              "operator": "greater_or_equal",
+              "right": 0
+            }
+          ]
+        },
+        "message": "Le nombre d'articles et le sous-total ne peuvent pas être négatifs."
+      },
+      {
+        "id": "35b31560",
+        "name": "Panier vide ⇔ sous-total nul",
+        "condition": {
+          "kind": "any",
+          "conditions": [
+            {
+              "kind": "all",
+              "conditions": [
+                {
+                  "left": "panier.articles",
+                  "operator": "equals",
+                  "right": 0
+                },
+                {
+                  "left": "panier.sousTotal",
+                  "operator": "equals",
+                  "right": 0
+                }
+              ]
+            },
+            {
+              "kind": "all",
+              "conditions": [
+                {
+                  "left": "panier.articles",
+                  "operator": "greater_than",
+                  "right": 0
+                },
+                {
+                  "left": "panier.sousTotal",
+                  "operator": "greater_than",
+                  "right": 0
+                }
+              ]
+            }
+          ]
+        },
+        "message": "Un panier sans article n'a pas de montant, et inversement."
+      },
+      {
+        "id": "c93b6315",
+        "name": "Frais de livraison nuls hors livraison",
+        "condition": {
+          "kind": "any",
+          "conditions": [
+            {
+              "left": "commande.mode",
+              "operator": "equals",
+              "right": "livraison"
+            },
+            {
+              "left": "commande.fraisLivraison",
+              "operator": "equals",
+              "right": 0
+            }
+          ]
+        },
+        "message": "delivery_fee doit être 0 pour emporter et sur place."
+      },
+      {
+        "id": "e7f48fab",
+        "name": "Le quartier appartient au restaurant choisi",
+        "condition": {
+          "kind": "any",
+          "conditions": [
+            {
+              "left": "commande.quartierId",
+              "operator": "equals",
+              "right": 0
+            },
+            {
+              "left": "commande.quartierRestaurantId",
+              "operator": "equals",
+              "right": {
+                "kind": "state",
+                "path": "restaurant.id"
+              }
+            }
+          ]
+        },
+        "message": "Un quartier choisi doit être livré par le restaurant sélectionné dans le header."
+      },
+      {
+        "id": "7674d386",
+        "name": "Points utilisés ≤ points disponibles",
+        "condition": {
+          "left": "points.utilises",
+          "operator": "lower_or_equal",
+          "right": {
+            "kind": "state",
+            "path": "points.disponibles"
+          }
+        },
+        "message": "use_score ne peut pas dépasser les points du client."
+      },
+      {
+        "id": "b0461394",
+        "name": "Total de commande jamais négatif",
+        "condition": {
+          "left": "ordre.total",
+          "operator": "greater_or_equal",
+          "right": 0
+        },
+        "message": "Promo + points ne peuvent pas rendre le total négatif."
+      },
+      {
+        "id": "c5e4e2bb",
+        "name": "Pourcentage promo entre 0 et 100",
+        "condition": {
+          "kind": "all",
+          "conditions": [
+            {
+              "left": "promo.pourcentage",
+              "operator": "greater_or_equal",
+              "right": 0
+            },
+            {
+              "left": "promo.pourcentage",
+              "operator": "lower_or_equal",
+              "right": 100
+            }
+          ]
+        },
+        "message": "Un code promo est un pourcentage."
+      },
+      {
+        "id": "fa20853f",
+        "name": "Une commande envoyée contient des articles",
+        "condition": {
+          "kind": "any",
+          "conditions": [
+            {
+              "left": "ordre.statut",
+              "operator": "equals",
+              "right": "aucune"
+            },
+            {
+              "left": "ordre.articles",
+              "operator": "greater_than",
+              "right": 0
+            }
+          ]
+        },
+        "message": "Le backend ne doit jamais recevoir une vente sans details."
+      }
+    ],
+    "reachabilityGoals": [
+      {
+        "id": "6ff0917d",
+        "name": "Une commande peut aboutir",
+        "kind": "reachable",
+        "condition": {
+          "left": "ordre.statut",
+          "operator": "equals",
+          "right": "validee"
+        },
+        "message": "Il existe un chemin menu → checkout → confirmation → validation → terminée."
+      },
+      {
+        "id": "0eefc0c7",
+        "name": "On peut toujours recommander",
+        "kind": "always_reachable",
+        "condition": {
+          "left": "ordre.statut",
+          "operator": "equals",
+          "right": "aucune"
+        },
+        "message": "Depuis n'importe quel état, le client finit par pouvoir repasser une commande (pas de blocage définitif)."
+      }
+    ],
+    "acceptanceCriteria": [
+      {
+        "id": "c80aa428",
+        "title": "Commande invité",
+        "given": "un visiteur sans compte avec un panier non vide et un restaurant ouvert",
+        "when": "il renseigne nom + téléphone valide et confirme",
+        "then": "la commande est envoyée sans connexion (repli sur la connexion uniquement si le backend répond 401)"
+      },
+      {
+        "id": "a4295254",
+        "title": "Restaurant fermé",
+        "given": "le statut live du restaurant est fermé",
+        "when": "le client tente de confirmer",
+        "then": "la confirmation est refusée et le panier conservé"
+      },
+      {
+        "id": "0ebad047",
+        "title": "Livraison cohérente",
+        "given": "le client a choisi un quartier puis change de restaurant",
+        "when": "il revient au checkout",
+        "then": "le quartier est réinitialisé et la livraison bloquée tant qu'un quartier du nouveau restaurant n'est pas choisi"
+      }
+    ],
+    "nonGoals": [
+      "Paiement en ligne (inexistant côté backend)",
+      "Menu QR / commande à table",
+      "Back-office caissier"
+    ],
+    "createdAt": "2026-09-15T08:00:00.000Z",
+    "updatedAt": "2026-09-15T08:00:00.000Z"
+  }
+}

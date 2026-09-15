@@ -1,0 +1,231 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ tokens
+   Kerux storefront system. Colours are the brand's own (from the live code);
+   the display face is condensed sign lettering, the body face a legible sans.
+   ------------------------------------------------------------------------ */
+@theme {
+  --color-cream: #f8f5ef;
+  --color-cream-200: #efe9de;
+  --color-white: #ffffff;
+  --color-ink: #050305;
+  --color-ink-800: #1a1917;
+  --color-ink-600: #5a5651;
+  --color-ink-500: #6b6660;
+  --color-line: #e0ddd8;
+  --color-line-strong: #c9c4bb;
+
+  --color-red: #e43b15;
+  --color-red-600: #c22f0e;
+  --color-red-800: #7b170f;
+  --color-red-100: #fde6df;
+  --color-yellow: #f4c616;
+  --color-yellow-600: #d9ad00;
+  --color-yellow-100: #fff5d0;
+  --color-blue: #1662a8;
+  --color-blue-700: #0f4c85;
+  --color-blue-100: #e1edf8;
+  --color-alert: #e00b19;
+  --color-green: #1a8a48;
+  --color-green-100: #dcf3e4;
+
+  --font-display: var(--font-anton), "Anton", "Arial Narrow", Impact, sans-serif;
+  --font-body: var(--font-manrope), "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --radius-card: 14px;
+  --radius-pill: 999px;
+
+  --shadow-board: 0 10px 24px -14px rgb(5 3 5 / 0.35), 0 2px 6px -2px rgb(5 3 5 / 0.08);
+  --shadow-board-lg: 0 24px 48px -24px rgb(5 3 5 / 0.45), 0 4px 12px -6px rgb(5 3 5 / 0.12);
+  --shadow-neon-green: 0 0 0 3px rgb(26 138 72 / 0.18), 0 0 14px rgb(26 138 72 / 0.55);
+  --shadow-neon-red: 0 0 0 3px rgb(228 59 21 / 0.18), 0 0 14px rgb(228 59 21 / 0.55);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-stamp: stamp 220ms var(--ease-out-expo);
+  --animate-tick: tick 260ms var(--ease-out-expo);
+  --animate-rise: rise 320ms var(--ease-out-expo) both;
+
+  @keyframes stamp {
+    0% { transform: scale(1.18) rotate(-3deg); }
+    100% { transform: scale(1) rotate(0deg); }
+  }
+  @keyframes tick {
+    0% { transform: translateY(6px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes rise {
+    0% { transform: translateY(12px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+}
+
+/* ------------------------------------------------------------------- base */
+@layer base {
+  html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    caret-color: var(--color-red);
+  }
+  ::selection {
+    background: var(--color-yellow);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-blue);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  button, [role="button"] {
+    cursor: pointer;
+  }
+  button:disabled, [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  input, textarea, select {
+    font: inherit;
+  }
+  /* Thin themed scrollbars (horizontal category rails, drawers). */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line-strong) transparent;
+  }
+  *::-webkit-scrollbar { height: 6px; width: 6px; }
+  *::-webkit-scrollbar-thumb { background: var(--color-line-strong); border-radius: 999px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------- components */
+@layer components {
+  /* Sign lettering: condensed uppercase display type. */
+  .display {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.95;
+    font-weight: 400;
+  }
+  .display-tight {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    font-weight: 400;
+  }
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+  /* Awning stripe: the red/cream course divider between page bands. */
+  .awning {
+    height: 10px;
+    background: repeating-linear-gradient(90deg, var(--color-red) 0 28px, var(--color-cream) 28px 56px);
+  }
+  /* Sign board: a white panel with an ink rule and a real drop shadow. */
+  .board {
+    background: var(--color-white);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-board);
+  }
+  /* Rotated yellow price stamp. */
+  .price-tag {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.15em;
+    background: var(--color-yellow);
+    color: var(--color-ink);
+    border: 2px solid var(--color-ink);
+    border-radius: 10px;
+    padding: 0.2em 0.6em 0.15em;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    transform: rotate(-2deg);
+    box-shadow: 2px 3px 0 var(--color-ink);
+  }
+  .price-tag small {
+    font-size: 0.62em;
+    letter-spacing: 0.06em;
+  }
+  /* Neon status pill. */
+  .neon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem 0.3rem 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid currentColor;
+  }
+  .neon-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: currentColor;
+    box-shadow: 0 0 8px currentColor;
+  }
+  .neon-open { color: var(--color-green); background: var(--color-green-100); box-shadow: var(--shadow-neon-green); }
+  .neon-closed { color: var(--color-red-600); background: var(--color-red-100); box-shadow: var(--shadow-neon-red); }
+  .neon-unknown { color: var(--color-ink-500); background: var(--color-cream-200); box-shadow: none; }
+  /* Sticker badge (shelf tag). */
+  .sticker {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 8px;
+    padding: 0.22rem 0.55rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 0 0 0 2px var(--color-white);
+  }
+  .sticker-yellow { background: var(--color-yellow); color: var(--color-ink); }
+  .sticker-ink { background: var(--color-ink); color: var(--color-white); }
+  .sticker-red { background: var(--color-red); color: var(--color-white); }
+  /* Hide scrollbar on horizontal rails but keep scrolling. */
+  .rail {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .rail::-webkit-scrollbar { display: none; }
+  /* Photo ground: a soft radial so cut-out product PNGs never sit on flat white. */
+  .photo-ground {
+    background:
+      radial-gradient(120% 90% at 50% 100%, var(--color-cream-200) 0%, var(--color-white) 70%);
+  }
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+@utility text-pretty {
+  text-wrap: pretty;
+}
+@utility pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}

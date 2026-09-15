@@ -1,0 +1,169 @@
+[
+  {
+    "id": 58,
+    "restaurant_id": 1,
+    "nom": "Suplément Amandes Effilées",
+    "prix_vente": "150.00",
+    "actif": true,
+    "created_at": "2026-05-07T09:48:35.000000Z",
+    "updated_at": "2026-05-31T15:31:03.000000Z",
+    "public_id": "97882be5799e4e47b60ccbb317",
+    "categorie_ids": [
+      136,
+      138,
+      139,
+      140,
+      141,
+      143
+    ]
+  },
+  {
+    "id": 59,
+    "restaurant_id": 1,
+    "nom": "Suplément Cammemberrt",
+    "prix_vente": "150.00",
+    "actif": true,
+    "created_at": "2026-05-07T09:48:35.000000Z",
+    "updated_at": "2026-05-18T09:14:50.000000Z",
+    "public_id": "01KRGFF27GCATRC5SAPCB9P49K",
+    "categorie_ids": [
+      130,
+      136,
+      138,
+      139,
+      140,
+      141,
+      143
+    ]
+  },
+  {
+    "id": 60,
+    "restaurant_id": 2,
+    "nom": "Suplément Cheddar",
+    "prix_vente": "250.00",
+    "actif": true,
+    "created_at": "2026-05-07T09:48:35.000000Z",
+    "updated_at": "2026-05-18T09:14:50.000000Z",
+    "public_id": "6720328c57934ebab23ed9e2d0",
+    "categorie_ids": [
+      130,
+      136,
+      138,
+      139,
+      140,
+      141,
+      143
+    ]
+  },
+  {
+    "id": 61,
+    "restaurant_id": 1,
+    "nom": "Suplément Crevettes",
+    "prix_vente": "500.00",
+    "actif": true,
+    "created_at": "2026-05-07T09:48:35.000000Z",
+    "updated_at": "2026-05-18T09:14:50.000000Z",
+    "public_id": "01KRGFFJRV0THFVDWNPHHVQ5BS",
+    "categorie_ids": [
+      136,
+      138,
+      139,
+      140,
+      141,
+      143
+    ]
+  },
+  {
+    "id": 62,
+    "restaurant_id": 1,
+    "nom": "Suplément Gruyère",
+    "prix_vente": "300.00",
+    "actif": true,
+    "created_at": "2026-05-07T09:48:35.000000Z",
+    "updated_at": "2026-05-18T09:14:50.000000Z",
+    "public_id": "ea54f6c199e9483caadbd99c2b",
+    "categorie_ids": [
+      130,
+      136,
+      138,
+      139,
+      140,
+      141,
+      143
+    ]
+  },
+  {
+    "id": 63,
+    "restaurant_id": 1,
+    "nom": "Suplément Mozzarella",
+    "prix_vente": "250.00",
+    "actif": true,
+    "created_at": "2026-05-07T09:48:35.000000Z",
+    "updated_at": "2026-05-18T09:14:50.000000Z",
+    "public_id": "875258bab3174355aeae5666b6",
+    "categorie_ids": [
+      130,
+      136,
+      138,
+      139,
+      140,
+      141,
+      143
+    ]
+  },
+  {
+    "id": 64,
+    "restaurant_id": 1,
+    "nom": "Suplément Pistaches Effilées",
+    "prix_vente": "300.00",
+    "actif": true,
+    "created_at": "2026-05-07T09:48:35.000000Z",
+    "updated_at": "2026-05-18T09:14:50.000000Z",
+    "public_id": "e8b9fe35a5ec47789d5e524e55",
+    "categorie_ids": [
+      136,
+      138,
+      139,
+      140,
+      141,
+      143
+    ]
+  },
+  {
+    "id": 65,
+    "restaurant_id": 1,
+    "nom": "Suplément Roquefort",
+    "prix_vente": "300.00",
+    "actif": true,
+    "created_at": "2026-05-07T09:48:35.000000Z",
+    "updated_at": "2026-05-18T09:14:50.000000Z",
+    "public_id": "b8d9fd8af2b947dcac777318a3",
+    "categorie_ids": [
+      130,
+      136,
+      138,
+      139,
+      140,
+      141,
+      143
+    ]
+  },
+  {
+    "id": 66,
+    "restaurant_id": 1,
+    "nom": "Suplément Saumon Fumé",
+    "prix_vente": "500.00",
+    "actif": true,
+    "created_at": "2026-05-07T09:48:35.000000Z",
+    "updated_at": "2026-05-18T09:14:50.000000Z",
+    "public_id": "4ac217806d904081a5b0307671",
+    "categorie_ids": [
+      136,
+      138,
+      139,
+      140,
+      141,
+      143
+    ]
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "format": "unspaghettit-project",
+  "version": 1,
+  "project": {
+    "id": "8afdc80a",
+    "name": "Kerux Foods",
+    "description": "Site public de commande de Kerux Foods (Oran) — spécification exécutable du parcours de commande, alignée sur le backend Laravel existant.",
+    "featureIds": [
+      "40e71ffe"
+    ],
+    "tags": [
+      {
+        "type": "domain",
+        "value": "restaurant"
+      }
+    ],
+    "createdAt": "2026-09-15T08:00:00.000Z",
+    "updatedAt": "2026-09-15T08:00:00.000Z"
+  }
+}

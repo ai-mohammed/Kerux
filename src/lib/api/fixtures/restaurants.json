@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "nom": "AKID",
+      "adresse": "Akid Lotfi, Oran",
+      "telephone": "0550 31 93 12",
+      "horaires": null
+    },
+    {
+      "id": 2,
+      "nom": "BDL",
+      "adresse": "Boulevard des Lions, Oran",
+      "telephone": "0670 27 76 80",
+      "horaires": null
+    }
+  ]
+}

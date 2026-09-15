@@ -1,0 +1,132 @@
+[
+  {
+    "id": 1,
+    "_id": "1",
+    "public_id": "01KVWXTE64YM1C77NHXSHSECXC",
+    "restaurant_id": 1,
+    "district_name": "Akid Lotfi",
+    "delivery_price": 0,
+    "created_at": "2026-06-24T14:41:25.000000Z",
+    "updated_at": "2026-06-24T14:41:25.000000Z"
+  },
+  {
+    "id": 36,
+    "_id": "36",
+    "public_id": "3378273c51e04c9695685bfbe9",
+    "restaurant_id": 1,
+    "district_name": "Belgaïd",
+    "delivery_price": 0,
+    "created_at": "2026-07-14T15:24:21.000000Z",
+    "updated_at": "2026-07-14T15:24:21.000000Z"
+  },
+  {
+    "id": 35,
+    "_id": "35",
+    "public_id": "d567ef4ffea045fdbf3d14032b",
+    "restaurant_id": 1,
+    "district_name": "Bir El Djir",
+    "delivery_price": 0,
+    "created_at": "2026-07-14T15:24:21.000000Z",
+    "updated_at": "2026-07-14T15:24:21.000000Z"
+  },
+  {
+    "id": 34,
+    "_id": "34",
+    "public_id": "a67b696852aa4ed284bc4e9718",
+    "restaurant_id": 1,
+    "district_name": "Boulevard des Lions",
+    "delivery_price": 0,
+    "created_at": "2026-07-14T15:24:20.000000Z",
+    "updated_at": "2026-07-14T15:24:20.000000Z"
+  },
+  {
+    "id": 32,
+    "_id": "32",
+    "public_id": "34133b43695c4818bdeb48c5b9",
+    "restaurant_id": 1,
+    "district_name": "Canastel",
+    "delivery_price": 0,
+    "created_at": "2026-07-14T15:24:19.000000Z",
+    "updated_at": "2026-07-14T15:24:19.000000Z"
+  },
+  {
+    "id": 27,
+    "_id": "27",
+    "public_id": "fb2eab2a31a44f908a0bea308a",
+    "restaurant_id": 1,
+    "district_name": "Centre-Ville",
+    "delivery_price": 0,
+    "created_at": "2026-07-14T15:24:16.000000Z",
+    "updated_at": "2026-07-14T15:24:16.000000Z"
+  },
+  {
+    "id": 29,
+    "_id": "29",
+    "public_id": "b266a97a31674b4bb891aed80e",
+    "restaurant_id": 1,
+    "district_name": "El Hamri",
+    "delivery_price": 0,
+    "created_at": "2026-07-14T15:24:17.000000Z",
+    "updated_at": "2026-07-14T15:24:17.000000Z"
+  },
+  {
+    "id": 38,
+    "_id": "38",
+    "public_id": "cb84e8e8c5c84a8284a948bf3d",
+    "restaurant_id": 1,
+    "district_name": "Es Sénia",
+    "delivery_price": 0,
+    "created_at": "2026-07-14T15:24:22.000000Z",
+    "updated_at": "2026-07-14T15:24:22.000000Z"
+  },
+  {
+    "id": 31,
+    "_id": "31",
+    "public_id": "edbf7887aba848adbe278eafc7",
+    "restaurant_id": 1,
+    "district_name": "Gambetta",
+    "delivery_price": 0,
+    "created_at": "2026-07-14T15:24:18.000000Z",
+    "updated_at": "2026-07-14T15:24:18.000000Z"
+  },
+  {
+    "id": 37,
+    "_id": "37",
+    "public_id": "62686d8d07c44aa29b5cb7612f",
+    "restaurant_id": 1,
+    "district_name": "Hai Sabah",
+    "delivery_price": 0,
+    "created_at": "2026-07-14T15:24:22.000000Z",
+    "updated_at": "2026-07-14T15:24:22.000000Z"
+  },
+  {
+    "id": 33,
+    "_id": "33",
+    "public_id": "e9951819e386446ea2481a343e",
+    "restaurant_id": 1,
+    "district_name": "Maraval",
+    "delivery_price": 0,
+    "created_at": "2026-07-14T15:24:20.000000Z",
+    "updated_at": "2026-07-14T15:24:20.000000Z"
+  },
+  {
+    "id": 30,
+    "_id": "30",
+    "public_id": "a5f0d70aed8a437e89e3074ab1",
+    "restaurant_id": 1,
+    "district_name": "Médina Jdida",
+    "delivery_price": 0,
+    "created_at": "2026-07-14T15:24:18.000000Z",
+    "updated_at": "2026-07-14T15:24:18.000000Z"
+  },
+  {
+    "id": 28,
+    "_id": "28",
+    "public_id": "29cfd1b0ea7f40fbb6a234fe36",
+    "restaurant_id": 1,
+    "district_name": "Sidi El Houari",
+    "delivery_price": 0,
+    "created_at": "2026-07-14T15:24:17.000000Z",
+    "updated_at": "2026-07-14T15:24:17.000000Z"
+  }
+]
