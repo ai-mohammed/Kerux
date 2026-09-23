@@ -240,7 +240,7 @@ The palette is the brand's own six colours plus a warm neutral ramp; nothing is 
 **Character:** Condensed uppercase sign lettering against a round, legible sans. Anton is set tight (line-height 0.92–1, tracking 0.01–0.02 em) and always uppercase, so it reads as painted signage rather than a headline face; Manrope carries every sentence and label at 15–18 px with generous line-height. Prices are always display type with tabular numerals and a small "DA".
 
 ### Hierarchy
-- **Display** (Anton 400, 56 px mobile / 72 px ≥ 640 / 88 px ≥ 1024, line-height 0.92, uppercase): the hero H1 only ("Le poulet comme vous l'aimez."), with the second clause in red.
+- **Display** (Anton 400, 56 px mobile / 72 px ≥ 640 / 88 px ≥ 1024, line-height 0.92, uppercase): the hero H1 only ("Le goût comme vous l'aimez."), with the second clause in red.
 - **Headline** (Anton 400, 36 px / 48 px, line-height 0.95, uppercase): section titles ("Nos incontournables", "Le menu", "Nos restaurants") and page H1s; the red band and product-page H1 step up to 48 / 60 px; the checkout step title sits at 30 / 36 px; the end-cap card name at 48 px ≥ 768.
 - **Title** (Anton 400, 24 px, line-height 1, tracking 0.02 em, uppercase; `display-tight`): product-card names, sheet titles, the featured product name on the hero, social-link names, rights-page H2s, the cart "Total" figure at 30 px; 20 px for fieldset legends, order-timeline steps, footer column titles and the sticky-bar total.
 - **Price** (Anton 400, 21.6 px default / 16 px small / 30–36 px large, tabular): the stamp only; "DA" at 0.62 em with 0.06 em tracking.
@@ -350,7 +350,7 @@ Bottom sheet on phones (24 px top radius, 92 dvh max) and a 440 / 520 px right d
 One authored moment: adding to cart replays `stamp` on the header basket (scale 1.18 → 1, rotate −3° → 0, 220 ms, ease-out-expo) while the count badge plays `tick` (6 px rise + fade, 260 ms). Sheets, the sticky order bar and toasts `rise` in (12 px + fade, 320 ms). Everything else is a 150–200 ms colour or transform transition; product photos zoom 4 % over 300 ms on card hover. Only transform and opacity animate. `prefers-reduced-motion: reduce` collapses every animation and transition to 0.01 ms and disables smooth scroll.
 
 ### Voice and accessibility (durable constraints)
-French UI with `lang="fr"`; headings and CTAs reuse the approved brand lines ("Une envie de Kerux ?", "À vous de choisir.", "Nos incontournables", "Commandez. Savourez.", "Votre Kerux, où vous voulez.", "Le poulet comme vous l'aimez."); "Paiement à la réception" is stated plainly. Skip link to `#contenu`; global 3 px Cap Blue focus outline; icon-only buttons carry `aria-label`; product photos carry the product name as alt; the mascot fallback is decorative (`alt=""`, 30 % grey). Quantity output and status pills are live regions; tap targets are 44 px (36 px minimum for compact controls).
+French UI with `lang="fr"`; headings and CTAs reuse the approved brand lines ("Une envie de Kerux ?", "À vous de choisir.", "Nos incontournables", "Commandez. Savourez.", "Votre Kerux, où vous voulez.", "Le goût comme vous l'aimez."); "Paiement à la réception" is stated plainly. Skip link to `#contenu`; global 3 px Cap Blue focus outline; icon-only buttons carry `aria-label`; product photos carry the product name as alt; the mascot fallback is decorative (`alt=""`, 30 % grey). Quantity output and status pills are live regions; tap targets are 44 px (36 px minimum for compact controls).
 
 ## Do's and Don'ts
 

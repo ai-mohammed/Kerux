@@ -62,6 +62,16 @@
 
 /* ------------------------------------------------------------------- base */
 @layer base {
+  :root {
+    /* Sticky header height. Phones add a second row (restaurant + live status),
+       so anything that sticks under the header reads this instead of hard-coding it. */
+    --header-h: 118px;
+  }
+  @media (min-width: 1024px) {
+    :root {
+      --header-h: 76px;
+    }
+  }
   html {
     color-scheme: light;
     scroll-behavior: smooth;

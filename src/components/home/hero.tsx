@@ -3,6 +3,7 @@ import type { Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Container, PriceTag } from "@/components/ui/bits";
 import { ProductImage } from "@/components/ui/product-image";
+import { SITE_HEADLINE_HIGHLIGHT, SITE_HEADLINE_LEAD, SITE_SUBLINE } from "@/lib/seo/site";
 
 /**
  * First viewport: sign-lettering headline, two actions, and the food on a
@@ -16,11 +17,9 @@ export function Hero({ featured }: { featured: Product | null }) {
       <Container className="grid items-center gap-10 py-10 sm:py-14 lg:grid-cols-[1.05fr_1fr] lg:gap-8 lg:py-20">
         <div className="flex flex-col items-start gap-6">
           <h1 className="display text-balance text-[56px] leading-[0.92] sm:text-7xl lg:text-[88px]">
-            Le poulet <span className="text-red">comme vous l’aimez.</span>
+            {SITE_HEADLINE_LEAD} <span className="text-red">{SITE_HEADLINE_HIGHLIGHT}.</span>
           </h1>
-          <p className="max-w-lg text-pretty text-lg text-ink-600 sm:text-xl">
-            Burgers, tenders, wings, wraps et Pizza K — préparés à la commande, à Oran. Livraison, à emporter ou sur place.
-          </p>
+          <p className="max-w-lg text-pretty text-lg text-ink-600 sm:text-xl">{SITE_SUBLINE}</p>
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
             <Button href="/menu" size="lg" className="w-full sm:w-auto">
               Commander

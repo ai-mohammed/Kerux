@@ -61,7 +61,7 @@ export function MenuExplorer({ categories, products, supplements, observations, 
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="sticky top-[68px] z-30 -mx-4 bg-cream px-4 pb-3 pt-3 sm:mx-0 sm:px-0 lg:top-[76px]">
+      <div className="sticky top-[var(--header-h)] z-30 -mx-4 bg-cream px-4 pb-3 pt-3 sm:mx-0 sm:px-0">
         <div className="flex flex-col gap-3 md:flex-row md:items-center">
           <label className="relative block md:w-80">
             <span className="sr-only">Rechercher un produit</span>

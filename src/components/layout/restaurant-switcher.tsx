@@ -13,31 +13,29 @@ const CHEVRON =
 type Props = {
   restaurants: Restaurant[];
   className?: string;
-  /** `stacked` = drawer layout; `compact` = phone header (short names, small chip). */
+  /** Drawer layout: selector and status stacked. */
   stacked?: boolean;
-  compact?: boolean;
+  /** Phone strip: the selector takes the free width so long names are never cut. */
+  grow?: boolean;
 };
 
-/** Header control: which Kerux you order from, with its live OUVERT / FERMÉ neon. */
-export function RestaurantSwitcher({ restaurants, className, stacked, compact }: Props) {
+/** Which Kerux you order from, with its live OUVERT / FERMÉ neon. */
+export function RestaurantSwitcher({ restaurants, className, stacked, grow }: Props) {
   const { selectedId, select, hydrated } = useRestaurantStore();
   const current = restaurants.find((r) => r.id === selectedId) ?? restaurants[0];
   const { isOpen } = useServiceStatus(hydrated ? current?.id ?? null : null);
   if (!current) return null;
 
   return (
-    <div className={cn("flex items-center gap-2", stacked && "flex-col items-stretch gap-3", compact && "gap-1.5", className)}>
-      <label className="relative flex min-w-0 items-center">
+    <div className={cn("flex items-center gap-2", stacked && "flex-col items-stretch gap-3", className)}>
+      <label className={cn("relative flex min-w-0 items-center", grow && "max-w-sm flex-1")}>
         <span className="sr-only">Restaurant</span>
-        <MapPin className={cn("pointer-events-none absolute text-red", compact ? "left-2 size-3.5" : "left-3 size-4")} aria-hidden />
+        <MapPin className="pointer-events-none absolute left-3 size-4 text-red" aria-hidden />
         <select
           value={current.id}
           onChange={(e) => select(Number(e.target.value))}
-          className={cn(
-            "w-full appearance-none rounded-full border border-line-strong bg-white font-bold text-ink hover:bg-cream focus:border-blue focus:outline-none focus:ring-3 focus:ring-blue/25",
-            compact ? "h-9 max-w-[7.5rem] pl-7 pr-6 text-xs" : "h-10 pl-9 pr-8 text-sm",
-          )}
-          style={{ backgroundImage: CHEVRON, backgroundRepeat: "no-repeat", backgroundPosition: compact ? "right 8px center" : "right 12px center", backgroundSize: compact ? "12px" : "14px" }}
+          className="h-10 w-full appearance-none truncate rounded-full border border-line-strong bg-white pl-9 pr-8 text-sm font-bold text-ink hover:bg-cream focus:border-blue focus:outline-none focus:ring-3 focus:ring-blue/25"
+          style={{ backgroundImage: CHEVRON, backgroundRepeat: "no-repeat", backgroundPosition: "right 12px center", backgroundSize: "14px" }}
         >
           {restaurants.map((r) => (
             <option key={r.id} value={r.id}>
@@ -46,7 +44,7 @@ export function RestaurantSwitcher({ restaurants, className, stacked, compact }:
           ))}
         </select>
       </label>
-      <NeonStatus isOpen={hydrated ? isOpen : null} compact={!stacked} className={stacked ? "self-start" : undefined} />
+      <NeonStatus isOpen={hydrated ? isOpen : null} compact={!stacked} className={cn("shrink-0", stacked && "self-start")} />
     </div>
   );
 }

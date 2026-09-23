@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getCategories, getObservations, getProducts, getSupplements } from "@/lib/api/catalog";
 import { getRestaurants } from "@/lib/api/restaurants";
 import { restaurantsJsonLd } from "@/lib/seo/jsonld";
-import { DEFAULT_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "@/lib/seo/site";
+import { DEFAULT_DESCRIPTION, SITE_HEADLINE, SITE_NAME, SITE_TAGLINE } from "@/lib/seo/site";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Button } from "@/components/ui/button";
 import { Awning, Container, SectionTitle } from "@/components/ui/bits";
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: { absolute: `${SITE_NAME} — ${SITE_TAGLINE} · Commander à Oran` },
   description: DEFAULT_DESCRIPTION,
   alternates: { canonical: "/" },
-  openGraph: { title: `${SITE_NAME} — Le poulet comme vous l’aimez`, description: DEFAULT_DESCRIPTION, url: "/", images: ["/opengraph-image"] },
+  openGraph: { title: `${SITE_NAME} — ${SITE_HEADLINE}`, description: DEFAULT_DESCRIPTION, url: "/", images: ["/opengraph-image"] },
 };
 
 export const revalidate = 60;

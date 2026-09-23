@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
+import { SITE_HEADLINE } from "@/lib/seo/site";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Kerux Foods",
     short_name: "Kerux",
-    description: "Le poulet comme vous l’aimez, à Oran. Commandez en livraison, à emporter ou sur place.",
+    description: `${SITE_HEADLINE}, à Oran. Commandez en livraison, à emporter ou sur place.`,
     start_url: "/",
     display: "standalone",
     lang: "fr",
