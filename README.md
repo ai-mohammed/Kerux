@@ -68,11 +68,22 @@ Règles : le navigateur ne parle **jamais** au backend directement (tout passe p
 
 Menus affichés sur les TV en salle, style « Studio noir » : `/ecrans/burgers` (produit à la une + liste), `/ecrans/tortillas` (grandes colonnes), `/ecrans/tenders` (grille de photos), `/ecrans/plats` (grand plat + deux empilés), `/ecrans/pain-maison` (colonne titre + rangées photo). `/ecrans` liste les adresses à ouvrir en plein écran sur chaque TV (navigateur d'un boîtier Android TV, d'une clé ou d'un mini-PC).
 
-- **Prix et disponibilité** : uniquement dans le back-office existant. Chaque écran interroge `GET /api/screens/:board` toutes les 20 s ; avec le cache catalogue de 60 s, un changement apparaît en moins de deux minutes, sans toucher aux TV. Un produit inactif s'affiche « Épuisé » à sa place ; la formule Frites + Canette disparaît si elle est inactive.
+- **Prix et disponibilité** : uniquement dans le back-office existant. Chaque écran interroge `GET /api/screens/:board` toutes les 10 s (et dès qu'il redevient visible) ; avec le cache catalogue de 60 s, un changement apparaît en un peu plus d'une minute, sans toucher aux TV. Un produit inactif s'affiche « Épuisé » à sa place ; la formule Frites + Canette disparaît si elle est inactive.
 - **Nouveaux produits** : un produit ajouté dans une catégorie d'un écran (burgers, tortillas, formules / menu enfant / boissons, plats / salade, pain maison) y apparaît automatiquement.
 - **Ce qui est dans le code** (`src/lib/screens/boards.ts`) : catégories par écran, ordre, textes courts (« Sauce Kerux, tenders… ») et photos studio (`public/ecrans/photos`, extraites des anciennes vidéos). Sans réglage, un produit garde son nom et sa photo du back-office.
-- **Cadre commun** : bandeau Kerux en haut (filet rouge), barre jaune « Faites-en un menu » en bas sur tous les écrans ; prix menu (produit + formule) affiché sous chaque burger, tortilla et pain maison ; photos en `cover` dans des cadres au ratio des photos sources (pas de flou ni de zoom au-delà de la résolution native).
+- **Cadre commun** : bandeau Kerux en haut (filet orange), barre jaune « Faites-en un menu » en bas sur tous les écrans ; prix menu (produit + formule) affiché sous chaque burger, tortilla et pain maison ; photos en `cover` dans des cadres au ratio des photos sources (pas de flou ni de zoom au-delà de la résolution native).
 - **Coupure internet** : l'écran garde le dernier menu affiché et reprend seul. Les pages écrans n'ont ni en-tête ni pied de page (le site vit dans le groupe de routes `src/app/(site)`).
+
+### Tester en local avec un faux back-office
+
+`npm run demo:backoffice` lance sur http://localhost:4000 une copie du catalogue (`src/lib/api/fixtures`) qui répond comme l'API Laravel, avec une page pour changer un prix ou décocher « disponible ». Les modifications restent en mémoire (perdues à l'arrêt) et ne touchent jamais le vrai back-office. Dans un second terminal (PowerShell) :
+
+```powershell
+$env:KERUX_DATA_SOURCE="api"; $env:KERUX_API_ORIGIN="http://127.0.0.1:4000"; $env:KERUX_CATALOG_REVALIDATE="5"
+npm run build; npm start
+```
+
+Puis ouvrir http://localhost:4000 (modifier), http://localhost:3000/ecrans (les écrans) et http://localhost:3000/menu : le changement apparaît seul en 10 à 20 secondes (`KERUX_CATALOG_REVALIDATE=5` raccourcit le cache catalogue, 60 s par défaut en production).
 
 ## Spécification exécutable (Unspaghettit)
 

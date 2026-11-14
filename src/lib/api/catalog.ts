@@ -6,7 +6,9 @@ import { apiGet } from "./client";
 import { toCategory, toObservation, toProduct, toSupplement } from "./adapters";
 import { publicIdPrefixFromSlug } from "@/lib/utils/slug";
 
-const CATALOG = { revalidate: 60, tags: ["catalog"] };
+/** Catalogue cache in seconds. 60 by default; `KERUX_CATALOG_REVALIDATE=5` makes back-office edits show within seconds (local demo). */
+const CATALOG_SECONDS = Number(process.env.KERUX_CATALOG_REVALIDATE) > 0 ? Number(process.env.KERUX_CATALOG_REVALIDATE) : 60;
+const CATALOG = { revalidate: CATALOG_SECONDS, tags: ["catalog"] };
 
 /** Display order of categories on the menu: food first, sides and drinks last. */
 const CATEGORY_ORDER = ["burgers", "formules", "plats", "tortillas", "pizza", "salade", "menu enfant", "pain maison", "frite", "dessert", "boissons"];

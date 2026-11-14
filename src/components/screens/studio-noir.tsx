@@ -6,13 +6,13 @@ import type { ScreenBoard, ScreenItem } from "@/lib/screens/boards";
 import { cn } from "@/lib/utils/cn";
 import s from "./studio-noir.module.css";
 
-const REFRESH_MS = 20_000;
+const REFRESH_MS = 10_000;
 const HERO_MS = 7_000;
 const dinars = new Intl.NumberFormat("fr-DZ", { maximumFractionDigits: 0 });
 
 /* ------------------------------------------------------------------ hooks */
 
-/** Latest menu from the back-office, refreshed every 20 s; on a network error the last menu stays on screen. */
+/** Latest menu from the back-office, refreshed every 10 s and when the screen becomes visible; on a network error the last menu stays on screen. */
 function useLiveBoard(initial: ScreenBoard) {
   const [board, setBoard] = useState(initial);
   useEffect(() => {
@@ -25,10 +25,16 @@ function useLiveBoard(initial: ScreenBoard) {
         /* offline: keep showing the last menu */
       }
     };
+    // Poll, and also refresh as soon as the screen becomes visible again (a hidden tab polls slowly or not at all).
+    const onVisible = () => document.visibilityState === "visible" && refresh();
     const id = setInterval(refresh, REFRESH_MS);
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", onVisible);
     return () => {
       alive = false;
       clearInterval(id);
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", onVisible);
     };
   }, [initial.slug]);
   return board;
