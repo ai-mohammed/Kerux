@@ -323,6 +323,27 @@
 .heroCap .price {
   font-size: 4.6cqw;
 }
+.heroCap .menuPill {
+  font-size: 1.35cqw;
+}
+.heroPrice {
+  justify-items: end;
+}
+/* Piece count on the box photos (Tenders & Box). */
+.badge {
+  position: absolute;
+  top: 0.8cqw;
+  left: 0.8cqw;
+  padding: 0.35cqw 0.8cqw 0.3cqw;
+  border-radius: 0.6cqw;
+  background: var(--yellow);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.9cqw;
+  line-height: 1;
+  text-transform: uppercase;
+  box-shadow: 0 0.3cqw 1cqw rgba(0, 0, 0, 0.45);
+}
 @keyframes capIn {
   from {
     opacity: 0;
