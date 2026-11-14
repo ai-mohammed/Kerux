@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/bits";
+import { SiteChrome } from "@/components/layout/site-chrome";
 
 export default function NotFound() {
   return (
+    <SiteChrome>
     <Container className="flex flex-col items-center gap-6 py-16 text-center sm:py-24">
       <Image src="/brand/mascotte.png" alt="" width={120} height={120} className="rounded-full" />
       <h1 className="display text-5xl sm:text-7xl">Page introuvable</h1>
@@ -17,5 +19,6 @@ export default function NotFound() {
         </Button>
       </div>
     </Container>
+    </SiteChrome>
   );
 }

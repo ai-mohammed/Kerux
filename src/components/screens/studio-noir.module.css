@@ -1,0 +1,591 @@
+/*
+ * Studio noir screens. All sizes are in cqw of a 16:9 frame fitted to the TV
+ * (1cqw = 19.2px on a 1920×1080 screen), so every TV renders the same layout.
+ * Shared frame: header 8.4cqw (red rule) · centre · yellow menu bar 5.6cqw.
+ */
+.stage {
+  --ink: #070606;
+  --card: #141212;
+  --band: #111010;
+  --muted: #e6e6e6;
+  --yellow: #f4c616;
+  --red: #e43b15;
+  --orange: #e8740c;
+  --red-dark: #7b170f;
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  cursor: none;
+  overflow: hidden;
+}
+
+.tv {
+  container-type: inline-size;
+  position: relative;
+  width: min(100vw, calc(100vh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  display: grid;
+  grid-template-rows: 8.4cqw minmax(0, 1fr) 5.6cqw;
+  background: var(--ink);
+  color: #fff;
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------- header */
+.head {
+  display: flex;
+  align-items: center;
+  gap: 1.4cqw;
+  padding: 0 2.4cqw;
+  border-bottom: 0.4cqw solid var(--orange);
+  background: linear-gradient(180deg, #161313, var(--ink));
+}
+.coq {
+  width: 6.6cqw;
+  height: auto;
+  filter: drop-shadow(0 0.3cqw 0.6cqw rgba(0, 0, 0, 0.6));
+}
+.headTitle h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 5.2cqw;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+.headTitle p {
+  margin: 0.35cqw 0 0;
+  font-weight: 800;
+  font-size: 1.2cqw;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--yellow);
+}
+.brand {
+  margin-left: auto;
+  display: grid;
+  justify-items: end;
+}
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 3.6cqw;
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  -webkit-text-stroke: 0.14cqw var(--red-dark);
+  paint-order: stroke fill;
+  text-shadow: 0 0.25cqw 0 var(--red);
+}
+.slogan {
+  margin-top: 0.4cqw;
+  font-weight: 800;
+  font-size: 0.95cqw;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------- footer */
+.foot {
+  display: flex;
+  align-items: center;
+  gap: 1.4cqw;
+  padding: 0 2.4cqw 0 0.6cqw;
+  background: var(--yellow);
+  color: var(--ink);
+}
+.footImg {
+  width: 7.2cqw;
+  height: 4.6cqw;
+  border-radius: 0.7cqw;
+  flex: none;
+}
+.footText {
+  font-family: var(--font-display);
+  font-size: 2.3cqw;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.footText b {
+  font-weight: 400;
+  color: var(--red-dark);
+}
+.footPrice {
+  font-family: var(--font-display);
+  font-size: 3.4cqw;
+  line-height: 1;
+}
+.footPrice small {
+  font-size: 0.45em;
+  margin-left: 0.12em;
+}
+.socials {
+  margin-left: auto;
+  font-weight: 800;
+  font-size: 1.05cqw;
+  letter-spacing: 0.08em;
+}
+
+/* ------------------------------------------------------------ primitives */
+.main {
+  min-height: 0;
+  padding: 1.5cqw 2.4cqw;
+}
+.price {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  line-height: 1;
+}
+.price small {
+  font-size: 0.4em;
+  margin-left: 0.12em;
+  letter-spacing: 0.04em;
+  color: var(--yellow);
+}
+.priceBlock {
+  display: grid;
+  justify-items: end;
+  gap: 0.45cqw;
+  flex: none;
+}
+.priceInline {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.2cqw;
+}
+.menuPill {
+  white-space: nowrap;
+  border-radius: 0.6cqw;
+  padding: 0.25cqw 0.7cqw 0.2cqw;
+  background: var(--yellow);
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 1cqw;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.menuPill b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 2em;
+  letter-spacing: 0.02em;
+  vertical-align: -0.12em;
+  margin: 0 0.1em 0 0.2em;
+}
+.soldOut {
+  flex: none;
+  align-self: center;
+  font-weight: 800;
+  font-size: 1.3cqw;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: 0.15cqw solid #fff;
+  border-radius: 0.6cqw;
+  padding: 0.4cqw 0.8cqw;
+}
+.off {
+  opacity: 0.4;
+}
+.off .photoFg {
+  filter: grayscale(1);
+}
+.text {
+  min-width: 0;
+}
+.text h3,
+.band h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.desc {
+  margin: 0.3cqw 0 0;
+  font-weight: 600;
+  font-size: 1.5cqw;
+  line-height: 1.3;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.clamp1 {
+  -webkit-line-clamp: 1;
+}
+.clamp2 {
+  -webkit-line-clamp: 2;
+}
+
+/* Studio photos fill their box; boxes follow the source crops' ratios. */
+.photo {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #131314;
+}
+.photoFg {
+  object-fit: cover;
+  object-position: 50% 58%;
+  filter: brightness(1.08) contrast(1.06) saturate(1.12);
+}
+.zoom {
+  animation: zoom 7s ease-out both;
+}
+@keyframes zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.03);
+  }
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  border-radius: 1.2cqw;
+  overflow: hidden;
+  background: var(--card);
+}
+.cardPhoto {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ================= vitrine ================= */
+.vitrine {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 46% 1fr;
+  gap: 2.2cqw;
+}
+.hero {
+  position: relative;
+  border-radius: 1.4cqw;
+  overflow: hidden;
+  background: #1b1918;
+}
+.heroPhoto {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.heroOn {
+  opacity: 1;
+}
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 0.8cqw;
+  min-height: 0;
+}
+.row {
+  display: grid;
+  grid-template-columns: 11cqw 1fr auto;
+  align-items: center;
+  gap: 1.6cqw;
+  padding-right: 1.4cqw;
+  border-radius: 1cqw;
+  background: var(--card);
+  overflow: hidden;
+  min-height: 0;
+  box-shadow: inset 0.45cqw 0 0 transparent;
+  transition:
+    box-shadow 0.6s ease,
+    background 0.6s ease;
+}
+.rowThumb {
+  height: 100%;
+}
+.rowThumb::after,
+.shelfPhoto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 75%, var(--card));
+}
+.row h3 {
+  font-size: 2.8cqw;
+}
+.row .desc {
+  font-size: 1.3cqw;
+}
+.row .price {
+  font-size: 3.6cqw;
+}
+.lit {
+  background: #1f1b19;
+  box-shadow: inset 0.45cqw 0 0 var(--yellow);
+}
+.lit h3 {
+  color: var(--yellow);
+}
+
+/* ================= trio ================= */
+.cols {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1.6cqw;
+}
+.cols .cardPhoto {
+  flex: none;
+  aspect-ratio: 6 / 5;
+}
+.band {
+  flex: 1;
+  align-content: center;
+  display: grid;
+  gap: 0.4cqw;
+  padding: 1.1cqw 1.5cqw 1.3cqw;
+  background: var(--band);
+}
+.band h3 {
+  font-size: 3.4cqw;
+}
+.band .desc {
+  font-size: 1.35cqw;
+  min-height: 3.5cqw;
+}
+.band .price {
+  font-size: 4.2cqw;
+}
+.band .menuPill {
+  font-size: 1.1cqw;
+}
+
+/* ================= grille / tiles ================= */
+.grille {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1.3fr 1fr;
+  gap: 1.1cqw;
+}
+.grilleBottom {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 2cqw;
+  min-height: 0;
+}
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5cqw;
+  min-height: 0;
+  height: 100%;
+}
+.sectionLabel {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 1cqw;
+  font-weight: 800;
+  font-size: 1.15cqw;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--yellow);
+}
+.sectionLabel::after {
+  content: "";
+  flex: 1;
+  height: 0.12cqw;
+  background: rgba(244, 198, 22, 0.35);
+}
+.tiles {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1cqw;
+}
+.tileBand {
+  display: flex;
+  align-items: center;
+  gap: 0.8cqw;
+  padding: 0.7cqw 1cqw 0.8cqw;
+  background: var(--band);
+}
+.tileBand .text {
+  flex: 1;
+}
+.grilleTop .photoFg {
+  object-position: 50% 62%;
+}
+.tile h3 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lg h3 {
+  font-size: 2.15cqw;
+}
+.lg .desc {
+  font-size: 1.15cqw;
+}
+.lg .price {
+  font-size: 2.9cqw;
+}
+.md h3 {
+  font-size: 1.9cqw;
+}
+.md .desc {
+  font-size: 1cqw;
+}
+.md .price {
+  font-size: 2.5cqw;
+}
+.sm h3 {
+  font-size: 1.45cqw;
+}
+.sm .desc {
+  font-size: 0.85cqw;
+}
+.sm .price {
+  font-size: 2.1cqw;
+}
+.md .tileBand,
+.sm .tileBand {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.3cqw;
+  padding: 0.55cqw 0.8cqw 0.6cqw;
+}
+.md .priceBlock,
+.sm .priceBlock {
+  justify-items: start;
+}
+.md .text h3,
+.sm .text h3 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.md .soldOut,
+.sm .soldOut {
+  font-size: 0.85cqw;
+  padding: 0.3cqw 0.5cqw;
+}
+
+/* ================= mosaique ================= */
+.mosaique {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 1.4cqw;
+}
+.xl {
+  grid-row: 1 / -1;
+}
+.xl .tileBand {
+  padding: 1.1cqw 1.6cqw 1.3cqw;
+  gap: 1.6cqw;
+}
+.xl h3 {
+  font-size: 4.4cqw;
+}
+.xl .desc {
+  font-size: 1.5cqw;
+}
+.xl .price {
+  font-size: 5.4cqw;
+}
+.xl .photoFg {
+  object-position: 50% 45%;
+}
+.mosaique .lg {
+  flex-direction: row;
+}
+.mosaique .lg .cardPhoto {
+  flex: none;
+  height: 100%;
+  aspect-ratio: 6 / 5;
+}
+.mosaique .lg .tileBand {
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1cqw;
+  padding: 1.2cqw 1.6cqw;
+}
+.mosaique .lg .priceBlock {
+  justify-items: start;
+}
+.mosaique .lg h3 {
+  font-size: 2.8cqw;
+}
+.mosaique .lg .desc {
+  font-size: 1.25cqw;
+}
+.mosaique .lg .price {
+  font-size: 3.8cqw;
+}
+
+/* ================= etagere ================= */
+.shelf {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 0.8cqw;
+}
+.shelfRow {
+  display: grid;
+  grid-template-columns: 18cqw 1fr auto;
+  align-items: center;
+  gap: 2cqw;
+  padding-right: 1.6cqw;
+}
+.shelfPhoto {
+  height: 100%;
+}
+.shelfPhoto .photoFg {
+  object-position: 50% 45%;
+}
+.shelfRow h3 {
+  font-size: 3cqw;
+}
+.shelfRow .desc {
+  font-size: 1.7cqw;
+}
+.shelfRow .price {
+  font-size: 3.8cqw;
+}
+.shelfRow .menuPill {
+  font-size: 1.05cqw;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroPhoto,
+  .row {
+    transition: none;
+  }
+  .zoom {
+    animation: none;
+  }
+}
