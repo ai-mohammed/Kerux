@@ -10,6 +10,7 @@
   --muted: #e6e6e6;
   --yellow: #f4c616;
   --red: #e43b15;
+  --orange: #e8740c;
   --red-dark: #7b170f;
   position: fixed;
   inset: 0;
@@ -39,7 +40,7 @@
   align-items: center;
   gap: 1.4cqw;
   padding: 0 2.4cqw;
-  border-bottom: 0.4cqw solid var(--red);
+  border-bottom: 0.4cqw solid var(--orange);
   background: linear-gradient(180deg, #161313, var(--ink));
 }
 .coq {
