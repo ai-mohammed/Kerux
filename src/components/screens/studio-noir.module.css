@@ -101,8 +101,8 @@
 /* Cut-out fries + can, kept inside the yellow bar (overflowing it put the fries on the black frame). */
 .footImg {
   position: relative;
-  width: 6.2cqw;
-  height: 5.4cqw;
+  width: 5.6cqw;
+  height: 4.8cqw; /* leaves a margin above and below inside the 5.6cqw bar */
   margin-left: 0.8cqw;
   flex: none;
 }
