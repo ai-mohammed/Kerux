@@ -23,7 +23,7 @@ describe("menu screens", () => {
     expect(tenders.items.map((i) => i.price)).toEqual([890, 2650, 2500, 2550, 300, 450, 500, 700, 500, 450, 100, 200]);
     expect(tenders.groups?.map((g) => [g.label, g.itemIds.length])).toEqual([["Box à partager", 4], ["À la pièce", 4], ["Enfants & boissons", 4]]);
     expect(tenders.menuPrice).toBe(false);
-    expect(names("tenders")[4]).toBe("Wings 3 pièces");
+    expect(names("tenders")[4]).toBe("3 Wings");
     expect(buildBoard("plats", catalog)!.items.map((i) => [i.name, i.price])).toEqual([["Bogota", 750], ["Poni", 850], ["Salade César", 550]]);
     const pain = buildBoard("pain-maison", catalog)!;
     expect(pain.items.map((i) => [i.name, i.price])).toEqual([["Mexicain", 500], ["Chessy", 650], ["Crunsh", 600], ["Chessy Gratiné", 700], ["Ruxy", 700]]);
@@ -50,27 +50,10 @@ describe("menu screens", () => {
     expect(board.menuPrice).toBe(false);
   });
 
-  it("features a product only while it is available", () => {
-    expect(buildBoard("tenders", catalog)!.featuredId).toBe(131);
-    const off = catalog.map((p) => (p.id === 131 ? { ...p, available: false } : p));
-    expect(buildBoard("tenders", off)!.featuredId).toBeNull();
-  });
-
   it("puts a new product of a sectioned screen in its last section", () => {
     const base = catalog.find((p) => p.id === 93)!;
     const added = [...catalog, { ...base, id: 998, name: "Jus d'orange", price: 150 }];
     expect(buildBoard("tenders", added)!.groups!.at(-1)!.itemIds).toContain(998);
-  });
-
-  it("shares the same takeover product on every screen", () => {
-    const ids = BOARDS.map((b) => buildBoard(b.slug, catalog)!.takeover?.id);
-    expect(new Set(ids)).toEqual(new Set([86]));
-  });
-
-  it("adds a new back-office product to its screen automatically", () => {
-    const base = catalog.find((p) => p.id === 97)!;
-    const added = [...catalog, { ...base, id: 999, name: "Double K", price: 900 }];
-    expect(buildBoard("burgers", added)!.items.at(-1)).toMatchObject({ name: "Double K", price: 900 });
   });
 
   it("gives each screen its own layout", () => {

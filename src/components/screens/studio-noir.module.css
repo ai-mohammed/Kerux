@@ -195,29 +195,6 @@
 .off .photoFg {
   filter: grayscale(1);
 }
-.featured {
-  display: inline-block;
-  border-radius: 0.5cqw;
-  padding: 0.35cqw 0.8cqw;
-  background: var(--red);
-  color: #fff;
-  font-weight: 800;
-  font-size: 1.05cqw;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  line-height: 1.2;
-  box-shadow: 0 0.2cqw 0.6cqw rgba(0, 0, 0, 0.5);
-}
-.pinTop {
-  position: absolute;
-  z-index: 2;
-  top: 1cqw;
-  left: 1cqw;
-}
-.inlinePill {
-  margin-left: 1cqw;
-  vertical-align: 0.5em;
-}
 .text {
   min-width: 0;
 }
@@ -246,23 +223,17 @@
   -webkit-line-clamp: 2;
 }
 
-/* Whole product (contain) over a blurred copy of itself. */
+/* Studio photos fill their box; boxes follow the source crops' ratios. */
 .photo {
   position: relative;
   display: block;
   overflow: hidden;
-  background: #1b1918;
-}
-.photoBg {
-  object-fit: cover;
-  filter: blur(1.4cqw) brightness(0.55) saturate(1.2);
-  transform: scale(1.2);
+  background: #131314;
 }
 .photoFg {
-  object-fit: contain;
-  /* fade the photo's own studio background into the blurred copy, so no hard rectangle shows */
-  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
-  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
+  object-fit: cover;
+  object-position: 50% 58%;
+  filter: brightness(1.08) contrast(1.06) saturate(1.12);
 }
 .zoom {
   animation: zoom 7s ease-out both;
@@ -272,7 +243,7 @@
     transform: scale(1);
   }
   to {
-    transform: scale(1.05);
+    transform: scale(1.03);
   }
 }
 
@@ -286,9 +257,6 @@
   overflow: hidden;
   background: var(--card);
 }
-.card.star {
-  box-shadow: 0 0 0 0.25cqw var(--red);
-}
 .cardPhoto {
   flex: 1;
   min-height: 0;
@@ -298,7 +266,7 @@
 .vitrine {
   height: 100%;
   display: grid;
-  grid-template-columns: 41% 1fr;
+  grid-template-columns: 46% 1fr;
   gap: 2.2cqw;
 }
 .hero {
@@ -327,7 +295,7 @@
 }
 .row {
   display: grid;
-  grid-template-columns: 8.4cqw 1fr auto;
+  grid-template-columns: 11cqw 1fr auto;
   align-items: center;
   gap: 1.6cqw;
   padding-right: 1.4cqw;
@@ -343,8 +311,18 @@
 .rowThumb {
   height: 100%;
 }
+.rowThumb::after,
+.shelfPhoto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 75%, var(--card));
+}
 .row h3 {
-  font-size: 3cqw;
+  font-size: 2.8cqw;
+}
+.row .desc {
+  font-size: 1.3cqw;
 }
 .row .price {
   font-size: 3.6cqw;
@@ -366,20 +344,27 @@
   display: grid;
   gap: 1.6cqw;
 }
+.cols .cardPhoto {
+  flex: none;
+  aspect-ratio: 6 / 5;
+}
 .band {
+  flex: 1;
+  align-content: center;
   display: grid;
   gap: 0.4cqw;
   padding: 1.1cqw 1.5cqw 1.3cqw;
   background: var(--band);
 }
 .band h3 {
-  font-size: 4cqw;
+  font-size: 3.4cqw;
 }
 .band .desc {
-  min-height: 3.9cqw;
+  font-size: 1.35cqw;
+  min-height: 3.5cqw;
 }
 .band .price {
-  font-size: 4.8cqw;
+  font-size: 4.2cqw;
 }
 .band .menuPill {
   font-size: 1.1cqw;
@@ -389,7 +374,7 @@
 .grille {
   height: 100%;
   display: grid;
-  grid-template-rows: 1.15fr 1fr;
+  grid-template-rows: 1.3fr 1fr;
   gap: 1.1cqw;
 }
 .grilleBottom {
@@ -442,14 +427,22 @@
 .tileBand .text {
   flex: 1;
 }
+.grilleTop .photoFg {
+  object-position: 50% 62%;
+}
+.tile h3 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .lg h3 {
-  font-size: 2.5cqw;
+  font-size: 2.15cqw;
 }
 .lg .desc {
   font-size: 1.15cqw;
 }
 .lg .price {
-  font-size: 3.2cqw;
+  font-size: 2.9cqw;
 }
 .md h3 {
   font-size: 1.9cqw;
@@ -499,7 +492,7 @@
   padding: 0;
   list-style: none;
   display: grid;
-  grid-template-columns: 1.35fr 1fr;
+  grid-template-columns: 1fr 1.05fr;
   gap: 1.4cqw;
 }
 .xl {
@@ -517,6 +510,28 @@
 }
 .xl .price {
   font-size: 5.4cqw;
+}
+.xl .photoFg {
+  object-position: 50% 45%;
+}
+.mosaique .lg {
+  flex-direction: row;
+}
+.mosaique .lg .cardPhoto {
+  flex: none;
+  height: 100%;
+  aspect-ratio: 6 / 5;
+}
+.mosaique .lg .tileBand {
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1cqw;
+  padding: 1.2cqw 1.6cqw;
+}
+.mosaique .lg .priceBlock {
+  justify-items: start;
 }
 .mosaique .lg h3 {
   font-size: 2.8cqw;
@@ -540,7 +555,7 @@
 }
 .shelfRow {
   display: grid;
-  grid-template-columns: 14cqw 1fr auto;
+  grid-template-columns: 18cqw 1fr auto;
   align-items: center;
   gap: 2cqw;
   padding-right: 1.6cqw;
@@ -548,8 +563,14 @@
 .shelfPhoto {
   height: 100%;
 }
+.shelfPhoto .photoFg {
+  object-position: 50% 45%;
+}
 .shelfRow h3 {
   font-size: 3cqw;
+}
+.shelfRow .desc {
+  font-size: 1.7cqw;
 }
 .shelfRow .price {
   font-size: 3.8cqw;
@@ -558,62 +579,9 @@
   font-size: 1.05cqw;
 }
 
-/* ================= takeover (same seconds on every screen) ================= */
-.takeover {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  display: grid;
-  grid-template-columns: 58% 1fr;
-  align-items: center;
-  background: var(--ink);
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity 0.6s ease,
-    visibility 0s linear 0.6s;
-}
-.takeoverOn {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.6s ease;
-}
-.takeoverPhoto {
-  height: 100%;
-}
-.takeoverText {
-  display: grid;
-  justify-items: start;
-  gap: 0.8cqw;
-  padding: 0 4cqw 0 3cqw;
-}
-.takeoverText h2 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 9cqw;
-  line-height: 0.9;
-  text-transform: uppercase;
-}
-.takeoverText p {
-  margin: 0;
-  font-weight: 800;
-  font-size: 2.2cqw;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--yellow);
-}
-.takeoverText .price {
-  font-size: 10cqw;
-}
-.takeoverText .featured {
-  font-size: 1.4cqw;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .heroPhoto,
-  .row,
-  .takeover {
+  .row {
     transition: none;
   }
   .zoom {

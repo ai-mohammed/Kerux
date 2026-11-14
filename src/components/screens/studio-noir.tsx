@@ -8,9 +8,6 @@ import s from "./studio-noir.module.css";
 
 const REFRESH_MS = 20_000;
 const HERO_MS = 7_000;
-/** Every screen shows the takeover during the same seconds of each minute (wall clock), so the whole bank changes together. */
-const TAKEOVER_EVERY_MS = 60_000;
-const TAKEOVER_FOR_MS = 6_000;
 const dinars = new Intl.NumberFormat("fr-DZ", { maximumFractionDigits: 0 });
 
 /* ------------------------------------------------------------------ hooks */
@@ -61,18 +58,6 @@ function useTick(ms: number, enabled: boolean) {
   return tick;
 }
 
-function useTakeoverOn(enabled: boolean) {
-  const [on, setOn] = useState(false);
-  useEffect(() => {
-    if (!enabled) return;
-    const check = () => setOn(Date.now() % TAKEOVER_EVERY_MS < TAKEOVER_FOR_MS);
-    check();
-    const id = setInterval(check, 500);
-    return () => clearInterval(id);
-  }, [enabled]);
-  return on;
-}
-
 /** Keeps the TV awake when the browser allows it (re-requested when the tab becomes visible again). */
 function useWakeLock() {
   useEffect(() => {
@@ -119,22 +104,13 @@ function PriceBlock({ item, ctx, className, inline }: { item: ScreenItem; ctx: C
   );
 }
 
-/** Whole product visible (contain) over a blurred copy of the same photo, so nothing is cropped or blown up. */
+/** Studio photo filling its box (cover); boxes are sized to the source crops so the product stays whole and sharp. */
 function Photo({ src, sizes, className, zoom }: { src: string | null; sizes: string; className?: string; zoom?: boolean }) {
   return (
     <span className={cn(s.photo, className)}>
-      {src ? (
-        <>
-          <Image src={src} alt="" fill sizes="10vw" className={s.photoBg} aria-hidden loading="eager" />
-          <Image src={src} alt="" fill sizes={sizes} className={cn(s.photoFg, zoom && s.zoom)} loading="eager" />
-        </>
-      ) : null}
+      {src ? <Image src={src} alt="" fill sizes={sizes} quality={90} className={cn(s.photoFg, zoom && s.zoom)} loading="eager" /> : null}
     </span>
   );
-}
-
-function Featured({ className }: { className?: string }) {
-  return <span className={cn(s.featured, className)}>À la une</span>;
 }
 
 /* ---------------------------------------------------------------- chassis */
@@ -148,7 +124,6 @@ function Featured({ className }: { className?: string }) {
 export function StudioNoirScreen({ initial }: { initial: ScreenBoard }) {
   const board = useLiveBoard(initial);
   const reduced = useReducedMotion();
-  const takeoverOn = useTakeoverOn(!reduced && initial.takeover !== null);
   useWakeLock();
   const ctx: Ctx = useMemo(
     () => ({ board, menu: (item) => (board.menuPrice && board.formula ? item.price + board.formula.price : null) }),
@@ -189,7 +164,7 @@ export function StudioNoirScreen({ initial }: { initial: ScreenBoard }) {
             <>
               <Photo src={board.formula.imageUrl} sizes="8vw" className={s.footImg} />
               <span className={s.footText}>
-                <b>Faites-en un menu</b> {board.formula.label}
+                <b>{board.menuPrice ? "Faites-en un menu" : "Ajoutez"}</b> {board.formula.label}
               </span>
               <span className={s.footPrice}>
                 +{dinars.format(board.formula.price)}
@@ -200,21 +175,6 @@ export function StudioNoirScreen({ initial }: { initial: ScreenBoard }) {
           <span className={s.socials}>kerux-foods.com · @keruxfoods</span>
         </footer>
 
-        {board.takeover ? <Takeover item={board.takeover} on={takeoverOn} /> : null}
-      </div>
-    </div>
-  );
-}
-
-function Takeover({ item, on }: { item: ScreenItem; on: boolean }) {
-  return (
-    <div className={cn(s.takeover, on && s.takeoverOn)} aria-hidden={!on}>
-      <Photo src={item.imageUrl} sizes="60vw" className={s.takeoverPhoto} zoom={on} />
-      <div className={s.takeoverText}>
-        <span className={s.featured}>À partager</span>
-        <h2>{item.name}</h2>
-        <p>{item.detail}</p>
-        <Price value={item.price} />
       </div>
     </div>
   );
@@ -222,20 +182,18 @@ function Takeover({ item, on }: { item: ScreenItem; on: boolean }) {
 
 /* ---------------------------------------------------------------- layouts */
 
-/** Rotating photo on the left (starts on the featured product), list with thumbnails on the right; the row on screen is lit. */
+/** Rotating photo on the left, list with thumbnails on the right; the row on screen is lit. */
 function Vitrine({ ctx, reduced }: { ctx: Ctx; reduced: boolean }) {
   const { board } = ctx;
   const tick = useTick(HERO_MS, !reduced);
   const pool = board.items.filter((i) => i.available && i.imageUrl);
-  const start = Math.max(0, pool.findIndex((i) => i.id === board.featuredId));
-  const hero = pool.length ? pool[(start + tick) % pool.length] : undefined;
+  const hero = pool.length ? pool[tick % pool.length] : undefined;
   return (
     <div className={s.vitrine}>
       <div className={s.hero}>
         {pool.map((item) => (
           <Photo key={item.id} src={item.imageUrl} sizes="42vw" className={cn(s.heroPhoto, item.id === hero?.id && s.heroOn)} zoom={!reduced && item.id === hero?.id} />
         ))}
-        {hero && hero.id === board.featuredId ? <Featured className={s.pinTop} /> : null}
       </div>
       <ul className={s.list}>
         {board.items.map((item) => (
@@ -243,7 +201,7 @@ function Vitrine({ ctx, reduced }: { ctx: Ctx; reduced: boolean }) {
             <Photo src={item.imageUrl} sizes="8vw" className={s.rowThumb} />
             <div className={s.text}>
               <h3>{item.name}</h3>
-              {item.detail ? <p className={cn(s.desc, s.clamp1)}>{item.detail}</p> : null}
+              {item.detail ? <p className={cn(s.desc, s.clamp2)}>{item.detail}</p> : null}
             </div>
             <PriceBlock item={item} ctx={ctx} />
           </li>
@@ -259,9 +217,8 @@ function Trio({ ctx }: { ctx: Ctx }) {
   return (
     <ul className={s.cols} style={{ gridTemplateColumns: `repeat(${Math.max(1, board.items.length)}, 1fr)` }}>
       {board.items.map((item) => (
-        <li key={item.id} className={cn(s.card, s.col, !item.available && s.off, item.id === board.featuredId && s.star)}>
+        <li key={item.id} className={cn(s.card, s.col, !item.available && s.off)}>
           <Photo src={item.imageUrl} sizes="32vw" className={s.cardPhoto} />
-          {item.id === board.featuredId ? <Featured className={s.pinTop} /> : null}
           <div className={s.band}>
             <h3>{item.name}</h3>
             {item.detail ? <p className={cn(s.desc, s.clamp2)}>{item.detail}</p> : null}
@@ -274,15 +231,13 @@ function Trio({ ctx }: { ctx: Ctx }) {
 }
 
 function Tile({ item, ctx, size }: { item: ScreenItem; ctx: Ctx; size: "xl" | "lg" | "md" | "sm" }) {
-  const star = item.id === ctx.board.featuredId;
   return (
-    <li className={cn(s.card, s.tile, s[size], !item.available && s.off, star && s.star)}>
+    <li className={cn(s.card, s.tile, s[size], !item.available && s.off)}>
       <Photo src={item.imageUrl} sizes={size === "xl" ? "50vw" : size === "lg" ? "24vw" : "12vw"} className={s.cardPhoto} />
-      {star ? <Featured className={s.pinTop} /> : null}
       <div className={s.tileBand}>
         <div className={s.text}>
           <h3>{item.name}</h3>
-          {item.detail ? <p className={cn(s.desc, size === "xl" ? s.clamp2 : s.clamp1)}>{item.detail}</p> : null}
+          {item.detail ? <p className={cn(s.desc, s.clamp2)}>{item.detail}</p> : null}
         </div>
         <PriceBlock item={item} ctx={ctx} />
       </div>
@@ -317,10 +272,10 @@ function Grille({ ctx }: { ctx: Ctx }) {
   );
 }
 
-/** Few dishes: the featured one large on the left, the others stacked on the right. */
+/** Few dishes: the first one large on the left, the others stacked on the right. */
 function Mosaique({ ctx }: { ctx: Ctx }) {
   const { board } = ctx;
-  const big = board.items.find((i) => i.id === board.featuredId) ?? board.items[0];
+  const big = board.items[0];
   const others = board.items.filter((i) => i !== big);
   return (
     <ul className={s.mosaique} style={{ gridTemplateRows: `repeat(${Math.max(1, others.length)}, 1fr)` }}>
@@ -338,13 +293,10 @@ function Etagere({ ctx }: { ctx: Ctx }) {
   return (
     <ul className={s.shelf}>
       {board.items.map((item) => (
-        <li key={item.id} className={cn(s.card, s.shelfRow, !item.available && s.off, item.id === board.featuredId && s.star)}>
+        <li key={item.id} className={cn(s.card, s.shelfRow, !item.available && s.off)}>
           <Photo src={item.imageUrl} sizes="16vw" className={s.shelfPhoto} />
           <div className={s.text}>
-            <h3>
-              {item.name}
-              {item.id === board.featuredId ? <Featured className={s.inlinePill} /> : null}
-            </h3>
+            <h3>{item.name}</h3>
             {item.detail ? <p className={cn(s.desc, s.clamp1)}>{item.detail}</p> : null}
           </div>
           <PriceBlock item={item} ctx={ctx} inline />
