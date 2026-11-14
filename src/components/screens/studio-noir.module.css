@@ -109,7 +109,6 @@
 .footImgFg {
   object-fit: contain;
   object-position: 50% 50%;
-  filter: drop-shadow(0 0.15cqw 0.3cqw rgba(0, 0, 0, 0.3));
 }
 .footText {
   font-family: var(--font-display);
