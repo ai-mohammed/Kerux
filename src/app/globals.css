@@ -239,3 +239,12 @@
 @utility pb-safe {
   padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }
+
+/* Room for the phone sticky order bar, only while it is on screen. It sits
+   under the footer, not the main content, so the last footer line (socials,
+   copyright) is never hidden and no blank band opens above the footer. */
+@media (width < 64rem) {
+  body:has([data-sticky-order-bar]) footer[data-site-footer] {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  }
+}

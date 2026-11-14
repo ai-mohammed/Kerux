@@ -258,11 +258,11 @@ One container at 1280 px max (`max-w-7xl`) with 16 / 24 / 32 px gutters at mobil
 
 **Bands.** Pages are stacked horizontal bands: hero (py 40 / 56 / 80 px), category rail, cream sections (py 24 or 56 px), the red services band (py 48 / 64 px), the black footer (py 48 px, margin-top 64 px). A 10 px awning stripe (28 px red / 28 px cream repeat) opens and closes the red band, opens the footer, and separates the hero group from "Nos incontournables". It is the only divider between bands; inside bands, 1 px Line rules separate rows.
 
-**Header.** Sticky, 68 px tall (76 px ≥ 1024), cream ground with a 1 px Line bottom rule. Order: mascot disc (44 px) + KERUX wordmark, primary nav (≥ 1024 only), restaurant selector pill + neon status, account button (≥ 640), cart button, red Commander (≥ 1024), hamburger (< 1024). On phones (< 640) the wordmark is hidden so the compact selector (max 120 px) and the small neon chip fit on one line.
+**Header.** Sticky, 68 px tall (76 px ≥ 1024), cream ground with a 1 px Line bottom rule. Order: mascot disc (44 px) + KERUX wordmark, primary nav (≥ 1024 only), restaurant selector pill + neon status, account button (≥ 640), cart button, red Commander (≥ 1024), hamburger (< 1024). Below 1024 the restaurant selector and its neon pill move to their own full-width band under the header row (published as `--header-h`, 118 px), so no restaurant name or status label is ever truncated and the wordmark stays visible on phones.
 
-**Grids.** Product grids are 2 columns on phones, 3 at ≥ 768, 4 at ≥ 1280, gap 12 px (16 px ≥ 640). On the menu page the first product of any category with three or more products spans the full row as an end-cap (photo left, copy right at ≥ 768). Restaurant cards are 1 / 2 columns. The product page is a 1.1fr / 1fr split at ≥ 1024; checkout is 1fr / 380 px; auth pages are 440 px / 1fr with the brand aside hidden below 1024; the rights page is 220 px sticky summary / prose.
+**Grids.** Product grids are 2 columns on phones, 3 at ≥ 768, 4 at ≥ 1280, gap 12 px (16 px ≥ 640). On the menu page the first product of any category with three or more products spans the full row as an end-cap (photo left, copy right at ≥ 768). Restaurant cards are 1 / 2 columns. The product page is a 1.1fr / 1fr split at ≥ 1024 with the photo board sticky under the header while the options scroll; checkout is 1fr / 380 px; auth pages are 440 px / 1fr with the brand aside hidden below 1024; the rights page is 220 px sticky summary / prose.
 
-**Mobile primary action.** Below 1024 the main content carries 96 px bottom padding for the sticky order bar (56 px tall, 12 px side inset, safe-area bottom padding), which shows the live cart total and Commander. It is hidden on cart, checkout, order, auth and account routes, and on the menu when the cart is empty.
+**Mobile primary action.** Below 1024, while the sticky order bar is on screen, the footer carries 88 px of extra bottom padding (plus the safe area) so its last line is never covered; the main content gets none, so no blank band opens above the footer. The bar (56 px tall, 12 px side inset, safe-area bottom padding), which shows the live cart total and Commander. It is hidden on cart, checkout, order, auth and account routes, and on the menu when the cart is empty.
 
 **Rhythm.** Component gaps run 8 / 12 / 16 / 24 px; board padding is 16 px on cards, 20–24 px on checkout sections, 24–32 px on auth and long-form boards, 28 px on the end-cap copy. Sheets: 20 px horizontal, 16 px vertical, header and footer separated by Line rules; bottom sheet on phones (max 92 dvh, 24 px top radius), right drawer of 440 / 520 px ≥ 640.
 
@@ -370,4 +370,15 @@ French UI with `lang="fr"`; headings and CTAs reuse the approved brand lines ("U
 - **Don't** use blue or purple gradients, glassmorphism, grey app-shell backgrounds, or a floating basket over the content; the basket lives in the header and the phone-only sticky order bar.
 - **Don't** paint red as a page ground outside the single services band, and don't use Alert Red for buttons.
 - **Don't** invent prices, popularity ranks, opening hours, reviews or figures; render the neon status from a constant.
-- **Don't** hide the mascot wordmark on tablets or desktop; below 640 px only, the disc stands alone.
+- **Don't** hide the mascot wordmark or truncate the restaurant name; below 1024 the selector takes its own band under the header instead.
+
+## Finish review
+
+Reviewed 2026-11-14 at 390, 768 and 1440 px on home, menu, product, cart, checkout, restaurants, track-order, contact, login and register (catalogue served from the fixtures snapshot). Verdict: **ship**, after the fixes below.
+
+- Fixed: on phones the restaurant cards' "Commander ici" and "Itinéraire" buttons collapsed to 23 px tall (`flex-1` in a column stack); they are full 44 px buttons again and only share the row from 640 up.
+- Fixed: the sticky order bar covered the footer's socials and copyright on phones, and the 96 px reserved for it sat above the footer as an empty band. The room now lives under the footer, only while the bar is shown.
+- Fixed: on desktop the product photo stayed at the top while long option lists scrolled, leaving a tall empty column; the photo board is now sticky.
+- Fixed: a loading button now reports `aria-busy`.
+- Checked, no change: no horizontal page overflow at any width; the category chip rows scroll on purpose. Tap targets meet 44 px (inline text links and the 20 px option checkboxes inside 48 px rows excepted).
+- Open: product photos fall back to the mascot when the API is unreachable; real photos need the live backend to confirm crops.

@@ -48,7 +48,7 @@ export function Button(props: ButtonProps | LinkProps) {
   delete rest.href;
   const { type = "button", disabled, ...attrs } = rest;
   return (
-    <button type={type} disabled={disabled || loading} className={cls} {...attrs}>
+    <button type={type} disabled={disabled || loading} aria-busy={loading || undefined} className={cls} {...attrs}>
       {loading ? <Loader2 className="size-4 animate-spin" aria-hidden /> : null}
       {children}
     </button>

@@ -56,8 +56,8 @@ export default async function ProductPage({ params }: PageProps<"/menu/[slug]">)
         </Link>
       </nav>
 
-      <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
-        <div className="relative">
+      <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:items-start lg:gap-12">
+        <div className="relative lg:sticky lg:top-[calc(var(--header-h)+1.5rem)]">
           <ProductImage src={product.imageUrl} alt={product.name} sizes="(min-width: 1024px) 640px, 100vw" priority fit="cover" className="board aspect-square w-full overflow-hidden rounded-[28px] border-2 border-ink sm:aspect-[5/4]" />
           <div className="absolute left-4 top-4 flex flex-col gap-1.5">
             {!product.available ? <Sticker tone="yellow">Épuisé</Sticker> : null}

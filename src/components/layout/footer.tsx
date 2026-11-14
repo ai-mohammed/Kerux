@@ -33,7 +33,7 @@ const columns = [
 
 export function Footer({ restaurants }: { restaurants: Restaurant[] }) {
   return (
-    <footer className="mt-16 bg-ink text-white">
+    <footer data-site-footer className="mt-16 bg-ink text-white">
       <Awning />
       <Container className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div className="flex flex-col gap-4">
