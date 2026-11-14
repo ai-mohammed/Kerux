@@ -111,10 +111,21 @@ function PriceBlock({ item, ctx, className, inline }: { item: ScreenItem; ctx: C
 }
 
 /** Studio photo filling its box (cover); boxes are sized to the source crops so the product stays whole and sharp. */
-function Photo({ src, sizes, className, zoom }: { src: string | null; sizes: string; className?: string; zoom?: boolean }) {
+function Photo({ src, sizes, className, zoom, breathe }: { src: string | null; sizes: string; className?: string; zoom?: boolean; breathe?: number }) {
   return (
     <span className={cn(s.photo, className)}>
-      {src ? <Image src={src} alt="" fill sizes={sizes} quality={90} className={cn(s.photoFg, zoom && s.zoom)} loading="eager" /> : null}
+      {src ? (
+        <Image
+          src={src}
+          alt=""
+          fill
+          sizes={sizes}
+          quality={90}
+          className={cn(s.photoFg, zoom && s.zoom, breathe !== undefined && s.breathe)}
+          style={breathe !== undefined ? { animationDelay: `${-breathe * 5}s` } : undefined}
+          loading="eager"
+        />
+      ) : null}
     </span>
   );
 }
@@ -122,9 +133,9 @@ function Photo({ src, sizes, className, zoom }: { src: string | null; sizes: str
 /* ---------------------------------------------------------------- chassis */
 
 /**
- * Studio noir screens. Every TV shares the same frame (Kerux header with a red
+ * Studio noir screens. Every TV shares the same frame (Kerux header with an orange
  * rule, yellow menu bar at the bottom); only the centre changes: `vitrine`
- * (rotating photo + list), `trio` (columns), `grille` (sections of tiles),
+ * (rotating named photo + list), `trio` (columns), `grille` (sections of tiles),
  * `mosaique` (one large dish, others stacked), `etagere` (photo rows).
  */
 export function StudioNoirScreen({ initial }: { initial: ScreenBoard }) {
@@ -200,6 +211,12 @@ function Vitrine({ ctx, reduced }: { ctx: Ctx; reduced: boolean }) {
         {pool.map((item) => (
           <Photo key={item.id} src={item.imageUrl} sizes="42vw" className={cn(s.heroPhoto, item.id === hero?.id && s.heroOn)} zoom={!reduced && item.id === hero?.id} />
         ))}
+        {hero ? (
+          <div key={hero.id} className={s.heroCap}>
+            <h2>{hero.name}</h2>
+            <Price value={hero.price} />
+          </div>
+        ) : null}
       </div>
       <ul className={s.list}>
         {board.items.map((item) => (
@@ -222,9 +239,9 @@ function Trio({ ctx }: { ctx: Ctx }) {
   const { board } = ctx;
   return (
     <ul className={s.cols} style={{ gridTemplateColumns: `repeat(${Math.max(1, board.items.length)}, 1fr)` }}>
-      {board.items.map((item) => (
+      {board.items.map((item, i) => (
         <li key={item.id} className={cn(s.card, s.col, !item.available && s.off)}>
-          <Photo src={item.imageUrl} sizes="32vw" className={s.cardPhoto} />
+          <Photo src={item.imageUrl} sizes="32vw" className={s.cardPhoto} breathe={item.available ? i : undefined} />
           <div className={s.band}>
             <h3>{item.name}</h3>
             {item.detail ? <p className={cn(s.desc, s.clamp2)}>{item.detail}</p> : null}
@@ -236,10 +253,10 @@ function Trio({ ctx }: { ctx: Ctx }) {
   );
 }
 
-function Tile({ item, ctx, size }: { item: ScreenItem; ctx: Ctx; size: "xl" | "lg" | "md" | "sm" }) {
+function Tile({ item, ctx, size, breathe }: { item: ScreenItem; ctx: Ctx; size: "xl" | "lg" | "md" | "sm"; breathe?: number }) {
   return (
     <li className={cn(s.card, s.tile, s[size], !item.available && s.off)}>
-      <Photo src={item.imageUrl} sizes={size === "xl" ? "50vw" : size === "lg" ? "24vw" : "12vw"} className={s.cardPhoto} />
+      <Photo src={item.imageUrl} sizes={size === "xl" ? "50vw" : size === "lg" ? "24vw" : "12vw"} className={s.cardPhoto} breathe={item.available ? breathe : undefined} />
       <div className={s.tileBand}>
         <div className={s.text}>
           <h3>{item.name}</h3>
@@ -263,8 +280,8 @@ function Grille({ ctx }: { ctx: Ctx }) {
       <section key={g.label} className={s.section}>
         {g.label ? <h2 className={s.sectionLabel}>{g.label}</h2> : null}
         <ul className={s.tiles} style={{ gridTemplateColumns: `repeat(${Math.max(1, items.length)}, 1fr)` }}>
-          {items.map((item) => (
-            <Tile key={item.id} item={item} ctx={ctx} size={g.size} />
+          {items.map((item, i) => (
+            <Tile key={item.id} item={item} ctx={ctx} size={g.size} breathe={g.size === "lg" ? i : undefined} />
           ))}
         </ul>
       </section>
@@ -285,9 +302,9 @@ function Mosaique({ ctx }: { ctx: Ctx }) {
   const others = board.items.filter((i) => i !== big);
   return (
     <ul className={s.mosaique} style={{ gridTemplateRows: `repeat(${Math.max(1, others.length)}, 1fr)` }}>
-      {big ? <Tile item={big} ctx={ctx} size="xl" /> : null}
-      {others.map((item) => (
-        <Tile key={item.id} item={item} ctx={ctx} size="lg" />
+      {big ? <Tile item={big} ctx={ctx} size="xl" breathe={0} /> : null}
+      {others.map((item, i) => (
+        <Tile key={item.id} item={item} ctx={ctx} size="lg" breathe={i + 1} />
       ))}
     </ul>
   );
