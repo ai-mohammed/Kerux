@@ -98,11 +98,19 @@
   background: var(--yellow);
   color: var(--ink);
 }
+/* Cut-out fries + can, a little taller than the bar so it reads as a product, not a sticker. */
 .footImg {
-  width: 6.4cqw;
-  height: 5.2cqw;
-  border-radius: 0.7cqw;
+  position: relative;
+  align-self: flex-end;
+  width: 7.4cqw;
+  height: 7cqw;
+  margin-left: 0.8cqw;
   flex: none;
+}
+.footImgFg {
+  object-fit: contain;
+  object-position: 50% 100%;
+  filter: drop-shadow(0 0.3cqw 0.5cqw rgba(0, 0, 0, 0.35));
 }
 .footText {
   font-family: var(--font-display);

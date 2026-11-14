@@ -179,7 +179,11 @@ export function StudioNoirScreen({ initial }: { initial: ScreenBoard }) {
         <footer className={s.foot}>
           {board.formula ? (
             <>
-              <Photo src={board.formula.imageUrl} sizes="8vw" className={s.footImg} />
+              {board.formula.imageUrl ? (
+                <span className={s.footImg}>
+                  <Image src={board.formula.imageUrl} alt="" fill sizes="8vw" quality={90} className={s.footImgFg} />
+                </span>
+              ) : null}
               <span className={s.footText}>
                 <b>{board.menuPrice ? "Faites-en un menu" : "Ajoutez"}</b> {board.formula.label}
               </span>
