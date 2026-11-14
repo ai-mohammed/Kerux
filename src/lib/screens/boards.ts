@@ -18,6 +18,8 @@ export type ScreenItem = {
   price: number;
   available: boolean;
   imageUrl: string | null;
+  /** Short yellow badge on the photo ("20 pièces"), so the boxes read at a glance. */
+  badge?: string;
 };
 
 /** Each screen has its own layout so the three TVs do not look identical. */
@@ -39,7 +41,7 @@ export type ScreenBoard = {
   builtAt: string;
 };
 
-type ItemOverride = { name?: string; detail?: string; image?: string };
+type ItemOverride = { name?: string; detail?: string; image?: string; badge?: string };
 
 type BoardConfig = {
   slug: string;
@@ -71,10 +73,10 @@ const OVERRIDES: Record<number, ItemOverride> = {
   157: { name: "5 Wings", detail: "", image: PHOTO("wings5") },
   152: { name: "3 Tenders", detail: "", image: PHOTO("tenders3") },
   153: { name: "5 Tenders", detail: "", image: PHOTO("tenders5") },
-  131: { detail: "3 tenders + 5 wings", image: PHOTO("minibox") },
-  86: { detail: "20 tenders", image: PHOTO("boxfamily") },
-  98: { detail: "25 pièces mixtes", image: PHOTO("chickenmix") },
-  105: { detail: "30 pièces", image: PHOTO("grandwings") },
+  131: { detail: "3 tenders + 5 wings", image: PHOTO("minibox"), badge: "8 pièces" },
+  86: { detail: "20 tenders", image: PHOTO("boxfamily"), badge: "20 pièces" },
+  98: { detail: "Tenders et wings", image: PHOTO("chickenmix"), badge: "25 pièces" },
+  105: { detail: "30 wings", image: PHOTO("grandwings"), badge: "30 pièces" },
   88: { name: "Enfant burger", detail: "Frites, jus, surprise", image: PHOTO("enfantburger") },
   154: { name: "Enfant tenders", detail: "2 tenders, frites, jus, surprise", image: PHOTO("enfanttenders") },
   93: { name: "Canette", detail: "33 cl au choix", image: PHOTO("canette") },
@@ -145,6 +147,7 @@ export function toScreenItem(p: Product): ScreenItem {
     price: p.price,
     available: p.available,
     imageUrl: o.image ?? p.imageUrl,
+    ...(o.badge ? { badge: o.badge } : {}),
   };
 }
 

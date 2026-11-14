@@ -214,7 +214,7 @@ function Vitrine({ ctx, reduced }: { ctx: Ctx; reduced: boolean }) {
         {hero ? (
           <div key={hero.id} className={s.heroCap}>
             <h2>{hero.name}</h2>
-            <Price value={hero.price} />
+            <PriceBlock item={hero} ctx={ctx} className={s.heroPrice} />
           </div>
         ) : null}
       </div>
@@ -257,6 +257,7 @@ function Tile({ item, ctx, size, breathe }: { item: ScreenItem; ctx: Ctx; size: 
   return (
     <li className={cn(s.card, s.tile, s[size], !item.available && s.off)}>
       <Photo src={item.imageUrl} sizes={size === "xl" ? "50vw" : size === "lg" ? "24vw" : "12vw"} className={s.cardPhoto} breathe={item.available ? breathe : undefined} />
+      {item.badge ? <span className={s.badge}>{item.badge}</span> : null}
       <div className={s.tileBand}>
         <div className={s.text}>
           <h3>{item.name}</h3>
