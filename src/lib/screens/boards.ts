@@ -89,7 +89,7 @@ const OVERRIDES: Record<number, ItemOverride> = {
   101: { detail: "Tenders, crudités, fromage, sauce fromagère", image: PHOTO("crunsh") },
   96: { detail: "Poulet, sauce gruyère, cheddar, fromage gratiné", image: PHOTO("chessygratine") },
   148: { detail: "Tenders, poulet fumé, sauce fromagère, cheddar", image: PHOTO("ruxy") },
-  125: { image: "/ecrans/photos/menufrites-detoure.png" }, // cut out, sits directly on the yellow bar
+  125: { image: "/ecrans/photos/frites-canette.png" }, // cut out, sits directly on the yellow bar
 };
 
 /** The "Menu : Frites + Canette" add-on (id 125 in the back-office). */
