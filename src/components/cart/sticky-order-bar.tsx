@@ -23,7 +23,7 @@ export function StickyOrderBar() {
   if (!lines.length) {
     if (pathname.startsWith("/menu")) return null;
     return (
-      <div className="fixed inset-x-0 bottom-0 z-30 px-3 pb-safe lg:hidden">
+      <div data-sticky-order-bar className="fixed inset-x-0 bottom-0 z-30 px-3 pb-safe lg:hidden">
         <Link href="/menu" className="display-tight flex h-14 items-center justify-center rounded-2xl border-2 border-ink bg-red text-2xl text-white shadow-board-lg animate-rise">
           Commander
         </Link>
@@ -33,7 +33,7 @@ export function StickyOrderBar() {
 
   const count = cartCount(lines);
   return (
-    <div className="fixed inset-x-0 bottom-0 z-30 px-3 pb-safe lg:hidden">
+    <div data-sticky-order-bar className="fixed inset-x-0 bottom-0 z-30 px-3 pb-safe lg:hidden">
       <Link
         href="/checkout"
         className="flex items-center gap-3 rounded-2xl border-2 border-ink bg-ink px-4 py-3 text-white shadow-board-lg animate-rise"

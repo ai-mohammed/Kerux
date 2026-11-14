@@ -15,7 +15,7 @@ export async function SiteChrome({ children }: { children: ReactNode }) {
         Aller au contenu
       </a>
       <Header restaurants={restaurants} />
-      <main id="contenu" className="flex-1 pb-24 lg:pb-0">
+      <main id="contenu" className="flex-1">
         {children}
       </main>
       <Footer restaurants={restaurants} />

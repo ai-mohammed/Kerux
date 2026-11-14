@@ -44,10 +44,10 @@ export function RestaurantCard({ restaurant, compact }: { restaurant: Restaurant
       </ul>
       {!compact ? (
         <div className="mt-auto flex flex-col gap-2 pt-2 sm:flex-row">
-          <Button href="/menu" onClick={() => select(restaurant.id)} className="flex-1">
+          <Button href="/menu" onClick={() => select(restaurant.id)} className="sm:flex-1">
             Commander ici
           </Button>
-          <Button variant="secondary" href={restaurant.directionsUrl} target="_blank" className="flex-1" aria-label={`Itinéraire vers ${restaurant.name} (nouvel onglet)`}>
+          <Button variant="secondary" href={restaurant.directionsUrl} target="_blank" className="sm:flex-1" aria-label={`Itinéraire vers ${restaurant.name} (nouvel onglet)`}>
             <Navigation className="size-4" aria-hidden /> Itinéraire
           </Button>
         </div>
