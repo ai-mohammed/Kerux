@@ -8,7 +8,8 @@ import s from "./studio-noir.module.css";
 
 const REFRESH_MS = 10_000;
 const HERO_MS = 7_000;
-const dinars = new Intl.NumberFormat("fr-DZ", { maximumFractionDigits: 0 });
+/** "1 000" like "2 650" (Intl in fr skips the space under 10 000 in some browsers), narrow no-break space. */
+const dinars = { format: (v: number) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, "\u202F") };
 
 /* ------------------------------------------------------------------ hooks */
 

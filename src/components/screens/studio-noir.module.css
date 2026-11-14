@@ -98,19 +98,17 @@
   background: var(--yellow);
   color: var(--ink);
 }
-/* Cut-out fries + can, a little taller than the bar so it reads as a product, not a sticker. */
+/* Cut-out fries + can, kept inside the yellow bar (overflowing it put the fries on the black frame). */
 .footImg {
   position: relative;
-  align-self: flex-end;
-  width: 7.4cqw;
-  height: 7cqw;
+  width: 5.6cqw;
+  height: 4.8cqw; /* leaves a margin above and below inside the 5.6cqw bar */
   margin-left: 0.8cqw;
   flex: none;
 }
 .footImgFg {
   object-fit: contain;
-  object-position: 50% 100%;
-  filter: drop-shadow(0 0.3cqw 0.5cqw rgba(0, 0, 0, 0.35));
+  object-position: 50% 50%;
 }
 .footText {
   font-family: var(--font-display);
@@ -430,6 +428,9 @@
   padding: 1.1cqw 1.5cqw 1.3cqw;
   background: var(--band);
 }
+.band .priceBlock {
+  margin-top: 0.6cqw;
+}
 .band h3 {
   font-size: 3.4cqw;
 }
@@ -508,6 +509,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-top: 0.14em; /* room for capital accents (CÉSAR) inside the clipped box */
 }
 .lg h3 {
   font-size: 2.15cqw;
