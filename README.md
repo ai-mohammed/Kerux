@@ -64,6 +64,15 @@ src/
 
 Règles : le navigateur ne parle **jamais** au backend directement (tout passe par `app/api/*` et `/media`), les champs internes de l’API (`prix_achat`, `stock`, URLs privées) ne sortent jamais des adaptateurs, l’enum de statuts et les payloads sont ceux du backend (voir `docs/01-analyse-existant.md`).
 
+## Écrans du restaurant (`/ecrans`)
+
+Menus affichés sur les TV en salle, style « Studio noir » : `/ecrans/burgers` (produit à la une + liste), `/ecrans/tortillas` (grandes colonnes), `/ecrans/tenders` (grille de photos). `/ecrans` liste les adresses à ouvrir en plein écran sur chaque TV (navigateur d'un boîtier Android TV, d'une clé ou d'un mini-PC).
+
+- **Prix et disponibilité** : uniquement dans le back-office existant. Chaque écran interroge `GET /api/screens/:board` toutes les 20 s ; avec le cache catalogue de 60 s, un changement apparaît en moins de deux minutes, sans toucher aux TV. Un produit inactif s'affiche « Épuisé » à sa place ; la formule Frites + Canette disparaît si elle est inactive.
+- **Nouveaux produits** : un produit ajouté dans une catégorie d'un écran (burgers, tortillas, formules / menu enfant / boissons) y apparaît automatiquement.
+- **Ce qui est dans le code** (`src/lib/screens/boards.ts`) : catégories par écran, ordre, textes courts (« Sauce Kerux, tenders… ») et photos studio (`public/ecrans/photos`, extraites des anciennes vidéos). Sans réglage, un produit garde son nom et sa photo du back-office.
+- **Coupure internet** : l'écran garde le dernier menu affiché et reprend seul. Les pages écrans n'ont ni en-tête ni pied de page (le site vit dans le groupe de routes `src/app/(site)`).
+
 ## Spécification exécutable (Unspaghettit)
 
 Le parcours de commande est modélisé comme une spec exécutable dans `unspa/kerux-foods/` (3 surfaces, 17 actions, 8 invariants, 22 scénarios), générée par `scripts/unspa-spec.mjs` à partir du contrat backend documenté dans `docs/01-analyse-existant.md`.

@@ -1,0 +1,398 @@
+/* All sizes are in cqw of a 16:9 frame fitted to the TV, so the layout is identical on any resolution. */
+.stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #070606;
+  cursor: none;
+  overflow: hidden;
+}
+
+.tv {
+  container-type: inline-size;
+  width: min(100vw, calc(100vh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  background: #070606;
+  color: #fff;
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+.price {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  line-height: 1;
+}
+.price small {
+  font-size: 0.38em;
+  margin-left: 0.12em;
+  letter-spacing: 0.04em;
+  color: #f4c616;
+}
+
+.photo {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #111;
+}
+.photo img {
+  object-fit: cover;
+}
+
+/* ================= vitrine: featured product + list ================= */
+.vitrine {
+  display: grid;
+  grid-template-columns: 44% 1fr;
+}
+.hero {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+.heroImg {
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.9s ease;
+  -webkit-mask-image: linear-gradient(90deg, #000 62%, transparent);
+  mask-image: linear-gradient(90deg, #000 62%, transparent);
+}
+.heroOn {
+  opacity: 1;
+}
+.logo {
+  position: absolute;
+  top: 2cqw;
+  left: 2.4cqw;
+  width: 6cqw;
+  height: auto;
+}
+.cap {
+  position: absolute;
+  left: 2.6cqw;
+  right: 2cqw;
+  bottom: 2.4cqw;
+  text-shadow: 0 0.2cqw 1.2cqw rgba(0, 0, 0, 0.6);
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 45% 0 0;
+  background: linear-gradient(0deg, rgba(7, 6, 6, 0.9), rgba(7, 6, 6, 0));
+  pointer-events: none;
+}
+.logo,
+.cap {
+  z-index: 1;
+}
+.cap .price {
+  font-size: 6.6cqw;
+}
+.une {
+  font-weight: 800;
+  font-size: 1.1cqw;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #f4c616;
+}
+.heroName {
+  margin: 0.3cqw 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 6.2cqw;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+.heroDetail {
+  font-size: 0.5em;
+}
+
+/* ---- list ---- */
+.side {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 2.6cqw 3cqw 2.2cqw 1cqw;
+}
+.cat {
+  font-weight: 800;
+  font-size: 1.25cqw;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #f4c616;
+}
+.title {
+  margin: 0.2cqw 0 1.2cqw;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 4.6cqw;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+.list {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  align-content: space-evenly;
+}
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.4cqw 2cqw;
+  padding: 0.9cqw 0;
+  border-top: 0.12cqw solid rgba(255, 255, 255, 0.14);
+}
+.text {
+  min-width: 0;
+}
+.row h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 3cqw;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.row p {
+  margin: 0.2cqw 0 0;
+  font-size: 1.1cqw;
+  color: #bdb6ad;
+}
+.row .price {
+  font-size: 3.6cqw;
+}
+.on h3 {
+  color: #f4c616;
+}
+.off {
+  opacity: 0.38;
+}
+.soldOut {
+  font-weight: 800;
+  font-size: 1.3cqw;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: 0.15cqw solid #fff;
+  border-radius: 0.6cqw;
+  padding: 0.4cqw 0.8cqw;
+}
+
+/* ---- add-on formula ---- */
+.formula {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+  margin-top: 1cqw;
+  padding: 0.6cqw 1.4cqw 0.6cqw 0.6cqw;
+  border-radius: 1cqw;
+  background: #f4c616;
+  color: #070606;
+}
+.formula .price {
+  font-size: 2.8cqw;
+}
+.formula .price small {
+  color: inherit;
+}
+.formulaImg {
+  width: 4.6cqw;
+  height: 3.8cqw;
+  border-radius: 0.6cqw;
+  flex: none;
+}
+.formulaText {
+  flex: 1;
+  font-weight: 800;
+  font-size: 1.35cqw;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ================= trio: big columns ================= */
+.trio {
+  display: flex;
+  flex-direction: column;
+  padding: 2.2cqw 2.6cqw 2.4cqw;
+  gap: 1.6cqw;
+}
+.trioHead {
+  display: flex;
+  align-items: center;
+  gap: 1.6cqw;
+}
+.trioHead .title {
+  margin: 0;
+  font-size: 5.4cqw;
+}
+.trioHead .formula {
+  margin: 0 0 0 auto;
+}
+.trioLogo {
+  width: 6.4cqw;
+  height: auto;
+}
+.cols {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1.6cqw;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-radius: 1.4cqw;
+  overflow: hidden;
+  background: #141212;
+  outline: 0.25cqw solid transparent;
+  transition: outline-color 0.6s ease;
+}
+.colPhoto {
+  flex: 1;
+  min-height: 0;
+}
+.colText {
+  padding: 1.2cqw 1.6cqw 1.4cqw;
+  display: grid;
+  gap: 0.3cqw;
+}
+.col h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 4.4cqw;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.col p {
+  margin: 0;
+  font-size: 1.15cqw;
+  line-height: 1.3;
+  color: #bdb6ad;
+  min-height: 3cqw;
+}
+.col .price {
+  font-size: 5.2cqw;
+  margin-top: 0.3cqw;
+}
+.col.on {
+  outline-color: #f4c616;
+}
+.col.on h3 {
+  color: #f4c616;
+}
+
+/* ================= grille: photo tiles for long menus ================= */
+.grille {
+  display: flex;
+  flex-direction: column;
+  padding: 1.6cqw 2cqw 2cqw;
+  gap: 1.2cqw;
+}
+.grilleHead {
+  display: flex;
+  align-items: center;
+  gap: 1.4cqw;
+}
+.grilleHead .title {
+  margin: 0;
+  font-size: 4.4cqw;
+}
+.grilleHead .cat {
+  margin-left: auto;
+}
+.grilleLogo {
+  width: 5cqw;
+  height: auto;
+}
+.tiles {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 1cqw;
+}
+.tile {
+  position: relative;
+  min-height: 0;
+  border-radius: 1.2cqw;
+  overflow: hidden;
+  outline: 0.25cqw solid transparent;
+  transition: outline-color 0.6s ease;
+}
+.tilePhoto {
+  position: absolute;
+  inset: 0;
+}
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(7, 6, 6, 0.82) 0%, rgba(7, 6, 6, 0) 38%, rgba(7, 6, 6, 0) 55%, rgba(7, 6, 6, 0.9) 100%);
+}
+.tileText,
+.tilePrice {
+  text-shadow: 0 0.15cqw 0.8cqw rgba(0, 0, 0, 0.85);
+}
+.tileText {
+  position: absolute;
+  z-index: 1;
+  top: 0.9cqw;
+  left: 1cqw;
+  right: 1cqw;
+}
+.tile h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 2.5cqw;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.tile p {
+  margin: 0.2cqw 0 0;
+  font-weight: 800;
+  font-size: 1.15cqw;
+  color: #f4c616;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.tilePrice {
+  position: absolute;
+  z-index: 1;
+  right: 1cqw;
+  bottom: 0.8cqw;
+}
+.tile .price {
+  font-size: 3.6cqw;
+}
+.tile .soldOut {
+  font-size: 1.1cqw;
+}
+.tile.on {
+  outline-color: #f4c616;
+}
+.tile.off .tilePhoto {
+  filter: grayscale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroImg,
+  .col,
+  .tile {
+    transition: none;
+  }
+}
