@@ -91,7 +91,8 @@ function Formula({ formula }: { formula: NonNullable<ScreenBoard["formula"]> }) 
 /**
  * "Studio noir" menu screens. One family (black, Anton, yellow accents) with a
  * different layout per TV: `vitrine` (featured product + list), `trio` (big
- * columns), `grille` (photo tiles for long menus).
+ * columns), `grille` (photo tiles for long menus),
+ * `mosaique` (one large dish, the others stacked), `etagere` (title column + photo rows).
  */
 export function StudioNoirScreen({ initial }: { initial: ScreenBoard }) {
   const board = useLiveBoard(initial);
@@ -106,6 +107,10 @@ export function StudioNoirScreen({ initial }: { initial: ScreenBoard }) {
         <Trio board={board} highlightId={highlight?.id} />
       ) : board.layout === "grille" ? (
         <Grille board={board} highlightId={highlight?.id} />
+      ) : board.layout === "mosaique" ? (
+        <Mosaique board={board} highlightId={highlight?.id} />
+      ) : board.layout === "etagere" ? (
+        <Etagere board={board} highlightId={highlight?.id} />
       ) : (
         <Vitrine board={board} featured={featured} hero={highlight ?? board.items[0]} />
       )}
@@ -199,6 +204,65 @@ function Grille({ board, highlightId }: BoardProps) {
               {item.detail ? <p>{item.detail}</p> : null}
             </div>
             {item.available ? <Price value={item.price} className={s.tilePrice} /> : <SoldOut className={s.tilePrice} />}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** Few dishes: the first one large on the left, the others stacked on the right, text printed on the photos. */
+function Mosaique({ board, highlightId }: BoardProps) {
+  return (
+    <div className={cn(s.tv, s.mosaique)}>
+      <header className={s.mosaHead}>
+        <div>
+          <h1 className={s.title}>{board.title}</h1>
+          <div className={s.cat}>{board.subtitle}</div>
+        </div>
+        <Image src="/brand/mascotte.png" alt="Kerux" width={160} height={164} className={s.grilleLogo} priority />
+      </header>
+      <ul className={s.mosaGrid} style={{ gridTemplateRows: `repeat(${Math.max(1, board.items.length - 1)}, 1fr)` }}>
+        {board.items.map((item, i) => (
+          <li key={item.id} className={cn(s.tile, s.mosaTile, i === 0 && s.mosaBig, !item.available && s.off, item.id === highlightId && s.on)}>
+            <Photo src={item.imageUrl} sizes={i === 0 ? "55vw" : "40vw"} className={s.tilePhoto} />
+            <div className={s.tileText}>
+              <h3>{item.name}</h3>
+              {item.detail ? <p>{item.detail}</p> : null}
+            </div>
+            {item.available ? <Price value={item.price} className={s.tilePrice} /> : <SoldOut className={s.tilePrice} />}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** Title column on the left (with the add-on formula), one photo row per product on the right. */
+function Etagere({ board, highlightId }: BoardProps) {
+  return (
+    <div className={cn(s.tv, s.etagere)}>
+      <aside className={s.etaSide}>
+        <Image src="/brand/mascotte.png" alt="Kerux" width={160} height={164} className={s.trioLogo} priority />
+        <h1 className={s.etaTitle}>{board.title}</h1>
+        <div className={s.cat}>{board.subtitle}</div>
+        {board.formula ? (
+          <div className={s.etaFormula}>
+            <Photo src={board.formula.imageUrl} sizes="20vw" className={s.etaFormulaImg} />
+            <span className={s.formulaText}>Faites-en un menu : {board.formula.label.toLowerCase()}</span>
+            <Price value={board.formula.price} plus />
+          </div>
+        ) : null}
+      </aside>
+      <ul className={s.shelf}>
+        {board.items.map((item) => (
+          <li key={item.id} className={cn(s.shelfRow, !item.available && s.off, item.id === highlightId && s.on)}>
+            <Photo src={item.imageUrl} sizes="22vw" className={s.shelfPhoto} />
+            <div className={s.text}>
+              <h3>{item.name}</h3>
+              {item.detail ? <p>{item.detail}</p> : null}
+            </div>
+            {item.available ? <Price value={item.price} /> : <SoldOut />}
           </li>
         ))}
       </ul>

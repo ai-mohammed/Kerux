@@ -389,10 +389,163 @@
   filter: grayscale(1);
 }
 
+/* ================= mosaique: one large dish + stacked ones ================= */
+.mosaique {
+  display: flex;
+  flex-direction: column;
+  padding: 1.6cqw 2cqw 2cqw;
+  gap: 1.2cqw;
+}
+.mosaHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mosaHead .title {
+  margin: 0 0 0.3cqw;
+  font-size: 4.8cqw;
+}
+.mosaGrid {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.2cqw;
+}
+.mosaBig {
+  grid-row: 1 / -1;
+}
+.mosaTile .tileText {
+  top: 1.4cqw;
+  left: 1.6cqw;
+  right: 1.6cqw;
+}
+.mosaTile h3 {
+  font-size: 3.4cqw;
+}
+.mosaTile p {
+  font-size: 1.15cqw;
+  max-width: 34cqw;
+  line-height: 1.35;
+}
+.mosaTile .tilePrice {
+  right: 1.6cqw;
+  bottom: 1.2cqw;
+}
+.mosaTile .price {
+  font-size: 4.6cqw;
+}
+.mosaBig h3 {
+  font-size: 5.6cqw;
+}
+.mosaBig .price {
+  font-size: 7cqw;
+}
+.mosaTile .soldOut {
+  font-size: 1.4cqw;
+}
+
+/* ================= etagere: title column + photo rows ================= */
+.etagere {
+  display: grid;
+  grid-template-columns: 27% 1fr;
+}
+.etaSide {
+  display: flex;
+  flex-direction: column;
+  gap: 1cqw;
+  padding: 2.6cqw 2cqw 2.4cqw 2.6cqw;
+  background: #121010;
+  border-right: 0.15cqw solid rgba(244, 198, 22, 0.35);
+}
+.etaTitle {
+  margin: 0.6cqw 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 7.2cqw;
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+.etaSide .cat {
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+}
+.etaFormula {
+  margin-top: auto;
+  display: grid;
+  gap: 0.8cqw;
+  padding: 0.9cqw;
+  border-radius: 1.2cqw;
+  background: #f4c616;
+  color: #070606;
+}
+.etaFormula .price {
+  font-size: 4cqw;
+}
+.etaFormula .price small {
+  color: inherit;
+}
+.etaFormulaImg {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.8cqw;
+}
+.shelf {
+  margin: 0;
+  padding: 1.6cqw 3cqw 1.6cqw 2cqw;
+  list-style: none;
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 0.9cqw;
+  min-height: 0;
+}
+.shelfRow {
+  display: grid;
+  grid-template-columns: 19cqw 1fr auto;
+  align-items: center;
+  gap: 2cqw;
+  min-height: 0;
+  padding-right: 1.6cqw;
+  border-radius: 1.2cqw;
+  background: #141212;
+  overflow: hidden;
+  outline: 0.25cqw solid transparent;
+  transition: outline-color 0.6s ease;
+}
+.shelfPhoto {
+  height: 100%;
+}
+.shelfRow h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 3.2cqw;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.shelfRow p {
+  margin: 0.3cqw 0 0;
+  font-size: 1.15cqw;
+  color: #bdb6ad;
+}
+.shelfRow .price {
+  font-size: 4.2cqw;
+}
+.shelfRow.on {
+  outline-color: #f4c616;
+}
+.shelfRow.on h3 {
+  color: #f4c616;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .heroImg,
   .col,
-  .tile {
+  .tile,
+  .shelfRow {
     transition: none;
   }
 }

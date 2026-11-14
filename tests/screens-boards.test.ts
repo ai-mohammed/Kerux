@@ -23,6 +23,10 @@ describe("menu screens", () => {
     expect(tenders.items.map((i) => i.price)).toEqual([300, 450, 500, 700, 890, 2650, 2500, 2550, 500, 450, 100, 200]);
     expect(tenders.formula).toBeNull();
     expect(names("tenders")[0]).toBe("Wings 3 pièces");
+    expect(buildBoard("plats", catalog)!.items.map((i) => [i.name, i.price])).toEqual([["Bogota", 750], ["Poni", 850], ["Salade César", 550]]);
+    const pain = buildBoard("pain-maison", catalog)!;
+    expect(pain.items.map((i) => [i.name, i.price])).toEqual([["Mexicain", 500], ["Chessy", 650], ["Crunsh", 600], ["Chessy Gratiné", 700], ["Ruxy", 700]]);
+    expect(pain.formula).toMatchObject({ price: 250 });
   });
 
   it("follows a price change made in the back-office", () => {
@@ -55,6 +59,6 @@ describe("menu screens", () => {
 
   it("rejects unknown screens", () => {
     expect(buildBoard("pizzas", catalog)).toBeNull();
-    expect(BOARDS.map((b) => b.slug)).toEqual(["burgers", "tortillas", "tenders"]);
+    expect(BOARDS.map((b) => b.slug)).toEqual(["burgers", "tortillas", "tenders", "plats", "pain-maison"]);
   });
 });

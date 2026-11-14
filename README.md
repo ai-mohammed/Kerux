@@ -66,10 +66,10 @@ Règles : le navigateur ne parle **jamais** au backend directement (tout passe p
 
 ## Écrans du restaurant (`/ecrans`)
 
-Menus affichés sur les TV en salle, style « Studio noir » : `/ecrans/burgers` (produit à la une + liste), `/ecrans/tortillas` (grandes colonnes), `/ecrans/tenders` (grille de photos). `/ecrans` liste les adresses à ouvrir en plein écran sur chaque TV (navigateur d'un boîtier Android TV, d'une clé ou d'un mini-PC).
+Menus affichés sur les TV en salle, style « Studio noir » : `/ecrans/burgers` (produit à la une + liste), `/ecrans/tortillas` (grandes colonnes), `/ecrans/tenders` (grille de photos), `/ecrans/plats` (grand plat + deux empilés), `/ecrans/pain-maison` (colonne titre + rangées photo). `/ecrans` liste les adresses à ouvrir en plein écran sur chaque TV (navigateur d'un boîtier Android TV, d'une clé ou d'un mini-PC).
 
 - **Prix et disponibilité** : uniquement dans le back-office existant. Chaque écran interroge `GET /api/screens/:board` toutes les 20 s ; avec le cache catalogue de 60 s, un changement apparaît en moins de deux minutes, sans toucher aux TV. Un produit inactif s'affiche « Épuisé » à sa place ; la formule Frites + Canette disparaît si elle est inactive.
-- **Nouveaux produits** : un produit ajouté dans une catégorie d'un écran (burgers, tortillas, formules / menu enfant / boissons) y apparaît automatiquement.
+- **Nouveaux produits** : un produit ajouté dans une catégorie d'un écran (burgers, tortillas, formules / menu enfant / boissons, plats / salade, pain maison) y apparaît automatiquement.
 - **Ce qui est dans le code** (`src/lib/screens/boards.ts`) : catégories par écran, ordre, textes courts (« Sauce Kerux, tenders… ») et photos studio (`public/ecrans/photos`, extraites des anciennes vidéos). Sans réglage, un produit garde son nom et sa photo du back-office.
 - **Coupure internet** : l'écran garde le dernier menu affiché et reprend seul. Les pages écrans n'ont ni en-tête ni pied de page (le site vit dans le groupe de routes `src/app/(site)`).
 

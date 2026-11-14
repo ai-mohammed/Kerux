@@ -21,7 +21,7 @@ export type ScreenItem = {
 };
 
 /** Each screen has its own layout so the three TVs do not look identical. */
-export type ScreenLayout = "vitrine" | "trio" | "grille";
+export type ScreenLayout = "vitrine" | "trio" | "grille" | "mosaique" | "etagere";
 
 export type ScreenBoard = {
   slug: string;
@@ -74,6 +74,14 @@ const OVERRIDES: Record<number, ItemOverride> = {
   154: { name: "Menu enfant", detail: "2 tenders, frites, jus, surprise", image: PHOTO("enfanttenders") },
   93: { name: "Canette", detail: "33 cl au choix", image: PHOTO("canette") },
   84: { name: "Boisson 1 L", detail: "Bouteille", image: PHOTO("boisson") },
+  83: { detail: "Tenders, frites, maïs, olives, sauce fromagère, hot dog", image: PHOTO("bogota") },
+  147: { detail: "Tenders, pâtes, poulet fumé, sauce fromagère", image: PHOTO("poni") },
+  149: { detail: "Salade verte, tomate, olive, maïs, cornichon, tenders, fromage", image: PHOTO("cesar") },
+  126: { detail: "Poulet, sauce chili, poivron", image: PHOTO("mexicain") },
+  95: { detail: "Poulet, sauce gruyère, cheddar", image: PHOTO("chessy") },
+  101: { detail: "Tenders, crudités, fromage, sauce fromagère", image: PHOTO("crunsh") },
+  96: { detail: "Poulet, sauce gruyère, cheddar, fromage gratiné", image: PHOTO("chessygratine") },
+  148: { detail: "Tenders, poulet fumé, sauce fromagère, cheddar", image: PHOTO("ruxy") },
   125: { image: PHOTO("menufrites") },
 };
 
@@ -93,6 +101,16 @@ export const BOARDS: BoardConfig[] = [
     exclude: [85],
     withFormula: false,
     layout: "grille",
+  },
+  { slug: "plats", title: "Plats & salade", subtitle: "Gourmands, à la fourchette", categories: ["plats", "salade"], order: [83, 147, 149], withFormula: false, layout: "mosaique" },
+  {
+    slug: "pain-maison",
+    title: "Pain maison",
+    subtitle: "Pain cuit sur place, garni minute",
+    categories: ["pain maison"],
+    order: [126, 95, 101, 96, 148],
+    withFormula: true,
+    layout: "etagere",
   },
 ];
 
