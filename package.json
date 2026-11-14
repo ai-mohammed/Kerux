@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
+    "demo:backoffice": "node scripts/demo-backoffice.cjs",
     "spec:generate": "node scripts/unspa-spec.mjs",
     "spec:check": "unspa check --snapshots unspa --model-check --max-depth 12 --max-states 8000"
   },
