@@ -1,28 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import type { ScreenBoard, ScreenItem } from "@/lib/screens/boards";
 import { cn } from "@/lib/utils/cn";
 import s from "./studio-noir.module.css";
 
 const REFRESH_MS = 20_000;
-const HIGHLIGHT_MS = 7_000;
+const HERO_MS = 7_000;
+/** Every screen shows the takeover during the same seconds of each minute (wall clock), so the whole bank changes together. */
+const TAKEOVER_EVERY_MS = 60_000;
+const TAKEOVER_FOR_MS = 6_000;
 const dinars = new Intl.NumberFormat("fr-DZ", { maximumFractionDigits: 0 });
 
-function Price({ value, plus, className }: { value: number; plus?: boolean; className?: string }) {
-  return (
-    <span className={cn(s.price, className)}>
-      {plus ? "+" : ""}
-      {dinars.format(value)}
-      <small>DA</small>
-    </span>
-  );
-}
-
-function SoldOut({ className }: { className?: string }) {
-  return <span className={cn(s.soldOut, className)}>Épuisé</span>;
-}
+/* ------------------------------------------------------------------ hooks */
 
 /** Latest menu from the back-office, refreshed every 20 s; on a network error the last menu stays on screen. */
 function useLiveBoard(initial: ScreenBoard) {
@@ -46,15 +37,40 @@ function useLiveBoard(initial: ScreenBoard) {
   return board;
 }
 
-/** Counter that moves the highlighted product every few seconds (frozen when reduced motion is requested). */
-function useTick() {
+const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";
+
+function useReducedMotion() {
+  return useSyncExternalStore(
+    (onChange) => {
+      const mq = window.matchMedia(REDUCED_QUERY);
+      mq.addEventListener("change", onChange);
+      return () => mq.removeEventListener("change", onChange);
+    },
+    () => window.matchMedia(REDUCED_QUERY).matches,
+    () => false,
+  );
+}
+
+function useTick(ms: number, enabled: boolean) {
   const [tick, setTick] = useState(0);
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setInterval(() => setTick((t) => t + 1), HIGHLIGHT_MS);
+    if (!enabled) return;
+    const id = setInterval(() => setTick((t) => t + 1), ms);
     return () => clearInterval(id);
-  }, []);
+  }, [ms, enabled]);
   return tick;
+}
+
+function useTakeoverOn(enabled: boolean) {
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    if (!enabled) return;
+    const check = () => setOn(Date.now() % TAKEOVER_EVERY_MS < TAKEOVER_FOR_MS);
+    check();
+    const id = setInterval(check, 500);
+    return () => clearInterval(id);
+  }, [enabled]);
+  return on;
 }
 
 /** Keeps the TV awake when the browser allows it (re-requested when the tab becomes visible again). */
@@ -74,198 +90,266 @@ function useWakeLock() {
   }, []);
 }
 
-function Photo({ src, sizes, className }: { src: string | null; sizes: string; className?: string }) {
-  return <span className={cn(s.photo, className)}>{src ? <Image src={src} alt="" fill sizes={sizes} loading="eager" /> : null}</span>;
-}
+/* ------------------------------------------------------------- primitives */
 
-function Formula({ formula }: { formula: NonNullable<ScreenBoard["formula"]> }) {
+type Ctx = { board: ScreenBoard; menu: (item: ScreenItem) => number | null };
+
+function Price({ value, className }: { value: number; className?: string }) {
   return (
-    <div className={s.formula}>
-      <Photo src={formula.imageUrl} sizes="5vw" className={s.formulaImg} />
-      <span className={s.formulaText}>Faites-en un menu : {formula.label.toLowerCase()}</span>
-      <Price value={formula.price} plus />
-    </div>
+    <span className={cn(s.price, className)}>
+      {dinars.format(value)}
+      <small>DA</small>
+    </span>
   );
 }
 
+/** Price block: the product price, and under it the menu price (product + frites/canette) when the screen sells menus. */
+function PriceBlock({ item, ctx, className, inline }: { item: ScreenItem; ctx: Ctx; className?: string; inline?: boolean }) {
+  if (!item.available) return <span className={cn(s.soldOut, className)}>Épuisé</span>;
+  const menu = ctx.menu(item);
+  return (
+    <span className={cn(s.priceBlock, inline && s.priceInline, className)}>
+      <Price value={item.price} />
+      {menu !== null ? (
+        <span className={s.menuPill}>
+          Menu <b>{dinars.format(menu)}</b> DA
+        </span>
+      ) : null}
+    </span>
+  );
+}
+
+/** Whole product visible (contain) over a blurred copy of the same photo, so nothing is cropped or blown up. */
+function Photo({ src, sizes, className, zoom }: { src: string | null; sizes: string; className?: string; zoom?: boolean }) {
+  return (
+    <span className={cn(s.photo, className)}>
+      {src ? (
+        <>
+          <Image src={src} alt="" fill sizes="10vw" className={s.photoBg} aria-hidden loading="eager" />
+          <Image src={src} alt="" fill sizes={sizes} className={cn(s.photoFg, zoom && s.zoom)} loading="eager" />
+        </>
+      ) : null}
+    </span>
+  );
+}
+
+function Featured({ className }: { className?: string }) {
+  return <span className={cn(s.featured, className)}>À la une</span>;
+}
+
+/* ---------------------------------------------------------------- chassis */
+
 /**
- * "Studio noir" menu screens. One family (black, Anton, yellow accents) with a
- * different layout per TV: `vitrine` (featured product + list), `trio` (big
- * columns), `grille` (photo tiles for long menus),
- * `mosaique` (one large dish, the others stacked), `etagere` (title column + photo rows).
+ * Studio noir screens. Every TV shares the same frame (Kerux header with a red
+ * rule, yellow menu bar at the bottom); only the centre changes: `vitrine`
+ * (rotating photo + list), `trio` (columns), `grille` (sections of tiles),
+ * `mosaique` (one large dish, others stacked), `etagere` (photo rows).
  */
 export function StudioNoirScreen({ initial }: { initial: ScreenBoard }) {
   const board = useLiveBoard(initial);
-  const tick = useTick();
+  const reduced = useReducedMotion();
+  const takeoverOn = useTakeoverOn(!reduced && initial.takeover !== null);
   useWakeLock();
-  const featured = useMemo(() => board.items.filter((i) => i.available && i.imageUrl), [board.items]);
-  const highlight: ScreenItem | undefined = featured.length ? featured[tick % featured.length] : undefined;
+  const ctx: Ctx = useMemo(
+    () => ({ board, menu: (item) => (board.menuPrice && board.formula ? item.price + board.formula.price : null) }),
+    [board],
+  );
 
   return (
     <div className={s.stage}>
-      {board.layout === "trio" ? (
-        <Trio board={board} highlightId={highlight?.id} />
-      ) : board.layout === "grille" ? (
-        <Grille board={board} highlightId={highlight?.id} />
-      ) : board.layout === "mosaique" ? (
-        <Mosaique board={board} highlightId={highlight?.id} />
-      ) : board.layout === "etagere" ? (
-        <Etagere board={board} highlightId={highlight?.id} />
-      ) : (
-        <Vitrine board={board} featured={featured} hero={highlight ?? board.items[0]} />
-      )}
+      <div className={s.tv}>
+        <header className={s.head}>
+          <Image src="/brand/mascotte.png" alt="" width={200} height={205} className={s.coq} priority />
+          <div className={s.headTitle}>
+            <h1>{board.title}</h1>
+            <p>{board.subtitle}</p>
+          </div>
+          <div className={s.brand}>
+            <span className={s.wordmark}>Kerux</span>
+            <span className={s.slogan}>Saveur · Vitalité</span>
+          </div>
+        </header>
+
+        <main className={s.main}>
+          {board.layout === "trio" ? (
+            <Trio ctx={ctx} />
+          ) : board.layout === "grille" ? (
+            <Grille ctx={ctx} />
+          ) : board.layout === "mosaique" ? (
+            <Mosaique ctx={ctx} />
+          ) : board.layout === "etagere" ? (
+            <Etagere ctx={ctx} />
+          ) : (
+            <Vitrine ctx={ctx} reduced={reduced} />
+          )}
+        </main>
+
+        <footer className={s.foot}>
+          {board.formula ? (
+            <>
+              <Photo src={board.formula.imageUrl} sizes="8vw" className={s.footImg} />
+              <span className={s.footText}>
+                <b>Faites-en un menu</b> {board.formula.label}
+              </span>
+              <span className={s.footPrice}>
+                +{dinars.format(board.formula.price)}
+                <small>DA</small>
+              </span>
+            </>
+          ) : null}
+          <span className={s.socials}>kerux-foods.com · @keruxfoods</span>
+        </footer>
+
+        {board.takeover ? <Takeover item={board.takeover} on={takeoverOn} /> : null}
+      </div>
     </div>
   );
 }
 
-type BoardProps = { board: ScreenBoard; highlightId?: number };
-
-/** Featured product large on the left, rotating, and the full list on the right. */
-function Vitrine({ board, featured, hero }: { board: ScreenBoard; featured: ScreenItem[]; hero?: ScreenItem }) {
+function Takeover({ item, on }: { item: ScreenItem; on: boolean }) {
   return (
-    <div className={cn(s.tv, s.vitrine)}>
+    <div className={cn(s.takeover, on && s.takeoverOn)} aria-hidden={!on}>
+      <Photo src={item.imageUrl} sizes="60vw" className={s.takeoverPhoto} zoom={on} />
+      <div className={s.takeoverText}>
+        <span className={s.featured}>À partager</span>
+        <h2>{item.name}</h2>
+        <p>{item.detail}</p>
+        <Price value={item.price} />
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------- layouts */
+
+/** Rotating photo on the left (starts on the featured product), list with thumbnails on the right; the row on screen is lit. */
+function Vitrine({ ctx, reduced }: { ctx: Ctx; reduced: boolean }) {
+  const { board } = ctx;
+  const tick = useTick(HERO_MS, !reduced);
+  const pool = board.items.filter((i) => i.available && i.imageUrl);
+  const start = Math.max(0, pool.findIndex((i) => i.id === board.featuredId));
+  const hero = pool.length ? pool[(start + tick) % pool.length] : undefined;
+  return (
+    <div className={s.vitrine}>
       <div className={s.hero}>
-        {featured.map((item) => (
-          <Image key={item.id} src={item.imageUrl!} alt="" fill sizes="45vw" loading="eager" className={cn(s.heroImg, item.id === hero?.id && s.heroOn)} />
+        {pool.map((item) => (
+          <Photo key={item.id} src={item.imageUrl} sizes="42vw" className={cn(s.heroPhoto, item.id === hero?.id && s.heroOn)} zoom={!reduced && item.id === hero?.id} />
         ))}
-        <Image src="/brand/mascotte.png" alt="Kerux" width={160} height={164} className={s.logo} priority />
-        {hero ? (
-          <div className={s.cap}>
-            <div className={s.une}>À la une</div>
-            <h2 className={s.heroName}>{hero.name}</h2>
-            {hero.available ? <Price value={hero.price} /> : null}
-          </div>
-        ) : null}
+        {hero && hero.id === board.featuredId ? <Featured className={s.pinTop} /> : null}
       </div>
-      <div className={s.side}>
-        <div className={s.cat}>Kerux · {board.subtitle}</div>
-        <h1 className={s.title}>{board.title}</h1>
-        <ul className={s.list}>
-          {board.items.map((item) => (
-            <li key={item.id} className={cn(s.row, !item.available && s.off, item.id === hero?.id && s.on)}>
-              <div className={s.text}>
-                <h3>{item.name}</h3>
-                {item.detail ? <p>{item.detail}</p> : null}
-              </div>
-              {item.available ? <Price value={item.price} /> : <SoldOut />}
-            </li>
-          ))}
-        </ul>
-        {board.formula ? <Formula formula={board.formula} /> : null}
-      </div>
-    </div>
-  );
-}
-
-/** Few products, each in a tall column: photo on top, name and price very large. */
-function Trio({ board, highlightId }: BoardProps) {
-  return (
-    <div className={cn(s.tv, s.trio)}>
-      <header className={s.trioHead}>
-        <Image src="/brand/mascotte.png" alt="Kerux" width={160} height={164} className={s.trioLogo} priority />
-        <div>
-          <div className={s.cat}>Kerux · {board.subtitle}</div>
-          <h1 className={s.title}>{board.title}</h1>
-        </div>
-        {board.formula ? <Formula formula={board.formula} /> : null}
-      </header>
-      <ul className={s.cols} style={{ gridTemplateColumns: `repeat(${Math.max(1, board.items.length)}, 1fr)` }}>
+      <ul className={s.list}>
         {board.items.map((item) => (
-          <li key={item.id} className={cn(s.col, !item.available && s.off, item.id === highlightId && s.on)}>
-            <Photo src={item.imageUrl} sizes="34vw" className={s.colPhoto} />
-            <div className={s.colText}>
-              <h3>{item.name}</h3>
-              {item.detail ? <p>{item.detail}</p> : null}
-              {item.available ? <Price value={item.price} /> : <SoldOut />}
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-/** Long menus (Tenders & Box): photo tiles, name and price printed large on each photo. */
-function Grille({ board, highlightId }: BoardProps) {
-  const cols = board.items.length > 8 ? Math.ceil(board.items.length / 2) : Math.max(1, Math.min(4, board.items.length));
-  return (
-    <div className={cn(s.tv, s.grille)}>
-      <header className={s.grilleHead}>
-        <Image src="/brand/mascotte.png" alt="Kerux" width={160} height={164} className={s.grilleLogo} priority />
-        <h1 className={s.title}>{board.title}</h1>
-        <div className={s.cat}>{board.subtitle}</div>
-      </header>
-      <ul className={s.tiles} style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
-        {board.items.map((item) => (
-          <li key={item.id} className={cn(s.tile, !item.available && s.off, item.id === highlightId && s.on)}>
-            <Photo src={item.imageUrl} sizes="17vw" className={s.tilePhoto} />
-            <div className={s.tileText}>
-              <h3>{item.name}</h3>
-              {item.detail ? <p>{item.detail}</p> : null}
-            </div>
-            {item.available ? <Price value={item.price} className={s.tilePrice} /> : <SoldOut className={s.tilePrice} />}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-/** Few dishes: the first one large on the left, the others stacked on the right, text printed on the photos. */
-function Mosaique({ board, highlightId }: BoardProps) {
-  return (
-    <div className={cn(s.tv, s.mosaique)}>
-      <header className={s.mosaHead}>
-        <div>
-          <h1 className={s.title}>{board.title}</h1>
-          <div className={s.cat}>{board.subtitle}</div>
-        </div>
-        <Image src="/brand/mascotte.png" alt="Kerux" width={160} height={164} className={s.grilleLogo} priority />
-      </header>
-      <ul className={s.mosaGrid} style={{ gridTemplateRows: `repeat(${Math.max(1, board.items.length - 1)}, 1fr)` }}>
-        {board.items.map((item, i) => (
-          <li key={item.id} className={cn(s.tile, s.mosaTile, i === 0 && s.mosaBig, !item.available && s.off, item.id === highlightId && s.on)}>
-            <Photo src={item.imageUrl} sizes={i === 0 ? "55vw" : "40vw"} className={s.tilePhoto} />
-            <div className={s.tileText}>
-              <h3>{item.name}</h3>
-              {item.detail ? <p>{item.detail}</p> : null}
-            </div>
-            {item.available ? <Price value={item.price} className={s.tilePrice} /> : <SoldOut className={s.tilePrice} />}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-/** Title column on the left (with the add-on formula), one photo row per product on the right. */
-function Etagere({ board, highlightId }: BoardProps) {
-  return (
-    <div className={cn(s.tv, s.etagere)}>
-      <aside className={s.etaSide}>
-        <Image src="/brand/mascotte.png" alt="Kerux" width={160} height={164} className={s.trioLogo} priority />
-        <h1 className={s.etaTitle}>{board.title}</h1>
-        <div className={s.cat}>{board.subtitle}</div>
-        {board.formula ? (
-          <div className={s.etaFormula}>
-            <Photo src={board.formula.imageUrl} sizes="20vw" className={s.etaFormulaImg} />
-            <span className={s.formulaText}>Faites-en un menu : {board.formula.label.toLowerCase()}</span>
-            <Price value={board.formula.price} plus />
-          </div>
-        ) : null}
-      </aside>
-      <ul className={s.shelf}>
-        {board.items.map((item) => (
-          <li key={item.id} className={cn(s.shelfRow, !item.available && s.off, item.id === highlightId && s.on)}>
-            <Photo src={item.imageUrl} sizes="22vw" className={s.shelfPhoto} />
+          <li key={item.id} className={cn(s.row, !item.available && s.off, item.id === hero?.id && s.lit)}>
+            <Photo src={item.imageUrl} sizes="8vw" className={s.rowThumb} />
             <div className={s.text}>
               <h3>{item.name}</h3>
-              {item.detail ? <p>{item.detail}</p> : null}
+              {item.detail ? <p className={cn(s.desc, s.clamp1)}>{item.detail}</p> : null}
             </div>
-            {item.available ? <Price value={item.price} /> : <SoldOut />}
+            <PriceBlock item={item} ctx={ctx} />
           </li>
         ))}
       </ul>
     </div>
+  );
+}
+
+/** Few products: one tall column each, photo on top, text on a solid band. */
+function Trio({ ctx }: { ctx: Ctx }) {
+  const { board } = ctx;
+  return (
+    <ul className={s.cols} style={{ gridTemplateColumns: `repeat(${Math.max(1, board.items.length)}, 1fr)` }}>
+      {board.items.map((item) => (
+        <li key={item.id} className={cn(s.card, s.col, !item.available && s.off, item.id === board.featuredId && s.star)}>
+          <Photo src={item.imageUrl} sizes="32vw" className={s.cardPhoto} />
+          {item.id === board.featuredId ? <Featured className={s.pinTop} /> : null}
+          <div className={s.band}>
+            <h3>{item.name}</h3>
+            {item.detail ? <p className={cn(s.desc, s.clamp2)}>{item.detail}</p> : null}
+            <PriceBlock item={item} ctx={ctx} inline />
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Tile({ item, ctx, size }: { item: ScreenItem; ctx: Ctx; size: "xl" | "lg" | "md" | "sm" }) {
+  const star = item.id === ctx.board.featuredId;
+  return (
+    <li className={cn(s.card, s.tile, s[size], !item.available && s.off, star && s.star)}>
+      <Photo src={item.imageUrl} sizes={size === "xl" ? "50vw" : size === "lg" ? "24vw" : "12vw"} className={s.cardPhoto} />
+      {star ? <Featured className={s.pinTop} /> : null}
+      <div className={s.tileBand}>
+        <div className={s.text}>
+          <h3>{item.name}</h3>
+          {item.detail ? <p className={cn(s.desc, size === "xl" ? s.clamp2 : s.clamp1)}>{item.detail}</p> : null}
+        </div>
+        <PriceBlock item={item} ctx={ctx} />
+      </div>
+    </li>
+  );
+}
+
+/** Long menus (Tenders & Box): titled sections, the shareable boxes large on top. */
+function Grille({ ctx }: { ctx: Ctx }) {
+  const { board } = ctx;
+  const byId = new Map(board.items.map((i) => [i.id, i]));
+  const groups = board.groups ?? [{ label: "", size: "md" as const, itemIds: board.items.map((i) => i.id) }];
+  const [first, ...rest] = groups;
+  const section = (g: (typeof groups)[number]) => {
+    const items = g.itemIds.map((id) => byId.get(id)).filter((i): i is ScreenItem => !!i);
+    return (
+      <section key={g.label} className={s.section}>
+        {g.label ? <h2 className={s.sectionLabel}>{g.label}</h2> : null}
+        <ul className={s.tiles} style={{ gridTemplateColumns: `repeat(${Math.max(1, items.length)}, 1fr)` }}>
+          {items.map((item) => (
+            <Tile key={item.id} item={item} ctx={ctx} size={g.size} />
+          ))}
+        </ul>
+      </section>
+    );
+  };
+  return (
+    <div className={s.grille}>
+      {first ? <div className={s.grilleTop}>{section(first)}</div> : null}
+      {rest.length ? <div className={s.grilleBottom}>{rest.map(section)}</div> : null}
+    </div>
+  );
+}
+
+/** Few dishes: the featured one large on the left, the others stacked on the right. */
+function Mosaique({ ctx }: { ctx: Ctx }) {
+  const { board } = ctx;
+  const big = board.items.find((i) => i.id === board.featuredId) ?? board.items[0];
+  const others = board.items.filter((i) => i !== big);
+  return (
+    <ul className={s.mosaique} style={{ gridTemplateRows: `repeat(${Math.max(1, others.length)}, 1fr)` }}>
+      {big ? <Tile item={big} ctx={ctx} size="xl" /> : null}
+      {others.map((item) => (
+        <Tile key={item.id} item={item} ctx={ctx} size="lg" />
+      ))}
+    </ul>
+  );
+}
+
+/** One wide photo row per product, price and menu price side by side. */
+function Etagere({ ctx }: { ctx: Ctx }) {
+  const { board } = ctx;
+  return (
+    <ul className={s.shelf}>
+      {board.items.map((item) => (
+        <li key={item.id} className={cn(s.card, s.shelfRow, !item.available && s.off, item.id === board.featuredId && s.star)}>
+          <Photo src={item.imageUrl} sizes="16vw" className={s.shelfPhoto} />
+          <div className={s.text}>
+            <h3>
+              {item.name}
+              {item.id === board.featuredId ? <Featured className={s.inlinePill} /> : null}
+            </h3>
+            {item.detail ? <p className={cn(s.desc, s.clamp1)}>{item.detail}</p> : null}
+          </div>
+          <PriceBlock item={item} ctx={ctx} inline />
+        </li>
+      ))}
+    </ul>
   );
 }

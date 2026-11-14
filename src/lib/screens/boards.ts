@@ -29,8 +29,16 @@ export type ScreenBoard = {
   title: string;
   subtitle: string;
   items: ScreenItem[];
-  /** Add-on formula shown under the list (e.g. "Frites + canette +250 DA"), when it exists and is active. */
+  /** Add-on formula shown in the bottom bar of every screen ("Frites + canette +250 DA"), when it exists and is active. */
   formula: { label: string; price: number; imageUrl: string | null } | null;
+  /** Show the menu price (product + formula) under each product. */
+  menuPrice: boolean;
+  /** Product pushed on this screen (red "À la une" pill), when present and available. */
+  featuredId: number | null;
+  /** Sections of the screen, in order (Tenders & Box); products not listed go to the last one. */
+  groups: { label: string; size: "lg" | "md" | "sm"; itemIds: number[] }[] | null;
+  /** Full-screen moment shown on every screen at the same second each minute. */
+  takeover: ScreenItem | null;
   /** ISO time the data was built, shown nowhere but useful when debugging a screen. */
   builtAt: string;
 };
@@ -47,7 +55,9 @@ type BoardConfig = {
   order: number[];
   /** Products never shown on this screen. */
   exclude?: number[];
-  withFormula: boolean;
+  menuPrice: boolean;
+  featured?: number;
+  groups?: { label: string; size: "lg" | "md" | "sm"; ids: number[] }[];
   layout: ScreenLayout;
 };
 
@@ -58,7 +68,7 @@ const OVERRIDES: Record<number, ItemOverride> = {
   97: { detail: "Sauce Kerux, tenders, crudités, cornichon, fromage", image: PHOTO("chicken") },
   150: { detail: "Sauce chilli, tenders, crudités, oignon caramélisé, fromage", image: PHOTO("smap") },
   82: { detail: "Sauce maison, tenders, crudités, slice cheddar", image: PHOTO("beng") },
-  119: { detail: "Sauce Kerux, tenders, jambon de dinde, galette de pomme de terre, cheddar", image: PHOTO("kerux") },
+  119: { detail: "Sauce Kerux, tenders, dinde, galette de pomme de terre, cheddar", image: PHOTO("kerux") },
   158: { detail: "Sauce maison, tenders, slice, crudités", image: PHOTO("wrap") },
   151: { detail: "Sauce piquante, tenders, frites, oignon caramélisé, fromage", image: PHOTO("spicy") },
   87: { detail: "Sauce gruyère, tenders, frites, crudités, slice, fromage", image: PHOTO("boxy") },
@@ -68,10 +78,10 @@ const OVERRIDES: Record<number, ItemOverride> = {
   153: { name: "Tenders", detail: "5 pièces", image: PHOTO("tenders5") },
   131: { detail: "3 tenders + 5 wings", image: PHOTO("minibox") },
   86: { detail: "20 tenders", image: PHOTO("boxfamily") },
-  98: { detail: "Mélange de 25 pièces", image: PHOTO("chickenmix") },
+  98: { detail: "25 pièces mixtes", image: PHOTO("chickenmix") },
   105: { detail: "30 pièces", image: PHOTO("grandwings") },
-  88: { name: "Menu enfant", detail: "Burger, frites, jus, surprise", image: PHOTO("enfantburger") },
-  154: { name: "Menu enfant", detail: "2 tenders, frites, jus, surprise", image: PHOTO("enfanttenders") },
+  88: { name: "Enfant burger", detail: "Frites, jus, surprise", image: PHOTO("enfantburger") },
+  154: { name: "Enfant tenders", detail: "2 tenders, frites, jus, surprise", image: PHOTO("enfanttenders") },
   93: { name: "Canette", detail: "33 cl au choix", image: PHOTO("canette") },
   84: { name: "Boisson 1 L", detail: "Bouteille", image: PHOTO("boisson") },
   83: { detail: "Tenders, frites, maïs, olives, sauce fromagère, hot dog", image: PHOTO("bogota") },
@@ -89,27 +99,37 @@ const OVERRIDES: Record<number, ItemOverride> = {
 const FORMULA_ID = 125;
 const FORMULA_NAME = /frites?\s*\+\s*canette/i;
 
+/** Shown full screen on every TV for a few seconds each minute (Box Family). */
+export const TAKEOVER_ID = 86;
+
 export const BOARDS: BoardConfig[] = [
-  { slug: "burgers", title: "Burgers", subtitle: "Pain brioché, tenders croustillants", categories: ["burgers"], order: [97, 150, 82, 119], withFormula: true, layout: "vitrine" },
-  { slug: "tortillas", title: "Tortillas", subtitle: "Roulées minute, servies chaudes", categories: ["tortillas"], order: [158, 151, 87], withFormula: true, layout: "trio" },
+  { slug: "burgers", title: "Burgers", subtitle: "Pain brioché, tenders croustillants", categories: ["burgers"], order: [97, 150, 82, 119], menuPrice: true, featured: 119, layout: "vitrine" },
+  { slug: "tortillas", title: "Tortillas", subtitle: "Roulées minute, servies chaudes", categories: ["tortillas"], order: [158, 151, 87], menuPrice: true, featured: 87, layout: "trio" },
   {
     slug: "tenders",
     title: "Tenders & Box",
     subtitle: "À la pièce, en box ou à partager",
     categories: ["formules", "menu enfant", "boissons"],
-    order: [156, 157, 152, 153, 131, 86, 98, 105, 88, 154, 93, 84],
+    order: [131, 86, 98, 105, 156, 157, 152, 153, 88, 154, 93, 84],
     exclude: [85],
-    withFormula: false,
+    menuPrice: false,
+    featured: 131,
+    groups: [
+      { label: "Box à partager", size: "lg", ids: [131, 86, 98, 105] },
+      { label: "À la pièce", size: "md", ids: [156, 157, 152, 153] },
+      { label: "Enfants & boissons", size: "sm", ids: [88, 154, 93, 84] },
+    ],
     layout: "grille",
   },
-  { slug: "plats", title: "Plats & salade", subtitle: "Gourmands, à la fourchette", categories: ["plats", "salade"], order: [83, 147, 149], withFormula: false, layout: "mosaique" },
+  { slug: "plats", title: "Plats & salade", subtitle: "Gourmands, à la fourchette", categories: ["plats", "salade"], order: [83, 147, 149], menuPrice: false, featured: 83, layout: "mosaique" },
   {
     slug: "pain-maison",
     title: "Pain maison",
     subtitle: "Pain cuit sur place, garni minute",
     categories: ["pain maison"],
     order: [126, 95, 101, 96, 148],
-    withFormula: true,
+    menuPrice: true,
+    featured: 96,
     layout: "etagere",
   },
 ];
@@ -152,12 +172,37 @@ export function buildBoard(slug: string, products: Product[], now = new Date()):
     .sort((a, b) => rank(a.id) - rank(b.id) || a.price - b.price)
     .map(toScreenItem);
 
-  let formula: ScreenBoard["formula"] = null;
-  if (cfg.withFormula) {
-    const f = products.find((p) => p.id === FORMULA_ID) ?? products.find((p) => FORMULA_NAME.test(p.name));
-    if (f && f.available) formula = { label: "Frites + canette", price: f.price, imageUrl: OVERRIDES[f.id]?.image ?? f.imageUrl };
+  const f = products.find((p) => p.id === FORMULA_ID) ?? products.find((p) => FORMULA_NAME.test(p.name));
+  const formula: ScreenBoard["formula"] = f && f.available ? { label: "Frites + canette", price: f.price, imageUrl: OVERRIDES[f.id]?.image ?? f.imageUrl } : null;
+
+  const featured = items.find((i) => i.id === cfg.featured && i.available);
+
+  let groups: ScreenBoard["groups"] = null;
+  if (cfg.groups?.length) {
+    const placed = new Set(cfg.groups.flatMap((g) => g.ids));
+    groups = cfg.groups.map((g, gi) => ({
+      label: g.label,
+      size: g.size,
+      itemIds: items.filter((i) => g.ids.includes(i.id) || (gi === cfg.groups!.length - 1 && !placed.has(i.id))).map((i) => i.id),
+    }));
   }
-  return { slug: cfg.slug, layout: cfg.layout, title: cfg.title, subtitle: cfg.subtitle, items, formula, builtAt: now.toISOString() };
+
+  const t = products.find((p) => p.id === TAKEOVER_ID);
+  const takeover = t && t.available ? toScreenItem(t) : null;
+
+  return {
+    slug: cfg.slug,
+    layout: cfg.layout,
+    title: cfg.title,
+    subtitle: cfg.subtitle,
+    items,
+    formula,
+    menuPrice: cfg.menuPrice && formula !== null,
+    featuredId: featured?.id ?? null,
+    groups,
+    takeover,
+    builtAt: now.toISOString(),
+  };
 }
 
 /** Products carry a category id; the name is only filled when the API embeds the category, so resolve it from the categories list. */

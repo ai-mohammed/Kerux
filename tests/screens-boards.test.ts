@@ -20,9 +20,10 @@ describe("menu screens", () => {
     expect(burgers.formula).toMatchObject({ price: 250 });
     expect(buildBoard("tortillas", catalog)!.items.map((i) => [i.name, i.price])).toEqual([["Wrap", 600], ["Spicy", 750], ["Boxy", 750]]);
     const tenders = buildBoard("tenders", catalog)!;
-    expect(tenders.items.map((i) => i.price)).toEqual([300, 450, 500, 700, 890, 2650, 2500, 2550, 500, 450, 100, 200]);
-    expect(tenders.formula).toBeNull();
-    expect(names("tenders")[0]).toBe("Wings 3 pièces");
+    expect(tenders.items.map((i) => i.price)).toEqual([890, 2650, 2500, 2550, 300, 450, 500, 700, 500, 450, 100, 200]);
+    expect(tenders.groups?.map((g) => [g.label, g.itemIds.length])).toEqual([["Box à partager", 4], ["À la pièce", 4], ["Enfants & boissons", 4]]);
+    expect(tenders.menuPrice).toBe(false);
+    expect(names("tenders")[4]).toBe("Wings 3 pièces");
     expect(buildBoard("plats", catalog)!.items.map((i) => [i.name, i.price])).toEqual([["Bogota", 750], ["Poni", 850], ["Salade César", 550]]);
     const pain = buildBoard("pain-maison", catalog)!;
     expect(pain.items.map((i) => [i.name, i.price])).toEqual([["Mexicain", 500], ["Chessy", 650], ["Crunsh", 600], ["Chessy Gratiné", 700], ["Ruxy", 700]]);
@@ -41,9 +42,29 @@ describe("menu screens", () => {
     expect(items[2].available).toBe(false);
   });
 
-  it("hides the add-on formula when it is inactive", () => {
+  it("hides the add-on formula, and the menu prices with it, when it is inactive", () => {
+    expect(buildBoard("burgers", catalog)!.menuPrice).toBe(true);
     const off = catalog.map((p) => (p.id === 125 ? { ...p, available: false } : p));
-    expect(buildBoard("burgers", off)!.formula).toBeNull();
+    const board = buildBoard("burgers", off)!;
+    expect(board.formula).toBeNull();
+    expect(board.menuPrice).toBe(false);
+  });
+
+  it("features a product only while it is available", () => {
+    expect(buildBoard("tenders", catalog)!.featuredId).toBe(131);
+    const off = catalog.map((p) => (p.id === 131 ? { ...p, available: false } : p));
+    expect(buildBoard("tenders", off)!.featuredId).toBeNull();
+  });
+
+  it("puts a new product of a sectioned screen in its last section", () => {
+    const base = catalog.find((p) => p.id === 93)!;
+    const added = [...catalog, { ...base, id: 998, name: "Jus d'orange", price: 150 }];
+    expect(buildBoard("tenders", added)!.groups!.at(-1)!.itemIds).toContain(998);
+  });
+
+  it("shares the same takeover product on every screen", () => {
+    const ids = BOARDS.map((b) => buildBoard(b.slug, catalog)!.takeover?.id);
+    expect(new Set(ids)).toEqual(new Set([86]));
   });
 
   it("adds a new back-office product to its screen automatically", () => {
