@@ -8,19 +8,19 @@ import s from "./studio-noir.module.css";
 
 const REFRESH_MS = 10_000;
 const HERO_MS = 7_000;
-/** "1 000" like "2 650" (Intl in fr skips the space under 10 000 in some browsers), narrow no-break space. */
-const dinars = { format: (v: number) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, "\u202F") };
+/** "1 000" like "2 650" (Intl in fr skips the space under 10 000 in some browsers), no-break space (the display font has no narrow one). */
+const dinars = { format: (v: number) => String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, "\u00A0") };
 
 /* ------------------------------------------------------------------ hooks */
 
 /** Latest menu from the back-office, refreshed every 10 s and when the screen becomes visible; on a network error the last menu stays on screen. */
-function useLiveBoard(initial: ScreenBoard) {
+function useLiveBoard(slug: string, initial: ScreenBoard | null) {
   const [board, setBoard] = useState(initial);
   useEffect(() => {
     let alive = true;
     const refresh = async () => {
       try {
-        const res = await fetch(`/api/screens/${initial.slug}`, { cache: "no-store" });
+        const res = await fetch(`/api/screens/${slug}`, { cache: "no-store" });
         if (res.ok && alive) setBoard((await res.json()) as ScreenBoard);
       } catch {
         /* offline: keep showing the last menu */
@@ -29,6 +29,8 @@ function useLiveBoard(initial: ScreenBoard) {
     // Poll, and also refresh as soon as the screen becomes visible again (a hidden tab polls slowly or not at all).
     const onVisible = () => document.visibilityState === "visible" && refresh();
     const id = setInterval(refresh, REFRESH_MS);
+    // Right away too: after a restart without network the page comes from the TV's copy, and the last menu kept there may be newer.
+    void refresh();
     document.addEventListener("visibilitychange", onVisible);
     window.addEventListener("focus", onVisible);
     return () => {
@@ -37,8 +39,15 @@ function useLiveBoard(initial: ScreenBoard) {
       document.removeEventListener("visibilitychange", onVisible);
       window.removeEventListener("focus", onVisible);
     };
-  }, [initial.slug]);
+  }, [slug]);
   return board;
+}
+
+/** Keeps the screen page, its photos and the last menu on the TV (see public/ecrans-sw.js), so it restarts even without network. */
+function useOfflineCopy() {
+  useEffect(() => {
+    navigator.serviceWorker?.register("/ecrans-sw.js", { scope: "/ecrans/" }).catch(() => {});
+  }, []);
 }
 
 const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";
@@ -139,10 +148,27 @@ function Photo({ src, sizes, className, zoom, breathe }: { src: string | null; s
  * (rotating named photo + list), `trio` (columns), `grille` (sections of tiles),
  * `mosaique` (one large dish, others stacked), `etagere` (photo rows).
  */
-export function StudioNoirScreen({ initial }: { initial: ScreenBoard }) {
-  const board = useLiveBoard(initial);
-  const reduced = useReducedMotion();
+export function StudioNoirScreen({ slug, initial }: { slug: string; initial: ScreenBoard | null }) {
+  const board = useLiveBoard(slug, initial);
   useWakeLock();
+  useOfflineCopy();
+  // Back-office unreachable when the page was built and nothing kept yet: mascot on black until the first menu arrives.
+  if (!board) return <Waiting />;
+  return <Board board={board} />;
+}
+
+function Waiting() {
+  return (
+    <div className={s.stage}>
+      <div className={cn(s.tv, s.waiting)}>
+        <Image src="/brand/mascotte.png" alt="Kerux" width={200} height={205} priority />
+      </div>
+    </div>
+  );
+}
+
+function Board({ board }: { board: ScreenBoard }) {
+  const reduced = useReducedMotion();
   const ctx: Ctx = useMemo(
     () => ({ board, menu: (item) => (board.menuPrice && board.formula ? item.price + board.formula.price : null) }),
     [board],

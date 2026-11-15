@@ -127,6 +127,18 @@ export async function apiGet<T>(path: string, fixture?: () => Promise<T>, req: A
   }
 }
 
+/**
+ * Like `apiGet`, but never falls back to the bundled snapshot when the API is
+ * unreachable (only `KERUX_DATA_SOURCE=fixtures` uses it). For the in-store
+ * screens: on an outage they keep showing the last prices they received,
+ * never the old snapshot.
+ */
+export async function apiGetLive<T>(path: string, fixture?: () => Promise<T>, req: ApiRequest = {}): Promise<T> {
+  if (DATA_SOURCE === "fixtures" && fixture) return fixture();
+  const { data } = await apiFetch<T>(path, { ...req, method: "GET" });
+  return data;
+}
+
 /** True when the failure should be shown to the user as "service indisponible". */
 export function isUnreachable(err: unknown): err is ApiUnreachable {
   return err instanceof ApiUnreachable;
