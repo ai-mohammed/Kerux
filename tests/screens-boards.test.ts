@@ -30,7 +30,7 @@ describe("menu screens", () => {
     expect(pain.formula).toMatchObject({ price: 250 });
   });
 
-  it("shows the nine pizzas of the former pizza screen, the K-Arctic first (large one), without the yellow bar", () => {
+  it("shows the nine pizzas of the former pizza screen, the K-Arctic first (large one), with a can in the bar", () => {
     const pizza = buildBoard("pizza", catalog)!;
     expect(pizza.layout).toBe("pizzeria");
     expect(pizza.items.map((i) => [i.name, i.price])).toEqual([
@@ -45,9 +45,10 @@ describe("menu screens", () => {
       ["K-Pepper", 1000],
     ]);
     expect(pizza.items.every((i) => i.imageUrl?.startsWith("/ecrans/photos/pz-"))).toBe(true);
-    expect(pizza.footer).toBe(false);
-    expect(pizza.formula).toBeNull();
+    expect(pizza.formula).toEqual({ label: "une canette", price: 100, imageUrl: "/ecrans/photos/canette-selecto.png", tall: true });
     expect(pizza.menuPrice).toBe(false);
+    const noCans = catalog.map((p) => (p.id === 93 ? { ...p, available: false } : p));
+    expect(buildBoard("pizza", noCans)!.formula).toBeNull();
   });
 
   it("follows a price change made in the back-office", () => {
