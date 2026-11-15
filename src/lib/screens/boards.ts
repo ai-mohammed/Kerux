@@ -105,7 +105,7 @@ const OVERRIDES: Record<number, ItemOverride> = {
   116: { name: "K-Chessy", detail: "Sauce blanche, gruyère, camembert, gouda", image: PHOTO("pz-chessy") },
   121: { name: "K-Indiana", detail: "Sauce curry, poulet", image: PHOTO("pz-indiana") },
   123: { name: "K-Pepper", detail: "Sauce tomate, pepperoni", image: PHOTO("pz-pepper") },
-  125: { image: "/ecrans/photos/frites-canette-boite.png" }, // cut out from a frame of the old menu videos: whole box and can
+  125: { image: "/ecrans/photos/frites-selecto-boite.png" }, // Kerux box cut out from a frame of the old menu videos, with the Selecto can
 };
 
 /** The "Menu : Frites + Canette" add-on (id 125 in the back-office). */
