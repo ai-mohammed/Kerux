@@ -146,7 +146,8 @@ function Photo({ src, sizes, className, zoom, breathe }: { src: string | null; s
  * Studio noir screens. Every TV shares the same frame (Kerux header with an orange
  * rule, yellow menu bar at the bottom); only the centre changes: `vitrine`
  * (rotating named photo + list), `trio` (columns), `grille` (sections of tiles),
- * `mosaique` (one large dish, others stacked), `etagere` (photo rows).
+ * `mosaique` (one large dish, others stacked), `etagere` (photo rows),
+ * `pizzeria` (grid of pizzas, the signature one large on the right).
  */
 export function StudioNoirScreen({ slug, initial }: { slug: string; initial: ScreenBoard | null }) {
   const board = useLiveBoard(slug, initial);
@@ -176,7 +177,7 @@ function Board({ board }: { board: ScreenBoard }) {
 
   return (
     <div className={s.stage}>
-      <div className={s.tv}>
+      <div className={cn(s.tv, board.footer === false && s.noFoot)}>
         <header className={s.head}>
           <Image src="/brand/mascotte.png" alt="" width={200} height={205} className={s.coq} priority />
           <div className={s.headTitle}>
@@ -198,16 +199,19 @@ function Board({ board }: { board: ScreenBoard }) {
             <Mosaique ctx={ctx} />
           ) : board.layout === "etagere" ? (
             <Etagere ctx={ctx} />
+          ) : board.layout === "pizzeria" ? (
+            <Pizzeria ctx={ctx} />
           ) : (
             <Vitrine ctx={ctx} reduced={reduced} />
           )}
         </main>
 
+        {board.footer === false ? null : (
         <footer className={s.foot}>
           {board.formula ? (
             <>
               {board.formula.imageUrl ? (
-                <span className={s.footImg}>
+                <span className={cn(s.footImg, board.formula.tall && s.footImgTall)}>
                   <Image src={board.formula.imageUrl} alt="" fill sizes="8vw" quality={90} className={s.footImgFg} />
                 </span>
               ) : null}
@@ -222,6 +226,7 @@ function Board({ board }: { board: ScreenBoard }) {
           ) : null}
           <span className={s.socials}>kerux-foods.com · @keruxfoods</span>
         </footer>
+        )}
 
       </div>
     </div>
@@ -355,6 +360,54 @@ function Etagere({ ctx }: { ctx: Ctx }) {
             {item.detail ? <p className={cn(s.desc, s.clamp1)}>{item.detail}</p> : null}
           </div>
           <PriceBlock item={item} ctx={ctx} inline />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Pizzas: four per row, price on the photo; the first one (the signature pizza) large on the right, like the former pizza screen. */
+function Pizzeria({ ctx }: { ctx: Ctx }) {
+  const { board } = ctx;
+  const [star, ...others] = board.items;
+  const rows = Math.max(1, Math.ceil(others.length / 4));
+  return (
+    <ul
+      className={s.pizzeria}
+      style={{ gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))` }}
+    >
+      {star ? (
+        <li className={cn(s.card, s.pizzaStar, !star.available && s.off)}>
+          <Photo
+            src={star.imageUrl}
+            sizes="34vw"
+            className={s.cardPhoto}
+            breathe={star.available ? 0 : undefined}
+          />
+          <div className={s.pizzaStarBand}>
+            <div className={s.text}>
+              <h3>{star.name}</h3>
+              {star.detail ? (
+                <p className={cn(s.desc, s.clamp2)}>{star.detail}</p>
+              ) : null}
+            </div>
+            <PriceBlock item={star} ctx={ctx} />
+          </div>
+        </li>
+      ) : null}
+      {others.map((item) => (
+        <li
+          key={item.id}
+          className={cn(s.card, s.pizza, !item.available && s.off)}
+        >
+          <Photo src={item.imageUrl} sizes="16vw" className={s.cardPhoto} />
+          <PriceBlock item={item} ctx={ctx} className={s.pizzaPrice} />
+          <div className={s.pizzaBand}>
+            <h3>{item.name}</h3>
+            {item.detail ? (
+              <p className={cn(s.desc, s.clamp2)}>{item.detail}</p>
+            ) : null}
+          </div>
         </li>
       ))}
     </ul>

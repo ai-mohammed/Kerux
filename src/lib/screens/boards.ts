@@ -23,7 +23,7 @@ export type ScreenItem = {
 };
 
 /** Each screen has its own layout so the three TVs do not look identical. */
-export type ScreenLayout = "vitrine" | "trio" | "grille" | "mosaique" | "etagere";
+export type ScreenLayout = "vitrine" | "trio" | "grille" | "mosaique" | "etagere" | "pizzeria";
 
 export type ScreenBoard = {
   slug: string;
@@ -32,9 +32,11 @@ export type ScreenBoard = {
   subtitle: string;
   items: ScreenItem[];
   /** Add-on formula shown in the bottom bar of every screen ("Frites + canette +250 DA"), when it exists and is active. */
-  formula: { label: string; price: number; imageUrl: string | null } | null;
+  formula: { label: string; price: number; imageUrl: string | null; tall?: boolean } | null;
   /** Show the menu price (product + formula) under each product. */
   menuPrice: boolean;
+  /** Yellow bar at the bottom (add-on + socials); off on the pizza screen, where nobody adds fries. */
+  footer: boolean;
   /** Sections of the screen, in order (Tenders & Box); products not listed go to the last one. */
   groups: { label: string; size: "lg" | "md" | "sm"; itemIds: number[] }[] | null;
   /** ISO time the data was built, shown nowhere but useful when debugging a screen. */
@@ -56,6 +58,10 @@ type BoardConfig = {
   menuPrice: boolean;
   groups?: { label: string; size: "lg" | "md" | "sm"; ids: number[] }[];
   layout: ScreenLayout;
+  /** false: no yellow bar, the products get the whole height. */
+  footer?: boolean;
+  /** Another add-on than frites + canette in the yellow bar (back-office product id, so the price stays live); its picture is a tall cut-out (a can). */
+  addOn?: { id: number; label: string; image: string };
 };
 
 const PHOTO = (file: string) => `/ecrans/photos/${file}.jpg`;
@@ -89,7 +95,17 @@ const OVERRIDES: Record<number, ItemOverride> = {
   101: { detail: "Tenders, crudités, fromage, sauce fromagère", image: PHOTO("crunsh") },
   96: { detail: "Poulet, sauce gruyère, cheddar, fromage gratiné", image: PHOTO("chessygratine") },
   148: { detail: "Tenders, poulet fumé, sauce fromagère, cheddar", image: PHOTO("ruxy") },
-  125: { image: "/ecrans/photos/frites-canette-boite.png" }, // cut out from a frame of the old menu videos: whole box and can
+  // Pizzas: cheddar and mozzarella are on all of them, so the screen says it once (subtitle) and the lines keep the rest.
+  115: { name: "K-Arctic", detail: "Sauce blanche, saumon", image: PHOTO("pz-arctic") },
+  118: { name: "K-Classic", detail: "Sauce tomate", image: PHOTO("pz-classic") },
+  120: { name: "K-Green", detail: "Sauce tomate, poivron, courgette, aubergine, oignon", image: PHOTO("pz-green") },
+  122: { name: "Mushroom", detail: "Sauce tomate, champignons", image: PHOTO("pz-mushroom") },
+  124: { name: "Tuna", detail: "Sauce tomate, thon", image: PHOTO("pz-tuna") },
+  117: { name: "Chicken Cheese", detail: "Sauce blanche, poulet fumé", image: PHOTO("pz-chickencheese") },
+  116: { name: "K-Chessy", detail: "Sauce blanche, gruyère, camembert, gouda", image: PHOTO("pz-chessy") },
+  121: { name: "K-Indiana", detail: "Sauce curry, poulet", image: PHOTO("pz-indiana") },
+  123: { name: "K-Pepper", detail: "Sauce tomate, pepperoni", image: PHOTO("pz-pepper") },
+  125: { image: "/ecrans/photos/frites-selecto-boite.png" }, // Kerux box cut out from a frame of the old menu videos, with the Selecto can
 };
 
 /** The "Menu : Frites + Canette" add-on (id 125 in the back-office). */
@@ -123,6 +139,18 @@ export const BOARDS: BoardConfig[] = [
     order: [126, 95, 101, 96, 148],
     menuPrice: true,
     layout: "etagere",
+  },
+  {
+    slug: "pizza",
+    title: "Pizza",
+    subtitle: "Cheddar et mozzarella sur toutes nos pizzas",
+    categories: ["pizza"],
+    // The first one is the large pizza on the right, the others fill the grid in this order.
+    order: [115, 118, 120, 122, 124, 117, 116, 121, 123],
+    menuPrice: false,
+    layout: "pizzeria",
+    // Nobody adds fries to a pizza: the bar offers a can instead.
+    addOn: { id: 93, label: "une canette", image: "/ecrans/photos/canette-selecto.png" },
   },
 ];
 
@@ -166,7 +194,12 @@ export function buildBoard(slug: string, products: Product[], now = new Date()):
     .map(toScreenItem);
 
   const f = products.find((p) => p.id === FORMULA_ID) ?? products.find((p) => FORMULA_NAME.test(p.name));
-  const formula: ScreenBoard["formula"] = f && f.available ? { label: "Frites + canette", price: f.price, imageUrl: OVERRIDES[f.id]?.image ?? f.imageUrl } : null;
+  const footer = cfg.footer !== false;
+  const add = cfg.addOn;
+  const a = add ? products.find((p) => p.id === add.id) : undefined;
+  let formula: ScreenBoard["formula"] = null;
+  if (footer && add) formula = a && a.available ? { label: add.label, price: a.price, imageUrl: add.image, tall: true } : null;
+  else if (footer) formula = f && f.available ? { label: "Frites + canette", price: f.price, imageUrl: OVERRIDES[f.id]?.image ?? f.imageUrl } : null;
 
   let groups: ScreenBoard["groups"] = null;
   if (cfg.groups?.length) {
@@ -186,6 +219,7 @@ export function buildBoard(slug: string, products: Product[], now = new Date()):
     items,
     formula,
     menuPrice: cfg.menuPrice && formula !== null,
+    footer,
     groups,
     builtAt: now.toISOString(),
   };
