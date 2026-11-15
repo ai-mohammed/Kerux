@@ -149,8 +149,8 @@ export const BOARDS: BoardConfig[] = [
     order: [115, 118, 120, 122, 124, 117, 116, 121, 123],
     menuPrice: false,
     layout: "pizzeria",
-    // Nobody adds fries to a pizza: the bar offers a can instead.
-    addOn: { id: 93, label: "une canette", image: "/ecrans/photos/canette-selecto.png" },
+    // No yellow bar on the pizza screen: nobody adds fries or a can to a pizza here, the pizzas get the whole height.
+    footer: false,
   },
 ];
 
