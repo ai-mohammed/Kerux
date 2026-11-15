@@ -66,7 +66,7 @@ Règles : le navigateur ne parle **jamais** au backend directement (tout passe p
 
 ## Écrans du restaurant (`/ecrans`)
 
-Menus affichés sur les TV en salle, style « Studio noir » : `/ecrans/burgers` (produit à la une + liste), `/ecrans/tortillas` (grandes colonnes), `/ecrans/tenders` (grille de photos), `/ecrans/plats` (grand plat + deux empilés), `/ecrans/pain-maison` (colonne titre + rangées photo). `/ecrans` liste les adresses à ouvrir en plein écran sur chaque TV (navigateur d'un boîtier Android TV, d'une clé ou d'un mini-PC).
+Menus affichés sur les TV en salle, style « Studio noir » : `/ecrans/burgers` (produit à la une + liste), `/ecrans/tortillas` (grandes colonnes), `/ecrans/tenders` (grille de photos), `/ecrans/plats` (grand plat + deux empilés), `/ecrans/pain-maison` (colonne titre + rangées photo), `/ecrans/pizza` (grille de pizzas + K-Arctic en grand). `/ecrans` liste les adresses à ouvrir en plein écran sur chaque TV (navigateur d'un boîtier Android TV, d'une clé ou d'un mini-PC).
 
 - **Prix et disponibilité** : uniquement dans le back-office existant. Chaque écran interroge `GET /api/screens/:board` toutes les 10 s (et dès qu'il redevient visible) ; avec le cache catalogue de 60 s, un changement apparaît en un peu plus d'une minute, sans toucher aux TV. Un produit inactif s'affiche « Épuisé » à sa place ; la formule Frites + Canette disparaît si elle est inactive.
 - **Nouveaux produits** : un produit ajouté dans une catégorie d'un écran (burgers, tortillas, formules / menu enfant / boissons, plats / salade, pain maison) y apparaît automatiquement.

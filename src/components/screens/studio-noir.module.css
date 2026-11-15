@@ -34,6 +34,11 @@
   overflow: hidden;
 }
 
+/* Screen without the yellow bar (pizza): the centre takes its height. */
+.noFoot {
+  grid-template-rows: 8.4cqw minmax(0, 1fr);
+}
+
 /* ---------------------------------------------------------------- header */
 .head {
   display: flex;
@@ -662,6 +667,88 @@
 }
 .shelfRow .menuPill {
   font-size: 1.05cqw;
+}
+
+/* ================= pizzeria ================= */
+.pizzeria {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(0, 1.95fr);
+  gap: 1cqw;
+}
+.pizzaStar {
+  grid-column: 5;
+  grid-row: 1 / -1;
+}
+.pizzaStar .photoFg {
+  object-position: 50% 50%;
+}
+.pizzaStarBand {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.2cqw;
+  padding: 1cqw 1.4cqw 1.2cqw;
+  background: var(--band);
+}
+.pizzaStarBand h3 {
+  font-size: 3.9cqw;
+  color: var(--yellow);
+}
+.pizzaStarBand .desc {
+  font-size: 1.35cqw;
+}
+.pizzaStarBand .price {
+  font-size: 4.8cqw;
+}
+.pizza .photoFg {
+  object-position: 50% 50%;
+}
+/* Price on the photo, bottom right, so the name and ingredients get the whole band. */
+.pizzaPrice {
+  position: absolute;
+  right: 0.6cqw;
+  bottom: calc(var(--pizza-band) + 0.6cqw);
+  padding: 0.35cqw 0.7cqw 0.3cqw;
+  border-radius: 0.7cqw;
+  background: rgba(7, 6, 6, 0.86);
+  box-shadow: 0 0.3cqw 1cqw rgba(0, 0, 0, 0.45);
+}
+.pizza {
+  --pizza-band: 7.2cqw; /* name + up to three lines (K-Green lists four vegetables) */
+}
+.pizzaPrice .price {
+  font-size: 2.5cqw;
+}
+.pizza .soldOut.pizzaPrice {
+  font-size: 1cqw;
+  border-width: 0.12cqw;
+}
+.pizzaBand {
+  flex: none;
+  height: var(--pizza-band);
+  padding: 0.6cqw 0.9cqw 0.5cqw;
+  background: var(--band);
+}
+.pizzaBand h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.85cqw;
+  line-height: 1;
+  padding-top: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pizzaBand .desc {
+  font-size: 1cqw;
+  margin-top: 0.25cqw;
+  -webkit-line-clamp: 3;
 }
 
 @media (prefers-reduced-motion: reduce) {
