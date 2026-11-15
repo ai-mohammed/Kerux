@@ -150,7 +150,7 @@ export const BOARDS: BoardConfig[] = [
     menuPrice: false,
     layout: "pizzeria",
     // Nobody adds fries to a pizza: the bar offers a can instead.
-    addOn: { id: 93, label: "une canette", image: "/ecrans/photos/canette-selecto.png" },
+    addOn: { id: 93, label: "une canette", image: "/ecrans/photos/canette-selecto-33cl.png" },
   },
 ];
 
