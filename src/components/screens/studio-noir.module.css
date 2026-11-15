@@ -116,6 +116,11 @@
   margin-left: 0.8cqw;
   flex: none;
 }
+/* A can alone (pizza screen): a narrow box so the text starts right after it. */
+.footImgTall {
+  width: 2cqw;
+  margin-left: 1.8cqw;
+}
 .footImgFg {
   object-fit: contain;
   object-position: 50% 50%;

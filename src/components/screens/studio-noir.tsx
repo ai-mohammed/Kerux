@@ -211,7 +211,7 @@ function Board({ board }: { board: ScreenBoard }) {
           {board.formula ? (
             <>
               {board.formula.imageUrl ? (
-                <span className={s.footImg}>
+                <span className={cn(s.footImg, board.formula.tall && s.footImgTall)}>
                   <Image src={board.formula.imageUrl} alt="" fill sizes="8vw" quality={90} className={s.footImgFg} />
                 </span>
               ) : null}
