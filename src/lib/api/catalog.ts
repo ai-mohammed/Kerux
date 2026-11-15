@@ -2,7 +2,7 @@ import "server-only";
 import { cache } from "react";
 import type { Category, Observation, Product, Supplement } from "@/types";
 import type { RawCategory, RawObservation, RawPaginated, RawProduct, RawSupplement } from "./raw";
-import { apiGet } from "./client";
+import { apiGet, apiGetLive } from "./client";
 import { toCategory, toObservation, toProduct, toSupplement } from "./adapters";
 import { publicIdPrefixFromSlug } from "@/lib/utils/slug";
 
@@ -18,27 +18,38 @@ function categoryRank(name: string): number {
   return i === -1 ? CATEGORY_ORDER.length : i;
 }
 
-export const getCategories = cache(async (): Promise<Category[]> => {
-  const raw = await apiGet<RawCategory[]>("/api/categories", () => import("./fixtures/categories.json").then((m) => m.default as RawCategory[]), { next: CATALOG });
+type Get = typeof apiGet;
+
+async function loadCategories(get: Get): Promise<Category[]> {
+  const raw = await get<RawCategory[]>("/api/categories", () => import("./fixtures/categories.json").then((m) => m.default as RawCategory[]), { next: CATALOG });
   return raw
     .map(toCategory)
     .filter((c) => c.active && c.productCount > 0)
     .sort((a, b) => categoryRank(a.name) - categoryRank(b.name) || a.name.localeCompare(b.name, "fr"));
-});
+}
 
-/** The whole catalogue (40-ish products) in one call; small enough to render server-side and filter client-side. */
-export const getProducts = cache(async (): Promise<Product[]> => {
-  const raw = await apiGet<RawPaginated<RawProduct>>(
+async function loadProducts(get: Get, categories: Category[]): Promise<Product[]> {
+  const raw = await get<RawPaginated<RawProduct>>(
     "/api/products?page=1&per_page=200",
     () => import("./fixtures/products.json").then((m) => m.default as unknown as RawPaginated<RawProduct>),
     { next: CATALOG },
   );
-  const categories = await getCategories();
   const rank = new Map(categories.map((c, i) => [c.id, i]));
   return (raw.data ?? [])
     .map(toProduct)
     .filter((p) => p.name)
     .sort((a, b) => (rank.get(a.categoryId) ?? 99) - (rank.get(b.categoryId) ?? 99) || a.name.localeCompare(b.name, "fr"));
+}
+
+export const getCategories = cache((): Promise<Category[]> => loadCategories(apiGet));
+
+/** The whole catalogue (40-ish products) in one call; small enough to render server-side and filter client-side. */
+export const getProducts = cache(async (): Promise<Product[]> => loadProducts(apiGet, await getCategories()));
+
+/** Catalogue for the in-store screens: throws when the back-office is unreachable instead of using the old snapshot. */
+export const getLiveCatalog = cache(async (): Promise<{ products: Product[]; categories: Category[] }> => {
+  const categories = await loadCategories(apiGetLive);
+  return { products: await loadProducts(apiGetLive, categories), categories };
 });
 
 export const getProductBySlug = cache(async (slug: string): Promise<Product | null> => {

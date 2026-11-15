@@ -89,6 +89,11 @@
   color: var(--muted);
 }
 
+.waiting {
+  display: grid;
+  place-items: center;
+}
+
 /* ---------------------------------------------------------------- footer */
 .foot {
   display: flex;
