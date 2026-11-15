@@ -45,7 +45,7 @@ describe("menu screens", () => {
       ["K-Pepper", 1000],
     ]);
     expect(pizza.items.every((i) => i.imageUrl?.startsWith("/ecrans/photos/pz-"))).toBe(true);
-    expect(pizza.formula).toEqual({ label: "une canette", price: 100, imageUrl: "/ecrans/photos/canette-selecto.png", tall: true });
+    expect(pizza.formula).toEqual({ label: "une canette", price: 100, imageUrl: "/ecrans/photos/canette-selecto-33cl.png", tall: true });
     expect(pizza.menuPrice).toBe(false);
     const noCans = catalog.map((p) => (p.id === 93 ? { ...p, available: false } : p));
     expect(buildBoard("pizza", noCans)!.formula).toBeNull();

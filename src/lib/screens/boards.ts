@@ -85,7 +85,7 @@ const OVERRIDES: Record<number, ItemOverride> = {
   105: { detail: "30 wings", image: PHOTO("grandwings"), badge: "30 pièces" },
   88: { name: "Enfant burger", detail: "Frites, jus, surprise", image: PHOTO("enfantburger") },
   154: { name: "Enfant tenders", detail: "2 tenders, frites, jus, surprise", image: PHOTO("enfanttenders") },
-  93: { name: "Canette", detail: "33 cl au choix", image: PHOTO("canette") },
+  93: { name: "Canette", detail: "33 cl au choix", image: PHOTO("canette-selecto") },
   84: { name: "Boisson 1 L", detail: "Bouteille", image: PHOTO("boisson") },
   83: { detail: "Tenders, frites, maïs, olives, sauce fromagère, hot dog", image: PHOTO("bogota") },
   147: { detail: "Tenders, pâtes, poulet fumé, sauce fromagère", image: PHOTO("poni") },
@@ -150,7 +150,7 @@ export const BOARDS: BoardConfig[] = [
     menuPrice: false,
     layout: "pizzeria",
     // Nobody adds fries to a pizza: the bar offers a can instead.
-    addOn: { id: 93, label: "une canette", image: "/ecrans/photos/canette-selecto.png" },
+    addOn: { id: 93, label: "une canette", image: "/ecrans/photos/canette-selecto-33cl.png" },
   },
 ];
 
